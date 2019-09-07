@@ -1,0 +1,11 @@
+.gold-mined {
+  color: red;
+}
+
+body { /* no . means element type */
+  text-align: center; /* text-align centers text AND children */
+}
+
+* { /* * applies to all elements, use with caution */
+  outline: none;
+}
