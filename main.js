@@ -27,6 +27,12 @@ class Octopus {
     // Create the element itself
     let octopus_element = document.createElement('div');
     octopus_element.setAttribute('id', this.uuid);
+    // Create an image for the octopus
+    let octopus_element_image = document.createElement('img');
+    octopus_element_image.setAttribute('src', 'octopus.png');
+    //octopus_element.setAttribute('src', 'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png');
+    octopus_element_image.style.height = '16px';
+    octopus_element_image.style.width = '16px';
     // Create a span for element text
     let text_span_element = document.createElement('span');
     text_span_element.innerHTML = this.name;
@@ -37,8 +43,9 @@ class Octopus {
     tooltip_span_element.setAttribute('id', `${this.uuid}_tooltip_text`);
     tooltip_span_element.classList.add('tooltiptext');
     
-    /* Assemble and attach to document, text and tooltip span go onto the 
-    octopus element which goes onto the population menu. */
+    /* Assemble and attach to document, image, text, and tooltip span go onto 
+    the octopus element which goes onto the population menu. */
+    octopus_element.appendChild(octopus_element_image);
     octopus_element.appendChild(text_span_element);
     octopus_element.appendChild(tooltip_span_element);
     document.getElementById('population_menu').appendChild(octopus_element);
