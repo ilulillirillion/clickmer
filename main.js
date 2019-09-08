@@ -20,28 +20,32 @@ class Octopus {
     should have a tooltip displaying details. */
     // Create the element itself
     //let octopus_element = document.createElement('p');
-    let octopus_element = document.createElement('button');
+    let octopus_element = document.createElement('div');
     octopus_element.setAttribute('id', this.uuid);
-    // Create a tooltip for the new element
-    let tooltip_element = document.createElement('div');
-    let tooltip_element_id = `${this.UUID}_tooltip`;
-    tooltip_element.setAttribute('id', tooltip_element_id);
-    tooltip_element.classList.add('tooltip');
-    // Create a span to attach to the tooltip element
+    //octopus_element.innerHTML = 'octopus'
+    // Create a span for element text
+    let text_span_element = document.createElement('span');
+    text_span_element.innerHTML = 'octopus';
+    // Give the octopus element a tooltip
+    octopus_element.classList.add('tooltip');
+    //octopus_element.className = 'tooltip';
+    // Create a tooltip span
     let tooltip_span_element = document.createElement('span');
-    tooltip_span_element.setAttribute('id', `${tooltip_element_id}_span`);
+    tooltip_span_element.setAttribute('id', `${this.uuid}_tooltip`);
     tooltip_span_element.classList.add('tooltiptext');
+    //tooltip_span_element.className = 'tooltiptext';
     tooltip_span_element.innerHTML = 'test';
     
-    /* Assemble the pieces together. Tooltip span goes on tooltip which
-    goes onto the octopus which is appended to the population tab */
-    tooltip_element.appendChild(tooltip_span_element);
-    octopus_element.appendChild(tooltip_element);
+    /* Assemble and attach to document, text and tooltip span go onto the 
+    octopus element which goes onto the population menu. */
+    octopus_element.appendChild(text_span_element);
+    octopus_element.appendChild(tooltip_span_element);
     document.getElementById('population_menu').appendChild(octopus_element);
+    //document.getElementById(this.uuid).appendChild(tooltip_span_element);
 
     /* Update the contents of the Octopus HTML on page */
     // Is this better or worse than setting innerHTML?
-    update(this.uuid, 'octopus');
+    //update(this.uuid, 'octopus');
 
   }
 
@@ -144,7 +148,7 @@ var mainGameLoop = window.setInterval(function() {
   if (game_data.octopi == 0) {
     var chance = Math.random();
     if (chance < 0.1) {
-      game_data.octopi.push(new Octopus(10));
+      game_data.octopi.push(new Octopus());
     }
   }
 
