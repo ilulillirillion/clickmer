@@ -1,9 +1,38 @@
+class Octopus {
+  constructor(hunger = 100) {
+
+    this.hunger = hunger
+    this.uuid = uuidv4()
+
+    let element = document.createElement('p');
+    element.setAttribute('id', this.uuid);
+
+    document.getElementById('population_menu').appendChild(element);
+    update(this.uuid, 'octopus');
+
+  }
+
+  die() {
+    game_data.octopi.splice(game_data.octopi.findIndex(octopus => octopus.uuid == this.uuid), 1);
+    document.getElementById(this.uuid).remove();
+  }
+}
+
+
+function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+
+
 var save_data = localStorage.getItem('game_save_data')
 var game_data = {
   //gold: 0,
   //goldPerClick: 1,
   //goldPerClickCost: 10,
-  octopi: 0,
+  octopi: [],
   lastTick: Date.now()
 }
 
@@ -62,14 +91,32 @@ var mainGameLoop = window.setInterval(function() {
   //game_data.gold += game_data.goldPerClick * (diff / 1000)
   //update("goldMined", game_data.gold + " Gold Mined")
 
+  for (var i = 0; i < game_data.octopi.length; i++) {
+    console.log('Ticking an octopus');
+    let octopus = game_data.octopi[i];
+    // Octopi get hungrier each tick
+    console.log('Octopus grows hungrier');
+    octopus.hunger -= 1;
+    // If an octopus has a hunger of 0
+    if (octopus.hunger == 0) {
+      console.log('Octopus has starved!');
+      // The octopus dies of starvation
+      //game_data.octopi.splice(i, 1)
+      game_data.octopi[i].die();
+    }
+  }
+    
+
   // Octopi generation
   if (game_data.octopi == 0) {
     var chance = Math.random();
-    if (chance < 0.3) {
-      game_data.octopi += 1;
-      update('population_p', 'octopi: ' + game_data.octopi);
+    if (chance < 0.1) {
+      game_data.octopi.push(new Octopus(10));
     }
   }
+
+  // Update octopi count
+  update('population_p', 'octopi: ' + game_data.octopi.length);
     
 
 }, 1000)
