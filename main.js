@@ -21,37 +21,46 @@ class Octopus {
     this.hunger = hunger
     this.uuid = uuidv4()
 
-    /* Create a new element to represent the octopus in population view. The
+    /* Creates a new element to represent the octopus in population view. The
     element ID should be equal to the octopus's UUID, and the element
     should have a tooltip displaying details. */
-    // Create the element itself
+
+    // Creates the element root div.
     let octopus_element = document.createElement('div');
     octopus_element.setAttribute('id', this.uuid);
-    // Create an image for the octopus
+
+    // Creates an image which represents the octopus.
     let octopus_element_image = document.createElement('img');
     octopus_element_image.setAttribute('src', 'octopus.png');
-    //octopus_element.setAttribute('src', 'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png');
     octopus_element_image.style.height = '16px';
     octopus_element_image.style.width = '16px';
-    // Create a span for element text
-    let text_span_element = document.createElement('span');
-    text_span_element.innerHTML = this.name;
-    // Give the octopus element a tooltip
-    octopus_element.classList.add('tooltip');
-    // Create a tooltip span
-    let tooltip_span_element = document.createElement('span');
-    tooltip_span_element.setAttribute('id', `${this.uuid}_tooltip_text`);
-    tooltip_span_element.classList.add('tooltiptext');
-    
-    /* Assemble and attach to document, image, text, and tooltip span go onto 
-    the octopus element which goes onto the population menu. */
+    // Makes the element clickable.
+    octopus_element_image.addEventListener('click', function() {
+      console.log('click test success');
+    });
+    // Appends to the octopus element root.
     octopus_element.appendChild(octopus_element_image);
-    octopus_element.appendChild(text_span_element);
-    octopus_element.appendChild(tooltip_span_element);
-    document.getElementById('population_menu').appendChild(octopus_element);
 
-    /* Update the contents of the Octopus HTML on page */
-    update(`${this.uuid}_tooltip_text`, `name: ${this.name}`);
+    // Creates a span for element text.
+    let octopus_element_text_span = document.createElement('span');
+    octopus_element_text_span.innerHTML = this.name;
+    // Append to the octopus element root
+    octopus_element.appendChild(octopus_element_image);
+
+    // Creates a tooltip span.
+    let octopus_element_tooltip_text_span = document.createElement('span');
+    octopus_element_tooltip_text_span.innerHTML = `
+        name: ${this.name}<br>
+        hunger: ${this.hunger}<br>`
+    octopus_element_tooltip_text_span.setAttribute(
+        'id', `${this.uuid}_tooltip_text`);
+    octopus_element_tooltip_text_span.classList.add('tooltiptext');
+    // Appends tooltip text span and add tooltip class to octopus root element.
+    octopus_element.classList.add('tooltip');
+    octopus_element.appendChild(octopus_element_tooltip_text_span);
+    
+    // Append the finished element to the population menu
+    document.getElementById('population_menu').appendChild(octopus_element);
 
   }
 
