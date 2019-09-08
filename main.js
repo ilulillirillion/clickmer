@@ -52,7 +52,12 @@ class Octopus {
     /* Update the contents of the Octopus HTML on page */
     console.log(`Updating ${this.uuid} on the population tab.`);
     console.log(`Showing ${this.name} for ${this.uuid}`);
-    update(`${this.uuid}_tooltip_text`, `name: ${this.name}`);
+    update(`${this.uuid}_tooltip_text`, 
+        `
+        name: ${this.name}<br>
+        hunger: ${this.hunger}
+        `
+    );
   } 
 
   generateRandomName() {
