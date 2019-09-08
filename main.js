@@ -3,6 +3,7 @@ var game_data = {
   //gold: 0,
   //goldPerClick: 1,
   //goldPerClickCost: 10,
+  octopi: 0,
   lastTick: Date.now()
 }
 
@@ -25,12 +26,6 @@ function update(id, content) {
 //  }
 //}
 
-var mainGameLoop = window.setInterval(function() {
-  time_delta = Date.now() - game_data.lastTick;
-  game_data.lastTick = Date.now()
-  //game_data.gold += game_data.goldPerClick * (diff / 1000)
-  //update("goldMined", game_data.gold + " Gold Mined")
-}, 1000)
 
 var saveGame = window.setInterval(function() {
   localStorage.setItem('game_save_data', JSON.stringify(game_data))
@@ -56,6 +51,29 @@ function tab(tab) {
 }
 
 
+var mainGameLoop = window.setInterval(function() {
+
+  // Figure out delta from last tick
+  time_delta = Date.now() - game_data.lastTick;
+
+  // Save current time as the new "last" tick
+  game_data.lastTick = Date.now()
+
+  //game_data.gold += game_data.goldPerClick * (diff / 1000)
+  //update("goldMined", game_data.gold + " Gold Mined")
+
+  // Octopi generation
+  if (game_data.octopi == 0) {
+    var chance = Math.random();
+    if (chance < 0.3) {
+      game_data.octopi += 1;
+      update('population_p', 'octopi: ' + game_data.octopi);
+    }
+  }
+    
+
+}, 1000)
+
 
 // Do main
 window.onload = function () {
@@ -66,6 +84,7 @@ tab('colony_menu')
 //if (typeof save_data.gold !== "undefined") game_data.gold = save_data.gold;
 //if (typeof save_data.goldPerClick !== "undefined") game_data.goldPerClick = save_data.goldPerClick;
 //if (typeof save_data.goldPerClickCost !== "undefined") game_data.goldPerClickCost = save_data.goldPerClickCost;
+if (typeof save_data.octopi !== 'undefined') game_data.octopi = save_data.octopi;
 if (typeof save_data.lastTick !== "undefined") game_data.lastTick = save_data.lastTick;
 
 }
