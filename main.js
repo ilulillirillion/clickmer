@@ -45,7 +45,7 @@ class Octopus {
     let octopus_element_text_span = document.createElement('span');
     octopus_element_text_span.innerHTML = this.name;
     // Append to the octopus element root
-    octopus_element.appendChild(octopus_element_image);
+    octopus_element.appendChild(octopus_element_text_span);
 
     // Creates a tooltip span.
     let octopus_element_tooltip_text_span = document.createElement('span');
@@ -90,6 +90,58 @@ class Octopus {
     document.getElementById(this.uuid).remove();
   }
 }
+
+
+class Activity {
+  constructor(name, tooltip_text) {
+
+    this.name = name;
+    this.uuid = uuidv4();
+
+    // Create a DOM element to represent the activity.
+    let activity_element = document.createElement('div');
+    let activity_element_id = this.uuid;
+    activity_element.setAttribute('id', activity_element_id);
+    activity_element.classList.add('activity_div');
+    
+    // Create and attach a span to act as inner text.
+    let activity_element_text_span = document.createElement('span');
+    activity_element_text_span.setAttribute(
+        'id', `${activity_element_id}_text_span`);
+    activity_element_text_span.classList.add('activity_div_text');
+    activity_element_text_span.innerHTML = this.name;
+    activity_element.appendChild(activity_element_text_span);
+
+    /* Create and attach a tooltip span -- also enables the tooltip class
+    on the activity div element. */
+    let activity_element_tooltip_text = document.createElement('span');
+    activity_element_tooltip_text.setAttribute(
+        'id', `${activity_element_id}_tooltip_text`);
+    activity_element_tooltip_text.classList.add('tooltiptext');
+    activity_element_tooltip_text.innerHTML = tooltip_text;
+    activity_element.classList.add('tooltip');
+    activity_element.appendChild(activity_element_tooltip_text);
+
+    /* Create a clickable span to expand the root div to display more options
+    or shrink it if already expanded. Attaches to the activity div element. */
+    let activity_element_expand_span = document.createElement('span');
+    activity_element_expand_span.setAttribute(
+        'id', `${activity_element_id}_expand_button`);
+    activity_element_expand_span.classList.add('clickable_text');
+    activity_element_expand_span.classList.add('expand_span');
+    activity_element_expand_span.innerHTML = 'expand +/-'
+    activity_element_expand_span.addEventListener('click', function() {
+      console.log('expand button clicked!');
+    });
+    activity_element.appendChild(activity_element_expand_span);
+    
+
+    // Attach the completed element to the colony menu
+    document.getElementById('colony_menu').appendChild(activity_element);
+
+  }
+}
+  
 
 
 function uuidv4() {
@@ -202,8 +254,27 @@ var mainGameLoop = window.setInterval(function() {
 }, 1000)
 
 
+function generateActivities() {
+  
+  activities = {};
+
+  let hunt_prey = new Activity(
+      name='hunt prey', tooltip_text='hunt some prey');
+  let hunt_prey_element = document.getElementById(hunt_prey.uuid);
+  hunt_prey_element.addEventListener('click', function() {
+    console.log(`${hunt_prey.name} clicked!`);
+  });
+  activities['hunt_prey'] = hunt_prey;
+
+  return activities;
+
+}
+
+
 // Do main
 window.onload = function () {
+
+activities = generateActivities();
 
 // go to a tab for the first time, so not all show
 tab('colony_menu')

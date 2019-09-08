@@ -36,3 +36,25 @@ body { /* no . means element type */
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
+
+.activity_div {
+  position: relative;
+  padding: 10px;
+  border: 1px solid black;
+} 
+
+.activity_div_text {
+  position: relative;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.expand_span {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.clickable_text {
+  text-decoration: underline;
+}
