@@ -10,7 +10,13 @@ function addClassesToElement(element_id, classes) {
 
 
 class Octopus {
-  constructor(hunger = 100) {
+  constructor(
+      hunger = 100,
+      name = null) {
+
+    // If no name was specified, generate a random one
+    this.name = name; 
+    if (this.name == null) { this.name = this.generateRandomName() };
 
     this.hunger = hunger
     this.uuid = uuidv4()
@@ -19,34 +25,39 @@ class Octopus {
     element ID should be equal to the octopus's UUID, and the element
     should have a tooltip displaying details. */
     // Create the element itself
-    //let octopus_element = document.createElement('p');
     let octopus_element = document.createElement('div');
     octopus_element.setAttribute('id', this.uuid);
-    //octopus_element.innerHTML = 'octopus'
     // Create a span for element text
     let text_span_element = document.createElement('span');
     text_span_element.innerHTML = 'octopus';
     // Give the octopus element a tooltip
     octopus_element.classList.add('tooltip');
-    //octopus_element.className = 'tooltip';
     // Create a tooltip span
     let tooltip_span_element = document.createElement('span');
-    tooltip_span_element.setAttribute('id', `${this.uuid}_tooltip`);
+    tooltip_span_element.setAttribute('id', `${this.uuid}_tooltip_text`);
     tooltip_span_element.classList.add('tooltiptext');
-    //tooltip_span_element.className = 'tooltiptext';
-    tooltip_span_element.innerHTML = 'test';
     
     /* Assemble and attach to document, text and tooltip span go onto the 
     octopus element which goes onto the population menu. */
     octopus_element.appendChild(text_span_element);
     octopus_element.appendChild(tooltip_span_element);
     document.getElementById('population_menu').appendChild(octopus_element);
-    //document.getElementById(this.uuid).appendChild(tooltip_span_element);
 
     /* Update the contents of the Octopus HTML on page */
-    // Is this better or worse than setting innerHTML?
-    //update(this.uuid, 'octopus');
+    update(`${this.uuid}_tooltip_text`, `name: ${this.name}`);
 
+  }
+
+  updatePopulationTab() {
+    /* Update the contents of the Octopus HTML on page */
+    console.log(`Updating ${this.uuid} on the population tab.`);
+    console.log(`Showing ${this.name} for ${this.uuid}`);
+    update(`${this.uuid}_tooltip_text`, `name: ${this.name}`);
+  } 
+
+  generateRandomName() {
+    console.log('generating a random name');
+    return 'bob'
   }
 
   die() {
@@ -76,6 +87,7 @@ var game_data = {
 function update(id, content) {
   document.getElementById(id).innerHTML = content;
 }
+
 
 //function mineGold() {
 //  game_data.gold += game_data.goldPerClick
@@ -131,9 +143,14 @@ var mainGameLoop = window.setInterval(function() {
   for (var i = 0; i < game_data.octopi.length; i++) {
     console.log('Ticking an octopus');
     let octopus = game_data.octopi[i];
+
     // Octopi get hungrier each tick
     console.log('Octopus grows hungrier');
     octopus.hunger -= 1;
+
+    // Update octopus element
+    game_data.octopi[i].updatePopulationTab();
+
     // If an octopus has a hunger of 0
     if (octopus.hunger == 0) {
       console.log('Octopus has starved!');
@@ -141,6 +158,7 @@ var mainGameLoop = window.setInterval(function() {
       //game_data.octopi.splice(i, 1)
       game_data.octopi[i].die();
     }
+
   }
     
 
