@@ -1,13 +1,46 @@
+/* Underutilized, pending removal 
+function addClassesToElement(element_id, classes) {
+  // Get the element using the provided ID
+  let element = document.getElementById(element_id);
+  for (var i == 0; i < classes.length; i ++) {
+    // Add the provided class to the element's class list
+    element.classList.add(_class);
+}
+*/
+
+
 class Octopus {
   constructor(hunger = 100) {
 
     this.hunger = hunger
     this.uuid = uuidv4()
 
-    let element = document.createElement('p');
-    element.setAttribute('id', this.uuid);
+    /* Create a new element to represent the octopus in population view. The
+    element ID should be equal to the octopus's UUID, and the element
+    should have a tooltip displaying details. */
+    // Create the element itself
+    //let octopus_element = document.createElement('p');
+    let octopus_element = document.createElement('button');
+    octopus_element.setAttribute('id', this.uuid);
+    // Create a tooltip for the new element
+    let tooltip_element = document.createElement('div');
+    let tooltip_element_id = `${this.UUID}_tooltip`;
+    tooltip_element.setAttribute('id', tooltip_element_id);
+    tooltip_element.classList.add('tooltip');
+    // Create a span to attach to the tooltip element
+    let tooltip_span_element = document.createElement('span');
+    tooltip_span_element.setAttribute('id', `${tooltip_element_id}_span`);
+    tooltip_span_element.classList.add('tooltiptext');
+    tooltip_span_element.innerHTML = 'test';
+    
+    /* Assemble the pieces together. Tooltip span goes on tooltip which
+    goes onto the octopus which is appended to the population tab */
+    tooltip_element.appendChild(tooltip_span_element);
+    octopus_element.appendChild(tooltip_element);
+    document.getElementById('population_menu').appendChild(octopus_element);
 
-    document.getElementById('population_menu').appendChild(element);
+    /* Update the contents of the Octopus HTML on page */
+    // Is this better or worse than setting innerHTML?
     update(this.uuid, 'octopus');
 
   }

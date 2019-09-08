@@ -34,6 +34,12 @@ mechanics:
       in which case an alert will appear in the hud
 
 
+rough ideas:
+  - display hunger and stats in pop menu
+  - randomly generate octo pixel art and name
+  - skill system
+
+
 === Technical roadmap
 
 Angular JS demo
