@@ -29,7 +29,7 @@ class Octopus {
     octopus_element.setAttribute('id', this.uuid);
     // Create a span for element text
     let text_span_element = document.createElement('span');
-    text_span_element.innerHTML = 'octopus';
+    text_span_element.innerHTML = this.name;
     // Give the octopus element a tooltip
     octopus_element.classList.add('tooltip');
     // Create a tooltip span
@@ -62,7 +62,11 @@ class Octopus {
 
   generateRandomName() {
     console.log('generating a random name');
-    return 'bob'
+    let names = ['bob', 'emily', 'jon', 'ashley', 'justin', 'sara', 'ed'];
+
+    let random_index = Math.floor(Math.random() * names.length);
+    return names[random_index];
+
   }
 
   die() {
