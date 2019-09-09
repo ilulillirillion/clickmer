@@ -39,6 +39,7 @@ class Octopus {
     // Makes the element clickable.
     octopus_element_image.addEventListener('click', function() {
       console.log('click test success');
+      game_data['assigning'] = this.uuid;
     });
     // Appends to the octopus element root.
     octopus_element.appendChild(octopus_element_image);
@@ -250,6 +251,7 @@ var game_data = {
   //gold: 0,
   //goldPerClick: 1,
   //goldPerClickCost: 10,
+  assigning: null,
   octopi: [],
   lastTick: Date.now()
 }
@@ -347,6 +349,18 @@ var mainGameLoop = window.setInterval(function() {
 }, 1000)
 
 
+function setVolume(val) {
+  console.log('setVolume triggered.');
+  let audio = background_music;
+  console.log('Before: ' + audio.volume);
+  console.log(`debug - val: <${val}>.`);
+  volume = val / 100;
+  console.log(`debug - volume: <${volume}>.`);
+  audio.volume = volume;
+  console.log('After: ' + audio.volume);
+}
+
+
 function generateActivities() {
   
   activities = {};
@@ -375,19 +389,82 @@ window.onmousemove = function(e) {
   }
 };
 
+
+function playMusic() {
+  var background_music_promise = background_music.play();
+  if (background_music_promise !== undefined) {
+      background_music_promise.then(_ => {
+          // Autoplay started!
+          console.log('Autoplay started');
+      }).catch(error => {
+          // Autoplay was prevented.
+          // Show a "Play" button so that user can start playback.
+          console.log(`Autoplay error: <${error}>.`);
+      });
+  }
+}
+
+  
+
 // Do main
+
+
+
+background_music = new Audio('aquatic_ambience.mp3');
+//background_music = new Audio('https://www.vgmusic.com/new-files/DKC1_-_Aquatic_Ambience.mid');
+background_music.id = 'background_music_audio';
+background_music.loop = true;
+background_music.muted = true;
+//background_music.play(); 
+
 window.onload = function () {
 
-activities = generateActivities();
-console.log(`hunt_prey classes: <${activities['hunt_prey']}>`);
 
-// go to a tab for the first time, so not all show
-tab('colony_menu')
+  // Add a mute button!
+  let mute_button = document.createElement('button');
+  mute_button.setAttribute('id', 'mute_button');
+  mute_button.innerHTML = 'mute';
+  mute_button.addEventListener('click', function() {
+    console.log('mute button clicked');
+    //let audio = document.getElementById('background_music_audio');
+    let audio = background_music;
+    if (background_music.paused) {
+      playMusic();
+    }
+    audio.muted = !audio.muted;
+    console.log(`Background music is muted: <${audio.muted}>.`);
+  });
+  document.body.appendChild(mute_button);
 
-//if (typeof save_data.gold !== "undefined") game_data.gold = save_data.gold;
-//if (typeof save_data.goldPerClick !== "undefined") game_data.goldPerClick = save_data.goldPerClick;
-//if (typeof save_data.goldPerClickCost !== "undefined") game_data.goldPerClickCost = save_data.goldPerClickCost;
-if (typeof save_data.octopi !== 'undefined') game_data.octopi = save_data.octopi;
-if (typeof save_data.lastTick !== "undefined") game_data.lastTick = save_data.lastTick;
+  // Add a volume slider
+  //<input id="vol-control" type="range" min="0" max="100" step="1" oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input>
+  let volume_slider = document.createElement('input');
+  volume_slider.setAttribute('id', 'volume_slider');
+  volume_slider.setAttribute('type', 'range');
+  volume_slider.setAttribute('min', '0');
+  volume_slider.setAttribute('max', '100');
+  volume_slider.setAttribute('step', '1');
+  volume_slider.addEventListener('input', function() {
+    console.log('volume slider touched');
+    setVolume(volume_slider.value);
+  });
+  volume_slider.addEventListener('change', function() {
+    console.log('volume slider touched');
+    setVolume(volume_slider.value);
+  });
+  document.body.appendChild(volume_slider);
+
+
+  activities = generateActivities();
+  console.log(`hunt_prey classes: <${activities['hunt_prey']}>`);
+
+  // go to a tab for the first time, so not all show
+  tab('colony_menu')
+
+  //if (typeof save_data.gold !== "undefined") game_data.gold = save_data.gold;
+  //if (typeof save_data.goldPerClick !== "undefined") game_data.goldPerClick = save_data.goldPerClick;
+  //if (typeof save_data.goldPerClickCost !== "undefined") game_data.goldPerClickCost = save_data.goldPerClickCost;
+  if (typeof save_data.octopi !== 'undefined') game_data.octopi = save_data.octopi;
+  if (typeof save_data.lastTick !== "undefined") game_data.lastTick = save_data.lastTick;
 
 }
