@@ -2,15 +2,18 @@
   color: red;
 }/*
 
-body { /* no . means element type */
-  text-align: center; /* text-align centers text AND children */
-}
 
 /*
 * {
   outline: none;
 }
 */
+
+body {
+  background-image: url('free_use_blue_ocean.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
 
 .tooltip {
