@@ -27,10 +27,12 @@ class Octopus {
 
     // Creates the element root div.
     let octopus_element = document.createElement('div');
-    octopus_element.setAttribute('id', this.uuid);
+    let octopus_element_id = this.uuid;
+    octopus_element.setAttribute('id', octopus_element_id);
 
     // Creates an image which represents the octopus.
     let octopus_element_image = document.createElement('img');
+    octopus_element_image.setAttribute('id', `${octopus_element_id}_image`);
     octopus_element_image.setAttribute('src', 'octopus.png');
     octopus_element_image.style.height = '16px';
     octopus_element_image.style.width = '16px';
@@ -43,6 +45,8 @@ class Octopus {
 
     // Creates a span for element text.
     let octopus_element_text_span = document.createElement('span');
+    octopus_element_text_span.setAttribute(
+        'id', `${octopus_element_id}_text_span`);
     octopus_element_text_span.innerHTML = this.name;
     // Append to the octopus element root
     octopus_element.appendChild(octopus_element_text_span);
@@ -107,8 +111,9 @@ class Activity {
     
     // Create and attach a span to act as inner text.
     let activity_element_text_span = document.createElement('span');
+    let activity_element_text_span_id = `${activity_element_id}_text_span`;
     activity_element_text_span.setAttribute(
-        'id', `${activity_element_id}_text_span`);
+        'id', activity_element_text_span_id);
     activity_element_text_span.classList.add('activity_div_title_text');
     activity_element_text_span.innerHTML = this.name;
     activity_element.appendChild(activity_element_text_span);
@@ -151,7 +156,25 @@ class Activity {
     
 
     // Make the parent div expand on click to show more details and options
-    activity_element.addEventListener('click', function() {
+    activity_element.addEventListener('click', function(e) {
+
+      if (e.target.getAttribute('id') != activity_element_id &&
+          e.target.getAttribute('id') != activity_element_text_span_id) {
+        return;
+     }
+
+      //console.log(
+      //    `Click target is <${e.target}> (<${e.target.getAttribute('id')}>`);
+      //if(e.target.getAttribute('id').includes('octo')) {
+      //  e.preventDefault();
+      //  e.stopPropagation();
+      //}
+      /*
+      else {
+        this.props.selectNote(this.props.note)
+      }
+      */
+
       activity_element.classList.toggle('activity_div_expanded');
       console.log(`activity_element className: ${activity_element.className}`);
       activity_element_text_span.classList.toggle(
@@ -183,6 +206,18 @@ class Activity {
           octopus_element_clone.setAttribute(
               'id', `${activity_element_id}_octopus_clone_\
                     ${game_data.octopi[i].uuid}`);
+          octopus_element_clone.addEventListener('click', function() {
+            /*
+            if (!e.target.getAttribute('id').includes('octo')) {
+              e.preventDefault();
+              e.stopPropagation();
+            }
+            */
+            e.stopPropagation();
+            console.log(
+                `Click target is <${e.target}> (<${e.target.getAttribute('id')})>`);
+            console.log('worker clicked!');
+          });
           workers_list.appendChild(octopus_element_clone);
         }
       } 
@@ -334,7 +369,7 @@ window.onmousemove = function(e) {
       tooltips = document.getElementsByClassName('tooltiptext');
   for (var i = 0; i < tooltips.length; i++) {
     let tooltip = tooltips[i];
-    console.log(`Anchoring tooltip to mouse: <${tooltip.getAttribute('id')}>`);
+    //console.log(`Anchoring tooltip to mouse: <${tooltip.getAttribute('id')}>`);
     tooltip.style.top = tooltip_y;
     tooltip.style.left = tooltip_x;
   }
