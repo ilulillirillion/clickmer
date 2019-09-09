@@ -103,14 +103,17 @@ class Activity {
     let activity_element_id = this.uuid;
     activity_element.setAttribute('id', activity_element_id);
     activity_element.classList.add('activity_div');
+
     
     // Create and attach a span to act as inner text.
     let activity_element_text_span = document.createElement('span');
     activity_element_text_span.setAttribute(
         'id', `${activity_element_id}_text_span`);
-    activity_element_text_span.classList.add('activity_div_text');
+    activity_element_text_span.classList.add('activity_div_title_text');
     activity_element_text_span.innerHTML = this.name;
     activity_element.appendChild(activity_element_text_span);
+
+
 
     /* Create and attach a tooltip span -- also enables the tooltip class
     on the activity div element. */
@@ -124,6 +127,7 @@ class Activity {
 
     /* Create a clickable span to expand the root div to display more options
     or shrink it if already expanded. Attaches to the activity div element. */
+    /*
     let activity_element_expand_span = document.createElement('span');
     activity_element_expand_span.setAttribute(
         'id', `${activity_element_id}_expand_button`);
@@ -134,7 +138,52 @@ class Activity {
       console.log('expand button clicked!');
     });
     activity_element.appendChild(activity_element_expand_span);
+    */
     
+
+    // Make the parent div expand on click to show more details and options
+    activity_element.addEventListener('click', function() {
+      activity_element.classList.toggle('activity_div_expanded');
+      console.log(`activity_element className: ${activity_element.className}`);
+      activity_element_text_span.classList.toggle(
+          'activity_div_title_text_expanded');
+      console.log(
+          `activity_element_text_span className: \
+          ${activity_element_text_span.className}`);
+
+      if (activity_element.classList.contains('activity_div_expanded')) {
+
+        // Create a div to house the population list
+        let workers_list = document.createElement('div');
+        workers_list.setAttribute('id', `${activity_element_id}_workers_list`);
+        activity_element.appendChild(workers_list);
+
+        // Create a header for the population
+        let workers_list_header = document.createElement('span');
+        workers_list_header.setAttribute(
+            'id', `${activity_element_id}_workers_list_header`);
+        workers_list_header.innerHTML = 'Workers:';
+        workers_list.appendChild(workers_list_header);
+
+        console.log(`game_data.octopi.length = ${game_data.octopi.length}`);
+        for (let i = 0; i < game_data.octopi.length; i++) {
+          console.log(
+              `Adding ${game_data.octopi[i].name} to the workers list.`);
+          let octopus_element_clone = document.getElementById(
+              game_data.octopi[i].uuid).cloneNode(true);
+          octopus_element_clone.setAttribute(
+              'id', `${activity_element_id}_octopus_clone_\
+                    ${game_data.octopi[i].uuid}`);
+          workers_list.appendChild(octopus_element_clone);
+        }
+      } 
+      else {
+        let workers_list = document.getElementById(
+            `${activity_element_id}_workers_list`);
+        workers_list.remove();
+      }
+    });
+
 
     // Attach the completed element to the colony menu
     document.getElementById('colony_menu').appendChild(activity_element);
@@ -275,6 +324,7 @@ function generateActivities() {
 window.onload = function () {
 
 activities = generateActivities();
+console.log(`hunt_prey classes: <${activities['hunt_prey']}>`);
 
 // go to a tab for the first time, so not all show
 tab('colony_menu')

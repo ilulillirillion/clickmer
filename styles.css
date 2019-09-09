@@ -43,10 +43,22 @@ body { /* no . means element type */
   border: 1px solid black;
 } 
 
-.activity_div_text {
+.activity_div_expanded {
+  padding: 100px;
+}
+
+.activity_div_title_text {
   position: relative;
   text-align: center;
   vertical-align: middle;
+}
+
+.activity_div_title_text_expanded {
+  position: absolute;
+  text-align: left;
+  vertical-align: baseline;
+  top: 0;
+  left: 0;
 }
 
 .expand_span {
