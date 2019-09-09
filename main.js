@@ -117,6 +117,15 @@ class Activity {
 
     /* Create and attach a tooltip span -- also enables the tooltip class
     on the activity div element. */
+    // First, the tooltip div.
+    /*
+    let activity_element_tooltip = document.createElement('div');
+    activity_element_tooltip.setAttribute(
+      'id', `${activity_element_id}_tooltip`);
+    activity_element_tooltip.classList.add('tooltip');
+    activity_element.appendChild(activity_element_tooltip);
+    */
+    // Second, the text span.
     let activity_element_tooltip_text = document.createElement('span');
     activity_element_tooltip_text.setAttribute(
         'id', `${activity_element_id}_tooltip_text`);
@@ -317,8 +326,19 @@ function generateActivities() {
 
   return activities;
 
-}
+};
 
+window.onmousemove = function(e) {
+  let tooltip_x = `${e.clientX + 10}px`,
+      tooltip_y = `${e.clientY + 10}px`;
+      tooltips = document.getElementsByClassName('tooltiptext');
+  for (var i = 0; i < tooltips.length; i++) {
+    let tooltip = tooltips[i];
+    console.log(`Anchoring tooltip to mouse: <${tooltip.getAttribute('id')}>`);
+    tooltip.style.top = tooltip_y;
+    tooltip.style.left = tooltip_x;
+  }
+};
 
 // Do main
 window.onload = function () {
