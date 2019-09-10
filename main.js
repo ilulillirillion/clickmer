@@ -18,16 +18,26 @@ class Octopus {
     this.name = name; 
     if (this.name == null) { this.name = this.generateRandomName() };
 
-    this.hunger = hunger
-    this.uuid = uuidv4()
+    this.hunger = hunger;
+    this.uuid = uuidv4();
+    this.activity = null;
 
+    let octopus_element = this.generateElement();
+    document.getElementById('population_menu').appendChild(octopus_element);
+
+
+  }
+
+  generateElement(id_suffix='') {
     /* Creates a new element to represent the octopus in population view. The
     element ID should be equal to the octopus's UUID, and the element
     should have a tooltip displaying details. */
 
+    console.log(`Making octopus element with suffix: <${id_suffix}>.`);
+
     // Creates the element root div.
     let octopus_element = document.createElement('div');
-    let octopus_element_id = this.uuid;
+    let octopus_element_id = `octopus_${this.uuid}${id_suffix}`;
     octopus_element.setAttribute('id', octopus_element_id);
 
     // Creates an image which represents the octopus.
@@ -46,8 +56,11 @@ class Octopus {
 
     // Creates a span for element text.
     let octopus_element_text_span = document.createElement('span');
+    let octopus_element_text_span_id = `${octopus_element_id}_text_span`;
     octopus_element_text_span.setAttribute(
-        'id', `${octopus_element_id}_text_span`);
+        'id', octopus_element_text_span_id);
+    console.log(
+        `octopus_element_text_span_id: <${octopus_element_text_span_id}>`);
     octopus_element_text_span.innerHTML = this.name;
     // Append to the octopus element root
     octopus_element.appendChild(octopus_element_text_span);
@@ -63,11 +76,11 @@ class Octopus {
     // Appends tooltip text span and add tooltip class to octopus root element.
     octopus_element.classList.add('tooltip');
     octopus_element.appendChild(octopus_element_tooltip_text_span);
-    
-    // Append the finished element to the population menu
-    document.getElementById('population_menu').appendChild(octopus_element);
 
+    return octopus_element
   }
+    
+
 
   updatePopulationTab() {
     /* Update the contents of the Octopus HTML on page */
@@ -198,16 +211,31 @@ class Activity {
         workers_list_header.innerHTML = 'Workers:';
         workers_list.appendChild(workers_list_header);
 
+        console.log(`TEST ${this.name}`);
+
         console.log(`game_data.octopi.length = ${game_data.octopi.length}`);
         for (let i = 0; i < game_data.octopi.length; i++) {
           console.log(
               `Adding ${game_data.octopi[i].name} to the workers list.`);
-          let octopus_element_clone = document.getElementById(
-              game_data.octopi[i].uuid).cloneNode(true);
-          octopus_element_clone.setAttribute(
-              'id', `${activity_element_id}_octopus_clone_\
-                    ${game_data.octopi[i].uuid}`);
-          octopus_element_clone.addEventListener('click', function() {
+          let octopus_element = game_data.octopi[i].generateElement('_worker');
+          console.log(`octopus_element children: <${octopus_element.childNodes}>.`);
+          console.log(`octopus activity: <${game_data.octopi[i].activity}>.`);
+          console.log(`activity name: <${activity_element_text_span.innerHTML}>.`);
+          //if (game_data.octopi[i].activity == this.name) {
+          if (game_data.octopi[i].activity == activity_element_text_span.innerHTML) {
+            let octopus_element_text_span_id = 
+                `octopus_${game_data.octopi[i].uuid}_worker_text_span`;
+            console.log(`octopus_element_text_span_id: \
+                <${octopus_element_text_span_id}>.`);
+            //let octopus_element_text_span = document.getElementById(
+            //    octopus_element_text_span_id);
+            let octopus_element_text_span = octopus_element.querySelector(
+                `#${octopus_element_text_span_id}`);
+            console.log(octopus_element_text_span);
+            //octopus_element_text_span.innerHTML == octopus_element_text_span.innerHTML.bold();
+            octopus_element_text_span.style.fontWeight = 'bold';
+          };
+          octopus_element.addEventListener('click', function() {
             /*
             if (!e.target.getAttribute('id').includes('octo')) {
               e.preventDefault();
@@ -218,8 +246,14 @@ class Activity {
             console.log(
                 `Click target is <${e.target}> (<${e.target.getAttribute('id')})>`);
             console.log('worker clicked!');
+            if (game_data.octopi[i].activity != 
+                activity_element_text_span.innerHTML) {
+              game_data.octopi[i].activity = activity_element_text_span.innerHTML;
+            } else {
+              game_data.octopi[i].activity = null;
+            };
           });
-          workers_list.appendChild(octopus_element_clone);
+          workers_list.appendChild(octopus_element);
         }
       } 
       else {
@@ -366,7 +400,7 @@ function generateActivities() {
   activities = {};
 
   let hunt_prey = new Activity(
-      name='hunt prey', tooltip_text='hunt some prey');
+      name='hunt_prey', tooltip_text='hunt some prey');
   let hunt_prey_element = document.getElementById(hunt_prey.uuid);
   hunt_prey_element.addEventListener('click', function() {
     console.log(`${hunt_prey.name} clicked!`);
