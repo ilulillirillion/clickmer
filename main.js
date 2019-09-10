@@ -111,10 +111,12 @@ class Octopus {
 
 
 class Activity {
-  constructor(name, tooltip_text) {
+  constructor(name, tooltip_text, effects) {
 
     this.name = name;
     this.uuid = uuidv4();
+    this.effects = effects;
+
 
     // Create a DOM element to represent the activity.
     let activity_element = document.createElement('div');
@@ -350,9 +352,23 @@ var mainGameLoop = window.setInterval(function() {
     console.log('Ticking an octopus');
     let octopus = game_data.octopi[i];
 
+
+    // Check and apply octopus tasks
+    if (octopus.activity != null) {
+      let activity = activities[octopus.activity];
+      console.log(`activity.effects: <${activity.effects}>`);
+      for (let [effect, change] of Object.entries(activity.effects)) {
+      //for (const [key, value] of Object.entries(object))
+        console.log(`Applying ${change} to ${effect}`);
+        octopus[effect] += change;
+      }
+    }
+            
+
     // Octopi get hungrier each tick
-    console.log('Octopus grows hungrier');
+    //console.log('Octopus grows hungrier');
     octopus.hunger -= 1;
+
 
     // Update octopus element
     game_data.octopi[i].updatePopulationTab();
@@ -399,8 +415,10 @@ function generateActivities() {
   
   activities = {};
 
+  let hunt_prey_effects = { 'hunger': 2 };
   let hunt_prey = new Activity(
-      name='hunt_prey', tooltip_text='hunt some prey');
+      name='hunt_prey', tooltip_text='hunt some prey', 
+      effect=hunt_prey_effects);
   let hunt_prey_element = document.getElementById(hunt_prey.uuid);
   hunt_prey_element.addEventListener('click', function() {
     console.log(`${hunt_prey.name} clicked!`);
