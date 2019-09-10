@@ -410,23 +410,27 @@ function playMusic() {
 
 
 
-background_music = new Audio('aquatic_ambience.mp3');
-//background_music = new Audio('https://www.vgmusic.com/new-files/DKC1_-_Aquatic_Ambience.mid');
-background_music.id = 'background_music_audio';
-background_music.loop = true;
-background_music.muted = true;
-//background_music.play(); 
 
 window.onload = function () {
 
 
   // Add a mute button!
-  let mute_button = document.createElement('button');
-  mute_button.setAttribute('id', 'mute_button');
-  mute_button.innerHTML = 'mute';
-  mute_button.addEventListener('click', function() {
+  let music_button = document.createElement('button');
+  music_button.setAttribute('id', 'music_button');
+  music_button.innerHTML = 'Music';
+  music_button.addEventListener('click', function() {
     console.log('mute button clicked');
     //let audio = document.getElementById('background_music_audio');
+    if (typeof background_music == 'undefined') {
+      background_music = new Audio('aquatic_ambience.mp3');
+      //background_music = new Audio('https://www.vgmusic.com/new-files/DKC1_-_Aquatic_Ambience.mid');
+      background_music.id = 'background_music_audio';
+      background_music.loop = true;
+      //background_music.muted = true;
+      background_music.play(); 
+      return;
+    }
+      
     let audio = background_music;
     if (background_music.paused) {
       playMusic();
@@ -434,7 +438,7 @@ window.onload = function () {
     audio.muted = !audio.muted;
     console.log(`Background music is muted: <${audio.muted}>.`);
   });
-  document.body.appendChild(mute_button);
+  document.body.appendChild(music_button);
 
   // Add a volume slider
   //<input id="vol-control" type="range" min="0" max="100" step="1" oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input>
