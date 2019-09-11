@@ -73,3 +73,10 @@ body {
 .clickable_text {
   text-decoration: underline;
 }
+
+#event_log {
+  height: 200px;
+  width: 100px;
+  overflow: auto;
+  padding 5px;
+}

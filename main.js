@@ -19,7 +19,7 @@ class Octopus {
     if (this.name == null) { this.name = this.generateRandomName() };
 
     this.hunger = hunger;
-    this.uuid = uuidv4();
+    this.uuid = `octopus_${uuidv4()}`;
     this.activity = null;
 
     let octopus_element = this.generateElement();
@@ -37,7 +37,7 @@ class Octopus {
 
     // Creates the element root div.
     let octopus_element = document.createElement('div');
-    let octopus_element_id = `octopus_${this.uuid}${id_suffix}`;
+    let octopus_element_id = `${this.uuid}${id_suffix}`;
     octopus_element.setAttribute('id', octopus_element_id);
 
     // Creates an image which represents the octopus.
@@ -114,7 +114,7 @@ class Activity {
   constructor(name, tooltip_text, effects) {
 
     this.name = name;
-    this.uuid = uuidv4();
+    this.uuid = `activity_${uuidv4()}`;
     this.effects = effects;
     this.element = this.createElement();
 
@@ -209,7 +209,7 @@ class Activity {
         //if (game_data.octopi[i].activity == this.name) {
         if (game_data.octopi[i].activity == activity_element_text_span.innerHTML) {
           let octopus_element_text_span_id = 
-              `octopus_${game_data.octopi[i].uuid}_worker_text_span`;
+              `${game_data.octopi[i].uuid}_worker_text_span`;
           console.log(`octopus_element_text_span_id: \
               <${octopus_element_text_span_id}>.`);
           //let octopus_element_text_span = document.getElementById(
@@ -247,7 +247,7 @@ class Activity {
 
     // Create a DOM element to represent the activity.
     let activity_element = document.createElement('div');
-    let activity_element_id = `activity_${this.uuid}`;
+    let activity_element_id = this.uuid;
     activity_element.setAttribute('id', activity_element_id);
     activity_element.classList.add('activity_div');
 
@@ -333,6 +333,19 @@ function uuidv4() {
   });
 }
 
+function updateEventLog(contents) {
+  let message = document.createElement('p');
+  message.innerHTML = contents;
+  let event_log = document.getElementById('event_log');
+  event_log.appendChild(message);
+};
+
+
+function createEventLog() {
+  let event_log = document.createElement('div');
+  event_log.setAttribute('id', 'event_log');
+  document.body.appendChild(event_log);
+}
 
 
 function update(id, content) {
@@ -443,12 +456,21 @@ var mainGameLoop = window.setInterval(function() {
   if (game_data.octopi == 0) {
     var chance = Math.random();
     if (chance < 0.1) {
-      game_data.octopi.push(new Octopus());
+      let octopus = new Octopus();
+      game_data.octopi.push(octopus);
+      updateEventLog(`${octopus.name} has arrived!`);
     }
   }
 
   // Update octopi count
   update('population_p', 'octopi: ' + game_data.octopi.length);
+
+  // update test log
+  //let event_log = document.getElementById('event_log');
+  //let new_event = document.createElement('p')
+  //new_event.innerHTML = 'test test test';
+  //event_log.appendChild(new_event);
+  //updateEventLog('ha ha ha');
     
 
 }, 1000)
@@ -477,7 +499,7 @@ function generateActivities() {
       name='hunt_prey', tooltip_text='hunt some prey', 
       effect=hunt_prey_effects);
   let hunt_prey_element = document.getElementById(
-      `activity_${hunt_prey.uuid}`);
+      hunt_prey.uuid);
   hunt_prey_element.addEventListener('click', function() {
     console.log(`${hunt_prey.name} clicked!`);
   });
@@ -581,6 +603,8 @@ window.onload = function () {
 
   game_data['activities'] = generateActivities();
   //console.log(`hunt_prey classes: <${game_data['activities']['hunt_prey']}>`);
+
+  createEventLog();
 
   // go to a tab for the first time, so not all show
   tab('colony_menu')
