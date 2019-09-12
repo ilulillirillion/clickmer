@@ -11,7 +11,7 @@ function addClassesToElement(element_id, classes) {
 
 class Octopus {
   constructor(
-      hunger = 100,
+      hunger = { 'max': 100, 'current': 100 },
       name = null) {
 
     // If no name was specified, generate a random one
@@ -19,6 +19,12 @@ class Octopus {
     if (this.name == null) { this.name = this.generateRandomName() };
 
     this.hunger = hunger;
+    let self = this;
+    this.hunger['listener'] = function(that) {
+      if (self.hunger['current'] == 0) {
+        self.die();
+      }
+    }
     this.uuid = `octopus_${uuidv4()}`;
     this.activity = null;
 
@@ -26,6 +32,14 @@ class Octopus {
     document.getElementById('population_menu').appendChild(octopus_element);
 
 
+  }
+
+  updateAttribute(attribute, delta) {
+    this[attribute]['current'] += delta;
+    if (this[attribute]['current'] > this[attribute]['max']) {
+      this[attribute]['current'] = this[attribute]['max'];
+    }
+    this[attribute]['listener']();
   }
 
   generateElement(id_suffix='') {
@@ -69,7 +83,7 @@ class Octopus {
     let octopus_element_tooltip_text_span = document.createElement('span');
     octopus_element_tooltip_text_span.innerHTML = `
         name: ${this.name}<br>
-        hunger: ${this.hunger}<br>`
+        hunger: ${this.hunger['current']}<br>`
     octopus_element_tooltip_text_span.setAttribute(
         'id', `${this.uuid}_tooltip_text`);
     octopus_element_tooltip_text_span.classList.add('tooltiptext');
@@ -89,7 +103,7 @@ class Octopus {
     update(`${this.uuid}_tooltip_text`, 
         `
         name: ${this.name}<br>
-        hunger: ${this.hunger}
+        hunger: ${this.hunger['current']}
         `
     );
   } 
@@ -435,21 +449,23 @@ var mainGameLoop = window.setInterval(function() {
 
             
 
-    // Octopi get hungrier each tick
-    //console.log('Octopus grows hungrier');
-    octopus.hunger -= 1;
-
-
     // Update octopus element
     game_data.octopi[i].updatePopulationTab();
 
+    // Octopi get hungrier each tick
+    //console.log('Octopus grows hungrier');
+    //octopus.hunger -= 1;
+    octopus.updateAttribute('hunger', -1);
+
+
+
     // If an octopus has a hunger of 0
-    if (octopus.hunger == 0) {
-      console.log('Octopus has starved!');
+    //if (octopus.hunger['current'] == 0) {
+    //  console.log('Octopus has starved!');
       // The octopus dies of starvation
       //game_data.octopi.splice(i, 1)
-      game_data.octopi[i].die();
-    }
+    //  game_data.octopi[i].die();
+    //}
 
   }
     
