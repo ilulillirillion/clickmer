@@ -143,9 +143,9 @@ class Activity {
 
     if (!(this.element.classList.contains('activity_div_expanded'))) {
       console.log('activity div is not expanded');
-      if (typeof workers_list !== 'undefined') {
-        //let workers_list = document.getElementById(
-        //    `${this.element.getAttribute('id')}_workers_list`);
+      let workers_list = document.getElementById(
+          `${this.element.getAttribute('id')}_workers_list`);
+      if (typeof workers_list !== 'undefined' && workers_list != null) {
         workers_list.remove();
       }
     }
