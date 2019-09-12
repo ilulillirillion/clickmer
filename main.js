@@ -335,6 +335,7 @@ function uuidv4() {
 
 function updateEventLog(contents) {
   let message = document.createElement('p');
+  message.classList.add('event_message');
   message.innerHTML = contents;
   let event_log = document.getElementById('event_log');
   event_log.appendChild(message);
@@ -344,6 +345,7 @@ function updateEventLog(contents) {
 function createEventLog() {
   let event_log = document.createElement('div');
   event_log.setAttribute('id', 'event_log');
+  event_log.classList.add('wordwrap');
   document.body.appendChild(event_log);
 }
 

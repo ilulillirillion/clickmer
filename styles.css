@@ -74,9 +74,26 @@ body {
   text-decoration: underline;
 }
 
+/* Source: http://snipplr.com/view/10979/css-cross-browser-word-wrap */
+.wordwrap { 
+   white-space: pre-wrap;      /* CSS3 */   
+   white-space: -moz-pre-wrap; /* Firefox */    
+   white-space: -pre-wrap;     /* Opera <7 */   
+   white-space: -o-pre-wrap;   /* Opera 7 */    
+   word-wrap: break-word;      /* IE */
+}
+
 #event_log {
-  height: 200px;
-  width: 100px;
+  height: 40%;
+  width: 20%;
+  border: 1px solid black;
   overflow: auto;
   padding 5px;
+  position: absolute;
+  right: 3%;
+  top: 5%;
+}
+
+.event_message {
+  padding: 5px;
 }
