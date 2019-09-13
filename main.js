@@ -1,4 +1,11 @@
 class Game {
+
+  static buildRuntimeData() {
+    let runtime_data = {};
+    runtime_data['activities'] = generateActivities();
+    runtime_data['background_music'] = null;
+    return runtime_data;
+  }
   
   static tickWanderingOctopi() {
     let chance = 0.0001;
@@ -530,6 +537,9 @@ window.onmousemove = function(e) {
 // Do main ////////////////
 //////////////////////////
 
+
+/* Game data is meant to be relevant and preserved between client reloads,
+basically saved progress. */
 var game_data = {
   octopi: [],
   available_prey: {
@@ -538,77 +548,77 @@ var game_data = {
   },
   lastTick: Date.now()
 };
+// Runtime data is basically just a global namespace for referencing things.
+//var runtime_data = {
+//  'activities': null,    
+//  'background_music': null  // ---
+//};
 
 
-var runtime_data = {
-  'background_music': null
-};
+
+// Construct all of the UI elements.
+Game.buildUI();
+
+runtime_data = Game.buildRuntimeData();
 
 
-window.onload = function () {
+// Retrieve any valid save data and start autosaving.
+var [game_data, save_data] = Game.loadSavedData();
+Game.startAutosaveScheduler();
 
-  // Construct all of the UI elements.
-  Game.buildUI();
+//runtime_data['activities'] = generateActivities();
 
-  // Retrieve any valid save data and start autosaving.
-  var [game_data, save_data] = Game.loadSavedData();
-  Game.startAutosaveScheduler();
+createEventLog();
 
-  game_data['activities'] = generateActivities();
+// go to a tab for the first time, so not all show
+tab('colony_tab')
 
-  createEventLog();
+var mainGameLoop = window.setInterval(function() {
 
-  // go to a tab for the first time, so not all show
-  tab('colony_tab')
+  // Figure out delta from last tick
+  time_delta = Date.now() - game_data.lastTick;
 
-  var mainGameLoop = window.setInterval(function() {
+  // Save current time as the new "last" tick
+  game_data.lastTick = Date.now()
 
-    // Figure out delta from last tick
-    time_delta = Date.now() - game_data.lastTick;
+  // Refresh activity panes
+  for (var i=0; i < runtime_data['activities'].length; i++) {
+    let activity = runtime_data['activities'][i];
+    activity.updateElement();
+  };
 
-    // Save current time as the new "last" tick
-    game_data.lastTick = Date.now()
+  for (var i = 0; i < game_data.octopi.length; i++) {
+    let octopus = game_data.octopi[i];
 
-    // Refresh activity panes
-    for (var i=0; i < game_data['activities'].length; i++) {
-      let activity = game_data['activities'][i];
-      activity.updateElement();
-    };
-
-    for (var i = 0; i < game_data.octopi.length; i++) {
-      let octopus = game_data.octopi[i];
-
-      // Check and apply octopus tasks
-      if (octopus.activity != null) {
-        let activity = game_data['activities'].find(function (activity) {
-          return activity.name == octopus.activity;
-        });
-        for (let [effect, change] of Object.entries(activity.effects.octopi)) {
-          octopus.updateAttribute(effect, change);
-        }
-        for (let [effect, change] of Object.entries(activity.effects.game)) {
-          game_data[effect]['current'] += change;
-          if (game_data[effect]['current'] > game_data[effect]['max']) {
-            game_data[effect]['current'] = game_data[effect]['max'];
-          };
+    // Check and apply octopus tasks
+    if (octopus.activity != null) {
+      let activity = runtime_data['activities'].find(function (activity) {
+        return activity.name == octopus.activity;
+      });
+      for (let [effect, change] of Object.entries(activity.effects.octopi)) {
+        octopus.updateAttribute(effect, change);
+      }
+      for (let [effect, change] of Object.entries(activity.effects.game)) {
+        game_data[effect]['current'] += change;
+        if (game_data[effect]['current'] > game_data[effect]['max']) {
+          game_data[effect]['current'] = game_data[effect]['max'];
         };
       };
+    };
 
-      // Update octopus element
-      game_data.octopi[i].updatePopulationTab();
+    // Update octopus element
+    game_data.octopi[i].updatePopulationTab();
 
-      octopus.updateAttribute('hunger', -1);
+    octopus.updateAttribute('hunger', -1);
 
-    }
-      
-    Game.tickWanderingOctopi();
-
-    // Update octopi count
-    update('population_p', 'octopi: ' + game_data.octopi.length);
+  }
     
-    console.log(`Available prey: <${game_data.available_prey['current']}>/\
-                <${game_data.available_prey['max']}>.`);
+  Game.tickWanderingOctopi();
 
-  }, 1000)
+  // Update octopi count
+  update('population_p', 'octopi: ' + game_data.octopi.length);
+  
+  console.log(`Available prey: <${game_data.available_prey['current']}>/\
+              <${game_data.available_prey['max']}>.`);
 
-}
+}, 1000)
