@@ -9,37 +9,183 @@ function addClassesToElement(element_id, classes) {
 */
 
 
+class Game {
+  
+  static tickWanderingOctopi() {
+    let chance = 0.0001;
+    // Octopi generation
+    if (game_data.octopi.length == 0) {
+      chance += 0.1;
+    }
+    else if (game_data.octopi.length < 3) {
+      chance += 0.05;
+    };
+    let diceroll = Math.random();
+    console.log(
+        `Octopus gen (chance: ${chance}) dice rolled (<${diceroll}>).`);
+    if (diceroll < chance) {
+      let octopus = new Octopus();
+      game_data.octopi.push(octopus);
+      updateEventLog(`${octopus.name} has arrived!`);
+    };
+  };
+
+  static loadSavedData() {
+    console.log('Loading saved data');
+    var save_data = JSON.parse(localStorage.getItem('game_save_data'));
+    console.log(`save_data: <${save_data}>.`);
+    //return {'game_data': game_data, 'save_data': save_data };
+    console.log(save_data['octopi']);
+    console.log(typeof save_data['octopi']);
+    if (typeof save_data['octopi'] !== 'undefined') {
+      console.log('Loading saved octopi');
+      //game_data['octopi'] = save_data.octopi;
+      for (let i=0; i < save_data.octopi.length; i++) {
+        let octopus = new Octopus(save_data.octopi[i]);
+        console.log(`loaded octopus <${octopus}>`);
+        game_data['octopi'].push(octopus);
+      }
+    };
+    if (typeof save_data['lastTick'] !== "undefined") {
+      console.log('loading saved lastTick');
+      game_data['lastTick'] = save_data.lastTick;
+    };
+    return [ game_data, save_data ];
+  };
+
+
+  static startAutosaveScheduler() {
+    var saveGame = window.setInterval(function() {
+      console.log('Autosaving.');
+      localStorage.setItem('game_save_data', JSON.stringify(game_data))
+    }, 15000);
+  };
+
+
+  static createMusicButton() {
+    let music_button = document.createElement('button');
+      music_button.setAttribute('id', 'music_button');
+      music_button.innerHTML = 'Music';
+      music_button.addEventListener('click', function() {
+        console.log('music button clicked');
+        if (typeof background_music == 'undefined') {
+          let background_music = new Audio('aquatic_ambience.mp3');
+          background_music.id = 'background_music_audio';
+          background_music.loop = true;
+          background_music.play(); 
+          return;
+        }
+          
+        let audio = background_music;
+        if (background_music.paused) {
+          Game.playMusic();
+        }
+        audio.muted = !audio.muted;
+        console.log(`Background music is muted: <${audio.muted}>.`);
+      });
+      document.body.appendChild(music_button);
+  };
+
+
+  static playMusic() {
+    let background_music = document.getElementById('background_music_audio');
+    var background_music_promise = background_music.play();
+    if (background_music_promise !== undefined) {
+        background_music_promise.then(_ => {
+            console.log('play started');
+        }).catch(error => {
+            console.log(`play error: <${error}>.`);
+        });
+    }
+  }
+
+
+  static createVolumeSlider() {
+    // Add a volume slider
+    let volume_slider = document.createElement('input');
+    volume_slider.setAttribute('id', 'volume_slider');
+    volume_slider.setAttribute('type', 'range');
+    volume_slider.setAttribute('min', '0');
+    volume_slider.setAttribute('max', '100');
+    volume_slider.setAttribute('step', '1');
+    volume_slider.addEventListener('input', function() {
+      console.log('volume slider touched');
+      setVolume(volume_slider.value);
+    });
+    volume_slider.addEventListener('change', function() {
+      console.log('volume slider touched');
+      setVolume(volume_slider.value);
+    });
+    document.body.appendChild(volume_slider);
+  };
+
+
+
+  static createColonyTab() {
+    let colony_tab = document.createElement('div');
+    colony_tab.setAttribute('id', 'colony_tab');
+    document.body.append(colony_tab);
+  }
+
+  static createPopulationTab() {
+    let population_tab = document.createElement('div');
+    population_tab.setAttribute('id', 'population_tab');
+    document.body.append(population_tab);
+  }
+
+  static createResearchTab() {
+    let research_tab = document.createElement('div');
+    research_tab.setAttribute('id', 'research_tab');
+    document.body.append(research_tab);
+  }
+
+  static buildUI() {
+    Game.createColonyTab();
+    Game.createPopulationTab();
+    Game.createResearchTab();
+  }
+}
+
+
 class Octopus {
-  constructor(
-      hunger = { 'max': 100, 'current': 100 },
-      name = null) {
+  constructor(args={
+    'uuid': null,
+    'hunger': {
+      'max': 100,
+      'current': 100
+    },
+    'name': null }) {
+      //hunger = { 'max': 100, 'current': 100 },
+      //name = null) {
+
 
     // If no name was specified, generate a random one
-    this.name = name; 
+    this.name = args['name']; 
     if (this.name == null) { this.name = this.generateRandomName() };
 
-    this.hunger = hunger;
+    this.hunger = args['hunger'];
     let self = this;
     this.hunger['listener'] = function(that) {
       if (self.hunger['current'] == 0) {
         self.die();
       }
     }
-    this.uuid = `octopus_${uuidv4()}`;
+    if (this.id == null) { this.uuid = `octopus_${uuidv4()}` };
     this.activity = null;
 
     let octopus_element = this.generateElement();
-    document.getElementById('population_menu').appendChild(octopus_element);
+    document.getElementById('population_tab').appendChild(octopus_element);
 
 
   }
 
   updateAttribute(attribute, delta) {
-    this[attribute]['current'] += delta;
-    if (this[attribute]['current'] > this[attribute]['max']) {
-      this[attribute]['current'] = this[attribute]['max'];
+    attribute = this[attribute]
+    attribute['current'] += delta;
+    if (attribute['current'] > attribute['max']) {
+      attribute['current'] = attribute['max'];
     }
-    this[attribute]['listener']();
+    attribute['listener']();
   }
 
   generateElement(id_suffix='') {
@@ -98,8 +244,8 @@ class Octopus {
 
   updatePopulationTab() {
     /* Update the contents of the Octopus HTML on page */
-    console.log(`Updating ${this.uuid} on the population tab.`);
-    console.log(`Showing ${this.name} for ${this.uuid}`);
+    //console.log(`Updating ${this.uuid} on the population tab.`);
+    //console.log(`Showing ${this.name} for ${this.uuid}`);
     update(`${this.uuid}_tooltip_text`, 
         `
         name: ${this.name}<br>
@@ -133,7 +279,7 @@ class Activity {
     this.element = this.createElement();
 
     // Attach the completed element to the colony menu
-    document.getElementById('colony_menu').appendChild(this.element);
+    document.getElementById('colony_tab').appendChild(this.element);
 
   }
 
@@ -156,7 +302,7 @@ class Activity {
 
 
     if (!(this.element.classList.contains('activity_div_expanded'))) {
-      console.log('activity div is not expanded');
+      //console.log('activity div is not expanded');
       let workers_list = document.getElementById(
           `${this.element.getAttribute('id')}_workers_list`);
       if (typeof workers_list !== 'undefined' && workers_list != null) {
@@ -385,9 +531,6 @@ function update(id, content) {
 //}
 
 
-var saveGame = window.setInterval(function() {
-  localStorage.setItem('game_save_data', JSON.stringify(game_data))
-}, 15000)
 
 function format(number, type) {
 	let exponent = Math.floor(Math.log10(number))
@@ -400,98 +543,16 @@ function format(number, type) {
 
 function tab(tab) {
   // hide all your tabs, then show the one the user selected.
+  //console.log(`Showing tab <${tab}>.`);
   //document.getElementById("mineGoldMenu").style.display = "none"
   //document.getElementById("shopMenu").style.display = "none"
-  document.getElementById('colony_menu').style.display = 'none'
-  document.getElementById('population_menu').style.display = 'none'
-  document.getElementById('research_menu').style.display = 'none'
+  document.getElementById('colony_tab').style.display = 'none'
+  document.getElementById('population_tab').style.display = 'none'
+  document.getElementById('research_tab').style.display = 'none'
   document.getElementById(tab).style.display = 'inline-block'
 }
 
 
-var mainGameLoop = window.setInterval(function() {
-
-  // Figure out delta from last tick
-  time_delta = Date.now() - game_data.lastTick;
-
-  // Save current time as the new "last" tick
-  game_data.lastTick = Date.now()
-
-  //game_data.gold += game_data.goldPerClick * (diff / 1000)
-  //update("goldMined", game_data.gold + " Gold Mined")
-
-  // Refresh activity panes
-  //for (activity in game_data['activities']) {
-  for (var i=0; i < game_data['activities'].length; i++) {
-    let activity = game_data['activities'][i];
-    console.log(`Refreshing activity: ${activity.name}`);
-    activity.updateElement();
-  };
-
-  for (var i = 0; i < game_data.octopi.length; i++) {
-    console.log('Ticking an octopus');
-    let octopus = game_data.octopi[i];
-
-
-    // Check and apply octopus tasks
-    if (octopus.activity != null) {
-      //let activity = game_data['activities'][octopus.activity];
-      let activity = game_data['activities'].find(function (activity) {
-        return activity.name == octopus.activity;
-      });
-      console.log(`activity.effects: <${activity.effects}>`);
-      for (let [effect, change] of Object.entries(activity.effects)) {
-      //for (const [key, value] of Object.entries(object))
-        console.log(`Applying ${change} to ${effect}`);
-        octopus[effect] += change;
-      }
-    }
-
-            
-
-    // Update octopus element
-    game_data.octopi[i].updatePopulationTab();
-
-    // Octopi get hungrier each tick
-    //console.log('Octopus grows hungrier');
-    //octopus.hunger -= 1;
-    octopus.updateAttribute('hunger', -1);
-
-
-
-    // If an octopus has a hunger of 0
-    //if (octopus.hunger['current'] == 0) {
-    //  console.log('Octopus has starved!');
-      // The octopus dies of starvation
-      //game_data.octopi.splice(i, 1)
-    //  game_data.octopi[i].die();
-    //}
-
-  }
-    
-
-  // Octopi generation
-  if (game_data.octopi == 0) {
-    var chance = Math.random();
-    if (chance < 0.1) {
-      let octopus = new Octopus();
-      game_data.octopi.push(octopus);
-      updateEventLog(`${octopus.name} has arrived!`);
-    }
-  }
-
-  // Update octopi count
-  update('population_p', 'octopi: ' + game_data.octopi.length);
-
-  // update test log
-  //let event_log = document.getElementById('event_log');
-  //let new_event = document.createElement('p')
-  //new_event.innerHTML = 'test test test';
-  //event_log.appendChild(new_event);
-  //updateEventLog('ha ha ha');
-    
-
-}, 1000)
 
 
 function setVolume(val) {
@@ -541,82 +602,40 @@ window.onmousemove = function(e) {
 };
 
 
-function playMusic() {
-  var background_music_promise = background_music.play();
-  if (background_music_promise !== undefined) {
-      background_music_promise.then(_ => {
-          // Autoplay started!
-          console.log('Autoplay started');
-      }).catch(error => {
-          // Autoplay was prevented.
-          // Show a "Play" button so that user can start playback.
-          console.log(`Autoplay error: <${error}>.`);
-      });
-  }
-}
 
   
 
-// Do main
+// Do main ////////////////
+//////////////////////////
 
 
-
-var save_data = localStorage.getItem('game_save_data')
-var game_data = {
+//var save_data = localStorage.getItem('game_save_data')
+//var game_data = {
   //gold: 0,
   //goldPerClick: 1,
   //goldPerClickCost: 10,
-  assigning: null,
+//  assigning: null,
+//  octopi: [],
+//  lastTick: Date.now()
+//}
+
+var game_data = {
   octopi: [],
   lastTick: Date.now()
-}
+};
 
 window.onload = function () {
 
+  Game.buildUI();
+  var [game_data, save_data] = Game.loadSavedData();
 
-  // Add a mute button!
-  let music_button = document.createElement('button');
-  music_button.setAttribute('id', 'music_button');
-  music_button.innerHTML = 'Music';
-  music_button.addEventListener('click', function() {
-    console.log('mute button clicked');
-    //let audio = document.getElementById('background_music_audio');
-    if (typeof background_music == 'undefined') {
-      background_music = new Audio('aquatic_ambience.mp3');
-      //background_music = new Audio('https://www.vgmusic.com/new-files/DKC1_-_Aquatic_Ambience.mid');
-      background_music.id = 'background_music_audio';
-      background_music.loop = true;
-      //background_music.muted = true;
-      background_music.play(); 
-      return;
-    }
-      
-    let audio = background_music;
-    if (background_music.paused) {
-      playMusic();
-    }
-    audio.muted = !audio.muted;
-    console.log(`Background music is muted: <${audio.muted}>.`);
-  });
-  document.body.appendChild(music_button);
+  Game.startAutosaveScheduler();
 
-  // Add a volume slider
-  //<input id="vol-control" type="range" min="0" max="100" step="1" oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input>
-  let volume_slider = document.createElement('input');
-  volume_slider.setAttribute('id', 'volume_slider');
-  volume_slider.setAttribute('type', 'range');
-  volume_slider.setAttribute('min', '0');
-  volume_slider.setAttribute('max', '100');
-  volume_slider.setAttribute('step', '1');
-  volume_slider.addEventListener('input', function() {
-    console.log('volume slider touched');
-    setVolume(volume_slider.value);
-  });
-  volume_slider.addEventListener('change', function() {
-    console.log('volume slider touched');
-    setVolume(volume_slider.value);
-  });
-  document.body.appendChild(volume_slider);
+
+  Game.createMusicButton();
+  Game.createVolumeSlider();
+  
+
 
 
   game_data['activities'] = generateActivities();
@@ -625,12 +644,97 @@ window.onload = function () {
   createEventLog();
 
   // go to a tab for the first time, so not all show
-  tab('colony_menu')
+  tab('colony_tab')
 
   //if (typeof save_data.gold !== "undefined") game_data.gold = save_data.gold;
   //if (typeof save_data.goldPerClick !== "undefined") game_data.goldPerClick = save_data.goldPerClick;
   //if (typeof save_data.goldPerClickCost !== "undefined") game_data.goldPerClickCost = save_data.goldPerClickCost;
-  if (typeof save_data.octopi !== 'undefined') game_data.octopi = save_data.octopi;
-  if (typeof save_data.lastTick !== "undefined") game_data.lastTick = save_data.lastTick;
+
+  var mainGameLoop = window.setInterval(function() {
+
+    // Figure out delta from last tick
+    time_delta = Date.now() - game_data.lastTick;
+
+    // Save current time as the new "last" tick
+    game_data.lastTick = Date.now()
+
+    //game_data.gold += game_data.goldPerClick * (diff / 1000)
+    //update("goldMined", game_data.gold + " Gold Mined")
+
+    // Refresh activity panes
+    //for (activity in game_data['activities']) {
+    for (var i=0; i < game_data['activities'].length; i++) {
+      let activity = game_data['activities'][i];
+      //console.log(`Refreshing activity: ${activity.name}`);
+      activity.updateElement();
+    };
+
+    for (var i = 0; i < game_data.octopi.length; i++) {
+      //console.log('Ticking an octopus');
+      let octopus = game_data.octopi[i];
+
+
+      // Check and apply octopus tasks
+      if (octopus.activity != null) {
+        //let activity = game_data['activities'][octopus.activity];
+        let activity = game_data['activities'].find(function (activity) {
+          return activity.name == octopus.activity;
+        });
+        //console.log(`activity.effects: <${activity.effects}>`);
+        for (let [effect, change] of Object.entries(activity.effects)) {
+        //for (const [key, value] of Object.entries(object))
+          //console.log(`Applying ${change} to ${effect}`);
+          //octopus[effect] += change;
+          octopus.updateAttribute(effect, change);
+        }
+      }
+
+              
+
+      // Update octopus element
+      game_data.octopi[i].updatePopulationTab();
+
+      // Octopi get hungrier each tick
+      //console.log('Octopus grows hungrier');
+      //octopus.hunger -= 1;
+      octopus.updateAttribute('hunger', -1);
+
+
+
+      // If an octopus has a hunger of 0
+      //if (octopus.hunger['current'] == 0) {
+      //  console.log('Octopus has starved!');
+        // The octopus dies of starvation
+        //game_data.octopi.splice(i, 1)
+      //  game_data.octopi[i].die();
+      //}
+
+    }
+      
+
+    // Octopi generation
+    //if (game_data.octopi == 0) {
+    //  var chance = Math.random();
+    //  if (chance < 0.1) {
+    //    let octopus = new Octopus();
+    //    game_data.octopi.push(octopus);
+    //    updateEventLog(`${octopus.name} has arrived!`);
+    //  }
+    //}
+    Game.tickWanderingOctopi();
+
+    // Update octopi count
+    update('population_p', 'octopi: ' + game_data.octopi.length);
+
+    // update test log
+    //let event_log = document.getElementById('event_log');
+    //let new_event = document.createElement('p')
+    //new_event.innerHTML = 'test test test';
+    //event_log.appendChild(new_event);
+    //updateEventLog('ha ha ha');
+      
+
+  }, 1000)
+
 
 }
