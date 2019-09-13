@@ -1,14 +1,3 @@
-/* Underutilized, pending removal 
-function addClassesToElement(element_id, classes) {
-  // Get the element using the provided ID
-  let element = document.getElementById(element_id);
-  for (var i == 0; i < classes.length; i ++) {
-    // Add the provided class to the element's class list
-    element.classList.add(_class);
-}
-*/
-
-
 class Game {
   
   static tickWanderingOctopi() {
@@ -34,12 +23,10 @@ class Game {
     console.log('Loading saved data');
     var save_data = JSON.parse(localStorage.getItem('game_save_data'));
     console.log(`save_data: <${save_data}>.`);
-    //return {'game_data': game_data, 'save_data': save_data };
     console.log(save_data['octopi']);
     console.log(typeof save_data['octopi']);
     if (typeof save_data['octopi'] !== 'undefined') {
       console.log('Loading saved octopi');
-      //game_data['octopi'] = save_data.octopi;
       for (let i=0; i < save_data.octopi.length; i++) {
         let octopus = new Octopus(save_data.octopi[i]);
         console.log(`loaded octopus <${octopus}>`);
@@ -68,30 +55,22 @@ class Game {
       music_button.innerHTML = 'Music';
       music_button.addEventListener('click', function() {
         console.log('music button clicked');
-        //let runtime_data.background_music = document.getElementById(
-        //    'runtime_data.background_music_audio');
-        //let runtime_data.background_music = runtime_data.background_music;
         console.log(runtime_data.background_music);
         if (typeof runtime_data.background_music === 'undefined' ||
             runtime_data.background_music == null) {
           console.log('Background music is undefined or null.');
           runtime_data.background_music = new Audio('aquatic_ambience.mp3');
-          //runtime_data.background_music.id = 'background_music_audio';
           runtime_data.background_music.loop = true;
           runtime_data.background_music.play(); 
           return;
         }
           
-        //let audio = background_music;
         if (runtime_data.background_music.paused) {
-        //  Game.playMusic();
           runtime_data.background_music.play()
         }
         else {
           runtime_data.background_music.pause()
         };
-        //audio.muted = !audio.muted;
-        //console.log(`Background music is muted: <${audio.muted}>.`);
       });
       document.body.appendChild(music_button);
   };
@@ -130,6 +109,11 @@ class Game {
   };
 
 
+  static buildAudio() {
+    Game.createMusicButton();
+    Game.createVolumeSlider();
+  };
+
 
   static createColonyTab() {
     let colony_tab = document.createElement('div');
@@ -153,6 +137,7 @@ class Game {
     Game.createColonyTab();
     Game.createPopulationTab();
     Game.createResearchTab();
+    Game.buildAudio();
   }
 }
 
@@ -165,8 +150,6 @@ class Octopus {
       'current': 100
     },
     'name': null }) {
-      //hunger = { 'max': 100, 'current': 100 },
-      //name = null) {
 
 
     // If no name was specified, generate a random one
@@ -254,8 +237,6 @@ class Octopus {
 
   updatePopulationTab() {
     /* Update the contents of the Octopus HTML on page */
-    //console.log(`Updating ${this.uuid} on the population tab.`);
-    //console.log(`Showing ${this.name} for ${this.uuid}`);
     update(`${this.uuid}_tooltip_text`, 
         `
         name: ${this.name}<br>
@@ -295,24 +276,8 @@ class Activity {
 
   // Allows an optional event parameter in case it is click-triggered
   updateElement() {
-    //let text_span = document.getElementById(
-    //    `${this.element.getAttribute('id')_text_span}`);
-
-    //console.log(
-    //    `Click target is <${e.target}> (<${e.target.getAttribute('id')}>`);
-    //if(e.target.getAttribute('id').includes('octo')) {
-    //  e.preventDefault();
-    //  e.stopPropagation();
-    //}
-    /*
-    else {
-      this.props.selectNote(this.props.note)
-    }
-    */
-
 
     if (!(this.element.classList.contains('activity_div_expanded'))) {
-      //console.log('activity div is not expanded');
       let workers_list = document.getElementById(
           `${this.element.getAttribute('id')}_workers_list`);
       if (typeof workers_list !== 'undefined' && workers_list != null) {
@@ -323,28 +288,8 @@ class Activity {
     else {
       
 
-      //let workers_list = document.querySelector(
-      //    `activity_${this.element.getAttribute('id')}_workers_list`);
-      //let workers_list = document.querySelector(`.${_stupid_fuck}`);
       let workers_list = document.getElementById(
         `${this.element.getAttribute('id')}_workers_list`);
-      //console.log(`TEST1 ${workers_list}`);
-      /*
-      if (!(typeof workers_list === 'undefined')) {
-        console.log('workers list not undefined');
-        console.log(`workers list: ${workers_list}`);
-        console.log(`type of workers list: ${typeof workers_list}`);
-        if (!(workers_list == null)) {
-          console.log('workers list is not null');
-          //if (workers_list) {
-          console.log('cleaning up workers list.');
-          console.log(typeof workers_list);
-          console.log(workers_list);
-          //workers_list.innerHTML = ''
-          workers_list.remove();
-        }
-      }
-      */
       try {
         console.log(`workers list: ${workers_list}`);
         workers_list.remove()
@@ -376,30 +321,17 @@ class Activity {
         console.log(`octopus_element children: <${octopus_element.childNodes}>.`);
         console.log(`octopus activity: <${game_data.octopi[i].activity}>.`);
         console.log(`activity name: <${activity_element_text_span.innerHTML}>.`);
-        //if (game_data.octopi[i].activity == this.name) {
         if (game_data.octopi[i].activity == activity_element_text_span.innerHTML) {
           let octopus_element_text_span_id = 
               `${game_data.octopi[i].uuid}_worker_text_span`;
           console.log(`octopus_element_text_span_id: \
               <${octopus_element_text_span_id}>.`);
-          //let octopus_element_text_span = document.getElementById(
-          //    octopus_element_text_span_id);
           let octopus_element_text_span = octopus_element.querySelector(
               `#${octopus_element_text_span_id}`);
           console.log(octopus_element_text_span);
-          //octopus_element_text_span.innerHTML == octopus_element_text_span.innerHTML.bold();
           octopus_element_text_span.style.fontWeight = 'bold';
         };
         octopus_element.addEventListener('click', function() {
-          /*
-          if (!e.target.getAttribute('id').includes('octo')) {
-            e.preventDefault();
-            e.stopPropagation();
-          }
-          */
-          //e.stopPropagation();
-          //console.log(
-          //    `Click target is <${e.target}> (<${e.target.getAttribute('id')})>`);
           console.log('worker clicked!');
           if (game_data.octopi[i].activity != 
               activity_element_text_span.innerHTML) {
@@ -432,16 +364,6 @@ class Activity {
     activity_element.appendChild(activity_element_text_span);
 
 
-    /* Create and attach a tooltip span -- also enables the tooltip class
-    on the activity div element. */
-    // First, the tooltip div.
-    /*
-    let activity_element_tooltip = document.createElement('div');
-    activity_element_tooltip.setAttribute(
-      'id', `${activity_element_id}_tooltip`);
-    activity_element_tooltip.classList.add('tooltip');
-    activity_element.appendChild(activity_element_tooltip);
-    */
     // Second, the text span.
     let activity_element_tooltip_text = document.createElement('span');
     activity_element_tooltip_text.setAttribute(
@@ -451,21 +373,6 @@ class Activity {
     activity_element.classList.add('tooltip');
     activity_element.appendChild(activity_element_tooltip_text);
 
-    /* Create a clickable span to expand the root div to display more options
-    or shrink it if already expanded. Attaches to the activity div element. */
-    /*
-    let activity_element_expand_span = document.createElement('span');
-    activity_element_expand_span.setAttribute(
-        'id', `${activity_element_id}_expand_button`);
-    activity_element_expand_span.classList.add('clickable_text');
-    activity_element_expand_span.classList.add('expand_span');
-    activity_element_expand_span.innerHTML = 'expand +/-'
-    activity_element_expand_span.addEventListener('click', function() {
-      console.log('expand button clicked!');
-    });
-    activity_element.appendChild(activity_element_expand_span);
-    */
-    
 
     // Make the parent div expand on click to show more details and options
     // "this" will be unavailable inside of event function, so use "that"
@@ -525,23 +432,6 @@ function update(id, content) {
 }
 
 
-//function mineGold() {
-//  game_data.gold += game_data.goldPerClick
-//  update("goldMined", game_data.gold + " Gold Mined")
-//}
-
-//function buyGoldPerClick() {
-//  if (game_data.gold >= game_data.goldPerClickCost) {
-//    game_data.gold -= game_data.goldPerClickCost
-//    game_data.goldPerClick += 1
-//    game_data.goldPerClickCost *= 2
-//    update("goldMined", game_data.gold + " Gold Mined")
-//    update("perClickUpgrade", "Upgrade Pickaxe (Currently Level " + game_data.goldPerClick + ") Cost: " + game_data.goldPerClickCost + " Gold")
-//  }
-//}
-
-
-
 function format(number, type) {
 	let exponent = Math.floor(Math.log10(number))
 	let mantissa = number / Math.pow(10, exponent)
@@ -553,9 +443,6 @@ function format(number, type) {
 
 function tab(tab) {
   // hide all your tabs, then show the one the user selected.
-  //console.log(`Showing tab <${tab}>.`);
-  //document.getElementById("mineGoldMenu").style.display = "none"
-  //document.getElementById("shopMenu").style.display = "none"
   document.getElementById('colony_tab').style.display = 'none'
   document.getElementById('population_tab').style.display = 'none'
   document.getElementById('research_tab').style.display = 'none'
@@ -632,51 +519,32 @@ window.onmousemove = function(e) {
 // Do main ////////////////
 //////////////////////////
 
-
-//var save_data = localStorage.getItem('game_save_data')
-//var game_data = {
-  //gold: 0,
-  //goldPerClick: 1,
-  //goldPerClickCost: 10,
-//  assigning: null,
-//  octopi: [],
-//  lastTick: Date.now()
-//}
-
 var game_data = {
   octopi: [],
   lastTick: Date.now()
 };
 
+
 var runtime_data = {
   'background_music': null
 };
 
+
 window.onload = function () {
 
+  // Construct all of the UI elements.
   Game.buildUI();
-  var [game_data, save_data] = Game.loadSavedData();
 
+  // Retrieve any valid save data and start autosaving.
+  var [game_data, save_data] = Game.loadSavedData();
   Game.startAutosaveScheduler();
 
-
-  Game.createMusicButton();
-  Game.createVolumeSlider();
-  
-
-
-
   game_data['activities'] = generateActivities();
-  //console.log(`hunt_prey classes: <${game_data['activities']['hunt_prey']}>`);
 
   createEventLog();
 
   // go to a tab for the first time, so not all show
   tab('colony_tab')
-
-  //if (typeof save_data.gold !== "undefined") game_data.gold = save_data.gold;
-  //if (typeof save_data.goldPerClick !== "undefined") game_data.goldPerClick = save_data.goldPerClick;
-  //if (typeof save_data.goldPerClickCost !== "undefined") game_data.goldPerClickCost = save_data.goldPerClickCost;
 
   var mainGameLoop = window.setInterval(function() {
 
@@ -686,83 +554,37 @@ window.onload = function () {
     // Save current time as the new "last" tick
     game_data.lastTick = Date.now()
 
-    //game_data.gold += game_data.goldPerClick * (diff / 1000)
-    //update("goldMined", game_data.gold + " Gold Mined")
-
     // Refresh activity panes
-    //for (activity in game_data['activities']) {
     for (var i=0; i < game_data['activities'].length; i++) {
       let activity = game_data['activities'][i];
-      //console.log(`Refreshing activity: ${activity.name}`);
       activity.updateElement();
     };
 
     for (var i = 0; i < game_data.octopi.length; i++) {
-      //console.log('Ticking an octopus');
       let octopus = game_data.octopi[i];
-
 
       // Check and apply octopus tasks
       if (octopus.activity != null) {
-        //let activity = game_data['activities'][octopus.activity];
         let activity = game_data['activities'].find(function (activity) {
           return activity.name == octopus.activity;
         });
-        //console.log(`activity.effects: <${activity.effects}>`);
         for (let [effect, change] of Object.entries(activity.effects)) {
-        //for (const [key, value] of Object.entries(object))
-          //console.log(`Applying ${change} to ${effect}`);
-          //octopus[effect] += change;
           octopus.updateAttribute(effect, change);
         }
       }
 
-              
-
       // Update octopus element
       game_data.octopi[i].updatePopulationTab();
 
-      // Octopi get hungrier each tick
-      //console.log('Octopus grows hungrier');
-      //octopus.hunger -= 1;
       octopus.updateAttribute('hunger', -1);
-
-
-
-      // If an octopus has a hunger of 0
-      //if (octopus.hunger['current'] == 0) {
-      //  console.log('Octopus has starved!');
-        // The octopus dies of starvation
-        //game_data.octopi.splice(i, 1)
-      //  game_data.octopi[i].die();
-      //}
 
     }
       
-
-    // Octopi generation
-    //if (game_data.octopi == 0) {
-    //  var chance = Math.random();
-    //  if (chance < 0.1) {
-    //    let octopus = new Octopus();
-    //    game_data.octopi.push(octopus);
-    //    updateEventLog(`${octopus.name} has arrived!`);
-    //  }
-    //}
     Game.tickWanderingOctopi();
 
     // Update octopi count
     update('population_p', 'octopi: ' + game_data.octopi.length);
 
-    // update test log
-    //let event_log = document.getElementById('event_log');
-    //let new_event = document.createElement('p')
-    //new_event.innerHTML = 'test test test';
-    //event_log.appendChild(new_event);
-    //updateEventLog('ha ha ha');
-      
-
   }, 1000)
-
 
 }
