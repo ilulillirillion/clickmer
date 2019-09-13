@@ -43,7 +43,10 @@ body {
 .activity_div {
   position: relative;
   padding: 10px;
+  padding-left: 10px;
   border: 1px solid black;
+  height: 20px;
+  width: 80px;
 } 
 
 .activity_div_expanded {

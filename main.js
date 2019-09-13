@@ -68,20 +68,30 @@ class Game {
       music_button.innerHTML = 'Music';
       music_button.addEventListener('click', function() {
         console.log('music button clicked');
-        if (typeof background_music == 'undefined') {
-          let background_music = new Audio('aquatic_ambience.mp3');
-          background_music.id = 'background_music_audio';
-          background_music.loop = true;
-          background_music.play(); 
+        //let runtime_data.background_music = document.getElementById(
+        //    'runtime_data.background_music_audio');
+        //let runtime_data.background_music = runtime_data.background_music;
+        console.log(runtime_data.background_music);
+        if (typeof runtime_data.background_music === 'undefined' ||
+            runtime_data.background_music == null) {
+          console.log('Background music is undefined or null.');
+          runtime_data.background_music = new Audio('aquatic_ambience.mp3');
+          //runtime_data.background_music.id = 'background_music_audio';
+          runtime_data.background_music.loop = true;
+          runtime_data.background_music.play(); 
           return;
         }
           
-        let audio = background_music;
-        if (background_music.paused) {
-          Game.playMusic();
+        //let audio = background_music;
+        if (runtime_data.background_music.paused) {
+        //  Game.playMusic();
+          runtime_data.background_music.play()
         }
-        audio.muted = !audio.muted;
-        console.log(`Background music is muted: <${audio.muted}>.`);
+        else {
+          runtime_data.background_music.pause()
+        };
+        //audio.muted = !audio.muted;
+        //console.log(`Background music is muted: <${audio.muted}>.`);
       });
       document.body.appendChild(music_button);
   };
@@ -550,6 +560,20 @@ function tab(tab) {
   document.getElementById('population_tab').style.display = 'none'
   document.getElementById('research_tab').style.display = 'none'
   document.getElementById(tab).style.display = 'inline-block'
+  if (tab != 'colony_tab') {
+    for (i=0; i < game_data.activities.length; i++) {
+      let activity = game_data.activities[i];
+      let activity_element = document.getElementById(activity.uuid);
+      if (activity_element.classList.contains('activity_div_expanded')) {
+        console.log(`Closing open activity pane: <${activity.name}>.`);
+        activity_element.classList.remove('activity_div_expanded');
+        console.log(
+            `activity_element classList: \
+            ${activity_element.classList}`);
+        //activity.updateElement();
+      };
+    };
+  };
 }
 
 
@@ -622,6 +646,10 @@ window.onmousemove = function(e) {
 var game_data = {
   octopi: [],
   lastTick: Date.now()
+};
+
+var runtime_data = {
+  'background_music': null
 };
 
 window.onload = function () {
