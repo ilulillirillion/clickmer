@@ -22,9 +22,13 @@ class Game {
   static loadSavedData() {
     console.log('Loading saved data');
     var save_data = JSON.parse(localStorage.getItem('game_save_data'));
+    if (typeof save_data === 'undefined' || save_data == null) {
+      let save_data = {};
+      return [ game_data, save_data ];
+    };
     console.log(`save_data: <${save_data}>.`);
-    console.log(save_data['octopi']);
-    console.log(typeof save_data['octopi']);
+    //console.log(save_data['octopi']);
+    //console.log(typeof save_data['octopi']);
     if (typeof save_data['octopi'] !== 'undefined') {
       console.log('Loading saved octopi');
       for (let i=0; i < save_data.octopi.length; i++) {
@@ -32,6 +36,10 @@ class Game {
         console.log(`loaded octopus <${octopus}>`);
         game_data['octopi'].push(octopus);
       }
+    };
+    if (typeof save_data['available_prey'] !== 'undefined') {
+      console.log('loading saved available prey');
+      game_data['available_prey'] = save_data.available_prey;
     };
     if (typeof save_data['lastTick'] !== "undefined") {
       console.log('loading saved lastTick');
@@ -484,7 +492,10 @@ function generateActivities() {
 
   
 
-  let hunt_prey_effects = { 'hunger': 2 };
+  let hunt_prey_effects = {
+    'octopi' : { 'hunger': 2 },
+    'game' : { 'available_prey': -2 }
+  };
   let hunt_prey = new Activity(
       name='hunt_prey', tooltip_text='hunt some prey', 
       effect=hunt_prey_effects);
@@ -521,6 +532,10 @@ window.onmousemove = function(e) {
 
 var game_data = {
   octopi: [],
+  available_prey: {
+    'current': 10000,
+    'max': 10000
+  },
   lastTick: Date.now()
 };
 
@@ -568,10 +583,16 @@ window.onload = function () {
         let activity = game_data['activities'].find(function (activity) {
           return activity.name == octopus.activity;
         });
-        for (let [effect, change] of Object.entries(activity.effects)) {
+        for (let [effect, change] of Object.entries(activity.effects.octopi)) {
           octopus.updateAttribute(effect, change);
         }
-      }
+        for (let [effect, change] of Object.entries(activity.effects.game)) {
+          game_data[effect]['current'] += change;
+          if (game_data[effect]['current'] > game_data[effect]['max']) {
+            game_data[effect]['current'] = game_data[effect]['max'];
+          };
+        };
+      };
 
       // Update octopus element
       game_data.octopi[i].updatePopulationTab();
@@ -584,6 +605,9 @@ window.onload = function () {
 
     // Update octopi count
     update('population_p', 'octopi: ' + game_data.octopi.length);
+    
+    console.log(`Available prey: <${game_data.available_prey['current']}>/\
+                <${game_data.available_prey['max']}>.`);
 
   }, 1000)
 
