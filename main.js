@@ -354,26 +354,57 @@ class Game {
 class Actor {
   constructor(args={
     'uuid': null,
-    'hunger': {
-      'max': 100,
-      'current': 100
-    },
-    'name': null }) {
+    'name': null,
+    'statistics': {
+      'energy': {
+        'max': 100,
+        'current': 100
+      },
+      'health': {
+        'max': 100,
+        'current': 100
+      },
+      'hunger': {
+        'max': 100,
+        'current': 100
+      }
+    } 
+      }) {
+
+    this.statistics = args.statistics;
 
 
     // If no name was specified, generate a random one
     this.name = args['name']; 
     if (this.name == null) { this.name = this.generateRandomName() };
 
-    this.hunger = args['hunger'];
+    //this.statistics.hunger = args['hunger'];
     let self = this;
-    this.hunger['listener'] = function(that) {
-      if (self.hunger['current'] == 0) {
+    this.statistics.hunger['listener'] = function() {
+      if (self.statistics.hunger['current'] == 0) {
         self.die();
       }
     }
+
+    this.statistics.energy['listener'] = function() {
+      
+      if (self.statistics.energy['current'] <= self.energy_halt_point ||
+          self.statistics.energy['current'] == 0) {
+        self.activity = 'sleep';
+      };
+    };
+
+    this.statistics.health['listener'] = function() {
+      if (self.statistics.health['current'] == 0) {
+        self.die();
+      };
+    };
+
+
     if (this.id == null) { this.uuid = `actor_${uuidv4()}` };
+
     this.activity = null;
+    this.activity_steps = 0;
 
     let actor_element = this.generateElement();
     document.getElementById('population_tab').appendChild(actor_element);
@@ -381,13 +412,15 @@ class Actor {
 
   }
 
-  updateAttribute(attribute, delta) {
-    attribute = this[attribute]
-    attribute['current'] += delta;
-    if (attribute['current'] > attribute['max']) {
-      attribute['current'] = attribute['max'];
+  updateStatistic(statistic, delta) {
+    statistic = this.statistics[statistic]
+    statistic['current'] += delta;
+    if (statistic['current'] > statistic['max']) {
+      statistic['current'] = statistic['max'];
     }
-    attribute['listener']();
+    if (statistic.hasOwnProperty('listener')) {
+      statistic['listener']();
+    };
   }
 
   generateElement(id_suffix='') {
@@ -431,7 +464,7 @@ class Actor {
     let entity_element_tooltip_text_span = document.createElement('span');
     entity_element_tooltip_text_span.innerHTML = `
         name: ${this.name}<br>
-        hunger: ${this.hunger['current']}<br>`
+        hunger: ${this.statistics.hunger['current']}<br>`
     entity_element_tooltip_text_span.setAttribute(
         'id', `${this.uuid}_tooltip_text`);
     entity_element_tooltip_text_span.classList.add('tooltiptext');
@@ -449,7 +482,9 @@ class Actor {
     update(`${this.uuid}_tooltip_text`, 
         `
         name: ${this.name}<br>
-        hunger: ${this.hunger['current']}
+        energy: ${this.statistics.energy.current}/${this.statistics.energy.max}<br>
+        health: ${this.statistics.health.current}/${this.statistics.health.max}<br>
+        hunger: ${this.statistics.hunger.current}/${this.statistics.hunger.max}<br>
         `
     );
   } 
@@ -473,9 +508,69 @@ class Actor {
 
 class Human extends Actor {
 
+  constructor() {
+    super();
+    /* https://medicalxpress.com/news/2015-12-humans-survive-food.html 
+    Humans can survive for about 50 days without food. */
+    this.statistics.hunger.current = 4320000;
+    this.statistics.hunger.max = 4320000;
+  };
+
   hunt_prey() {
-    console.log(`${this.name} is hunting prey.`);
-    this.updateAttribute('hunger', 1);
+    let step = this.activity_steps;
+    let last_step = 45;
+    console.debug(
+        `${this.name} is hunting prey. (Step <${step}>/<${last_step}>).`);
+    // Eating food prepared from the hunt.
+    if (step >= 40) {
+      console.debug(`${this.name} is eating.`);
+      this.updateStatistic('hunger', 5);
+      this.updateStatistic('energy', 1); 
+    }
+    // Preparing food from the prey carcass.
+    else if (step >= 25) {
+      console.debug(
+          `${this.name} is preparing food. (Step <${step}>/<${last_step}>)`);
+      this.updateStatistic('energy', -1);
+    }
+    // Fight the prey.
+    else if (step >= 20) {
+      console.debug(
+          `${this.name} is fighting prey. (Step <${step}>/<${last_step}>)`);
+      this.updateStatistic('energy', -5);
+      this.updateStatistic('health', -5);
+    }
+    // Stalk the prey.
+    else if (step >= 20) {
+      console.debug(
+          `${this.name} is stalking prey. (Step <${step}>/<${last_step}>)`);
+      this.updateStatistic('energy', -1);
+    }
+    // Locate prey / find trail.
+    else {
+      console.debug(
+          `${this.name} is locating prey. (Step <${step}>/<${last_step}>)`);
+      this.updateStatistic('energy', -1);
+    }
+    if (step >= last_step) {
+      step = 1;
+    } else {
+      step += 1;
+    };
+    this.activity_steps = step;
+    //this.updateStatistic('hunger', 1);
+  };
+
+  sleep() {
+    let step = this.activity_steps;
+    console.debug(`${this.name} is sleeping.`);
+    this.statistics.energy.current += 2;
+    if (this.statistics.energy.current >= this.statistics.energy.max) {
+      step = 1;
+      this.activity = null;
+    } else {
+      step += 1;
+    };
   };
 
 };
@@ -543,7 +638,7 @@ function showTab(tab) {
       for (var i=0; i < activities.length; i++) {
         let activity_element = activities[i];
         if (activity_element.classList.contains('activity_pane_expanded')) {
-          console.log(`Closing open activity pane: <${activity.name}>.`);
+          console.log(`Closing open activity pane.`);
           activity_element.classList.remove('activity_pane_expanded');
           console.log(
               `activity_element classList: \
@@ -673,7 +768,7 @@ var mainGameLoop = window.setInterval(function() {
     //game_data.octopi[i].updatePopulationTab();
     populant.updatePopulationTab();
 
-    populant.updateAttribute('hunger', -1);
+    populant.updateStatistic('hunger', -1);
 
   }
     
