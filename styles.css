@@ -40,7 +40,7 @@ body {
   visibility: visible;
 }
 
-.activity_div {
+.activity_pane {
   position: relative;
   padding: 10px;
   padding-left: 10px;
@@ -49,17 +49,17 @@ body {
   width: 80px;
 } 
 
-.activity_div_expanded {
+.activity_pane_expanded {
   padding: 100px;
 }
 
-.activity_div_title_text {
+.activity_pane_title_text {
   position: relative;
   text-align: center;
   vertical-align: middle;
 }
 
-.activity_div_title_text_expanded {
+.activity_pane_title_text_expanded {
   position: absolute;
   text-align: left;
   vertical-align: baseline;
