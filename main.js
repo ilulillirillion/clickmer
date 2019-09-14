@@ -314,7 +314,7 @@ class Game {
         console.log(`populant activity: <${game_data.population[i].activity}>.`);
         console.log(`activity name: <${activity_element_text_span.innerHTML}>.`);
         if (game_data.population[i].activity == activity_element_text_span.innerHTML) {
-          let population_element_text_span_id = 
+          let populant_element_text_span_id = 
               `${game_data.population[i].uuid}_worker_text_span`;
           console.log(`populant_element_text_span_id: \
               <${populant_element_text_span_id}>.`);
@@ -467,10 +467,18 @@ class Actor {
     game_data.population.splice(game_data.population.findIndex(populant => populant.uuid == this.uuid), 1);
     document.getElementById(this.uuid).remove();
   }
+  
 }
 
 
-class Human extends Actor {};
+class Human extends Actor {
+
+  hunt_prey() {
+    console.log(`${this.name} is hunting prey.`);
+    this.updateAttribute('hunger', 1);
+  };
+
+};
 
 
 function uuidv4() {
@@ -651,6 +659,15 @@ var mainGameLoop = window.setInterval(function() {
       };
     };
     */
+
+    if (populant.activity != null) {
+      console.log(`${populant.name} doing ${populant.activity}.`);
+      //if (populant.hasOwnProperty(populant.activity)) {
+      if (true) {
+        console.log(`${populant.name} has property ${populant.activity}.`);
+        populant[populant.activity]();
+      };
+    };
 
     // Update octopus element
     //game_data.octopi[i].updatePopulationTab();
