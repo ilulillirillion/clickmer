@@ -1,11 +1,28 @@
+function capitalizeString(string) {
+  return `${string.charAt(0).toUpperCase()}${string.slice(1)}`;
+};
+
 class Game {
+
+  static buildGameData() {
+    let game_data = {
+      octopi: [],
+      available_prey: {
+        'current': 10000,
+        'max': 10000
+      },
+      lastTick: Date.now()
+    };
+    return game_data;
+  };
+
 
   static buildRuntimeData() {
     let runtime_data = {};
     runtime_data['activities'] = generateActivities();
     runtime_data['background_music'] = null;
     return runtime_data;
-  }
+  };
   
   static tickWanderingOctopi() {
     let chance = 0.0001;
@@ -26,33 +43,45 @@ class Game {
     };
   };
 
+  static loadGameData() {
+    // Loading the game is no different than loading a save
+    game_data = Game.loadSavedData();
+    return game_data;
+  }; 
+
   static loadSavedData() {
     console.log('Loading saved data');
-    var save_data = JSON.parse(localStorage.getItem('game_save_data'));
-    if (typeof save_data === 'undefined' || save_data == null) {
-      let save_data = {};
-      return [ game_data, save_data ];
+    let game_data = Game.buildGameData();
+    console.log(localStorage.getItem('game_save_data'));
+    if (localStorage.getItem('game_save_data') !== 'undefined' &&
+        localStorage.getItem('game_save_data') != null) {
+      let save_data = JSON.parse(localStorage.getItem('game_save_data'));
+      if (typeof save_data === 'undefined' || save_data == null) {
+        let save_data = {};
+        return [ game_data, save_data ];
+      };
+      console.log(`save_data: <${save_data}>.`);
+      //console.log(save_data['octopi']);
+      //console.log(typeof save_data['octopi']);
+      if (typeof save_data['octopi'] !== 'undefined') {
+        console.log('Loading saved octopi');
+        for (let i=0; i < save_data.octopi.length; i++) {
+          let octopus = new Octopus(save_data.octopi[i]);
+          console.log(`loaded octopus <${octopus}>`);
+          game_data['octopi'].push(octopus);
+        }
+      };
+      if (typeof save_data['available_prey'] !== 'undefined') {
+        console.log('loading saved available prey');
+        game_data['available_prey'] = save_data.available_prey;
+      };
+      if (typeof save_data['lastTick'] !== "undefined") {
+        console.log('loading saved lastTick');
+        game_data['lastTick'] = save_data.lastTick;
+      };
     };
-    console.log(`save_data: <${save_data}>.`);
-    //console.log(save_data['octopi']);
-    //console.log(typeof save_data['octopi']);
-    if (typeof save_data['octopi'] !== 'undefined') {
-      console.log('Loading saved octopi');
-      for (let i=0; i < save_data.octopi.length; i++) {
-        let octopus = new Octopus(save_data.octopi[i]);
-        console.log(`loaded octopus <${octopus}>`);
-        game_data['octopi'].push(octopus);
-      }
-    };
-    if (typeof save_data['available_prey'] !== 'undefined') {
-      console.log('loading saved available prey');
-      game_data['available_prey'] = save_data.available_prey;
-    };
-    if (typeof save_data['lastTick'] !== "undefined") {
-      console.log('loading saved lastTick');
-      game_data['lastTick'] = save_data.lastTick;
-    };
-    return [ game_data, save_data ];
+    console.log(`Returning game_data: <${game_data}>`);
+    return game_data
   };
 
 
@@ -130,22 +159,53 @@ class Game {
   };
 
 
+
+  static createTab(tab_name) {
+    console.log(`Creating tab <${tab_name}>.`);
+    let tab = document.createElement('div');
+    tab.setAttribute('id', `${tab_name}_tab`);
+    document.body.append(tab);
+    let tab_button = document.createElement('button');
+    tab_button.setAttribute('id', `${tab_name}_button`);
+    tab_button.innerHTML = `${capitalizeString(tab_name)} view`;
+    tab_button.addEventListener('click', function() {
+      showTab(`${tab_name}_tab`);
+    });
+    let navigation_div = document.getElementById('navigation_div');
+    navigation_div.appendChild(tab_button);
+  }
+
+
   static createColonyTab() {
+    /*
     let colony_tab = document.createElement('div');
     colony_tab.setAttribute('id', 'colony_tab');
     document.body.append(colony_tab);
+    let colony_tab_button = document.createElement('button');
+    colony_tab_button.setAttribute('id', 'colony_tab_button');
+    colony_tab_button.innerHTML = 'Colony View';
+    colony_tab_button.addEventListener('click', showTab('colony_tab'));
+    colony_tab.appendChild(colony_tab_button);
+    */
+    Game.createTab('colony');
   }
 
   static createPopulationTab() {
+    /*
     let population_tab = document.createElement('div');
     population_tab.setAttribute('id', 'population_tab');
     document.body.append(population_tab);
+    */
+    Game.createTab('population');
   }
 
   static createResearchTab() {
+    /*
     let research_tab = document.createElement('div');
     research_tab.setAttribute('id', 'research_tab');
     document.body.append(research_tab);
+    */
+    Game.createTab('research');
   }
 
   static buildUI() {
@@ -153,6 +213,7 @@ class Game {
     Game.createPopulationTab();
     Game.createResearchTab();
     Game.buildAudio();
+    showTab('colony_tab');
   }
 }
 
@@ -456,23 +517,35 @@ function format(number, type) {
 }
 
 
-function tab(tab) {
+function showTab(tab) {
+  console.log(`Showing tab <${tab}>.`);
   // hide all your tabs, then show the one the user selected.
-  document.getElementById('colony_tab').style.display = 'none'
-  document.getElementById('population_tab').style.display = 'none'
-  document.getElementById('research_tab').style.display = 'none'
+  let colony_tab = document.getElementById('colony_tab');
+  if (colony_tab) {
+    colony_tab.style.display = 'none';
+  };
+  let population_tab = document.getElementById('population_tab');
+  if (population_tab) {
+    population_tab.style.display = 'none';
+  };
+  let research_tab = document.getElementById('research_tab');
+  if (research_tab) {
+    research_tab.style.display = 'none';
+  };
   document.getElementById(tab).style.display = 'inline-block'
   if (tab != 'colony_tab') {
-    for (i=0; i < game_data.activities.length; i++) {
-      let activity = game_data.activities[i];
-      let activity_element = document.getElementById(activity.uuid);
-      if (activity_element.classList.contains('activity_div_expanded')) {
-        console.log(`Closing open activity pane: <${activity.name}>.`);
-        activity_element.classList.remove('activity_div_expanded');
-        console.log(
-            `activity_element classList: \
-            ${activity_element.classList}`);
-        //activity.updateElement();
+    if (game_data) {
+      for (i=0; i < game_data.activities.length; i++) {
+        let activity = game_data.activities[i];
+        let activity_element = document.getElementById(activity.uuid);
+        if (activity_element.classList.contains('activity_div_expanded')) {
+          console.log(`Closing open activity pane: <${activity.name}>.`);
+          activity_element.classList.remove('activity_div_expanded');
+          console.log(
+              `activity_element classList: \
+              ${activity_element.classList}`);
+          //activity.updateElement();
+        };
       };
     };
   };
@@ -535,19 +608,19 @@ window.onmousemove = function(e) {
   
 
 // Do main ////////////////
-//////////////////////////
+///////////////////////////
 
 
 /* Game data is meant to be relevant and preserved between client reloads,
 basically saved progress. */
-var game_data = {
-  octopi: [],
-  available_prey: {
-    'current': 10000,
-    'max': 10000
-  },
-  lastTick: Date.now()
-};
+//var game_data = {
+//  octopi: [],
+//  available_prey: {
+//    'current': 10000,
+//    'max': 10000
+//  },
+//  lastTick: Date.now()
+//};
 // Runtime data is basically just a global namespace for referencing things.
 //var runtime_data = {
 //  'activities': null,    
@@ -555,15 +628,20 @@ var game_data = {
 //};
 
 
-
 // Construct all of the UI elements.
 Game.buildUI();
 
-runtime_data = Game.buildRuntimeData();
+
+/* Game data is meant to be relevant and preserved between client reloads,
+basically saved progress. */
+var game_data = Game.loadGameData();
+
+
+var runtime_data = Game.buildRuntimeData();
 
 
 // Retrieve any valid save data and start autosaving.
-var [game_data, save_data] = Game.loadSavedData();
+//var [game_data, save_data] = Game.loadSavedData();
 Game.startAutosaveScheduler();
 
 //runtime_data['activities'] = generateActivities();
@@ -571,12 +649,17 @@ Game.startAutosaveScheduler();
 createEventLog();
 
 // go to a tab for the first time, so not all show
-tab('colony_tab')
+//tab('colony_tab')
 
+console.log(game_data);
 var mainGameLoop = window.setInterval(function() {
 
+  console.log(game_data);
+
   // Figure out delta from last tick
-  time_delta = Date.now() - game_data.lastTick;
+  // May need this for offline progress (time_delta / main loop ms), but
+  // not using currently.
+  //time_delta = Date.now() - game_data.lastTick;
 
   // Save current time as the new "last" tick
   game_data.lastTick = Date.now()
