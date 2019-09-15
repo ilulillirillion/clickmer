@@ -100,3 +100,29 @@ body {
 .event_message {
   padding: 5px;
 }
+
+.populant_pane {
+  position: relative;
+  padding: 10px;
+  padding-left: 10px;
+  border: 1px solid black;
+  height: 20px;
+  width: 80px;
+}
+
+.populant_pane_expanded {
+  padding: 100px;
+}
+
+.activity_progress_bar {
+  position: relative;
+  width: 50%;
+  height: 50%
+  border: 1px solid black;
+}
+
+.activity_progress_bar_fill {
+  position: relative;
+  width: 50%;
+  background-color: grey;
+}

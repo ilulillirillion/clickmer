@@ -5,12 +5,38 @@ function capitalizeString(string) {
 
 class Game {
 
-  static buildGameData() {
-    let game_data = {
+  static createGameDataShell() {
+    let game_data_shell = {
       population: [],
       lastTick: Date.now()
     };
-    return game_data;
+    return game_data_shell;
+  };
+
+  static addPopulant(populant) {
+    console.debug(`Adding populant: <${populant.name}> (<${populant.uuid}>).`);
+
+    game_data.population.push(populant);
+
+    // Get a simple base element from the populant's own method.
+    let populant_element = populant.createSimpleElement('_populant');
+    // Add customizations.
+    populant_element.classList.add('populant_pane');
+    populant_element.addEventListener('click', function(e) {
+      let target_id = e.target.getAttribute('id');
+      if (target_id != `${populant.uuid}_populant` &&
+          target_id != `${populant.uuid}_populant_image` &&
+          target_id != `${populant.uuid}_populant_text_span`) {
+        return;
+      };
+      populant_element.classList.toggle('populant_pane_expanded');
+      let populant_element_text_span = document.getElementById(
+          `${populant.uuid}_populant_text_span`);
+      populant_element_text_span.classList.toggle(
+          'populant_pane_title_text_expanded');
+    });
+    let population_tab = document.getElementById('population_tab');
+    population_tab.appendChild(populant_element);
   };
 
 
@@ -50,7 +76,7 @@ class Game {
 
   static loadSavedData() {
     console.log('Loading saved data');
-    let game_data = Game.buildGameData();
+    //let game_data = Game.buildGameData();
     console.log(localStorage.getItem('game_save_data'));
     if (localStorage.getItem('game_save_data') !== 'undefined' &&
         localStorage.getItem('game_save_data') != null) {
@@ -68,6 +94,7 @@ class Game {
           let human = new Human(save_data.population[i]);
           console.log(`loaded human <${human}>`);
           game_data.population.push(human);
+          //Game.addPopulant(human);
         }
       };
       if (typeof save_data['lastTick'] !== "undefined") {
@@ -186,12 +213,18 @@ class Game {
   }
 
   static createPopulationTab() {
+    console.debug('Creating population tab');
     /*
     let population_tab = document.createElement('div');
     population_tab.setAttribute('id', 'population_tab');
     document.body.append(population_tab);
     */
     Game.createTab('population');
+
+    console.debug('Creating population tab inner elements');
+    // Currently nothing special being made here, populant panes get created
+    // when populants are added.
+    
   }
 
   static createResearchTab() {
@@ -307,7 +340,7 @@ class Game {
       for (let i = 0; i < game_data.population.length; i++) {
         console.log(
             `Adding ${game_data.population[i].name} to the workers list.`);
-        let populant_element = game_data.population[i].generateElement('_worker');
+        let populant_element = game_data.population[i].generateElement('_worker', false);
         let activity_element_text_span = document.getElementById(
             `${activity_element_id}_text_span`);
         console.log(`populant_element children: <${populant_element.childNodes}>.`);
@@ -357,9 +390,47 @@ class Game {
       
   };
 
-  
+  static updatePopulationTab() {
+    console.debug('Updating population tab.');
+    /*
+    for (var i=0; i < game_data.population.length; i++) {
+      let populant = game_data.population[i];
+      if (populant.activity != null) {
+        let populant_element = document.getElementById(populant.uuid);
+        if (populant_element.classList.contains('populant_pane_expanded')) {
+          console.debug('Updating expanded population pane');
 
-}
+          //FIXME: this will just keep recreating divs...
+          let activity_progress_bar = document.createElement('div');
+          activity_progress_bar.setAttribute('id', `activity_progress_bar_${populant.activity.name}_${populant.uuid}`);
+          activity_progress_bar.classList.add('activity_progress_bar');
+          populant_element.appendChild(activity_progress_bar);
+
+          let activity_progress_bar_fill = document.createElement('div');
+          activity_progress_bar_fill.setAttribute('id', `activity_progress_bar_fill_${populant.activity.name}_${populant.uuid}`);
+          activity_progress_bar_fill.classList.add('activity_progress_bar_fill');
+          activity_progress_bar.appendChild(activity_progress_bar_fill);
+    
+        }
+        // If the populant pane is not expanded...
+        else {
+          let activity_progress_bar = document.getElementById(`activity_progress_bar_${populant.activity.name}_${populant.uuid}`);
+          if (activity_progress_bar !== 'undefined' && 
+              activity_progress_bar != null) {
+            activity_progress_bar.remove();
+          };
+          let activity_progress_bar_fill = document.getElementById(`activity_prgoress_bar_${populant.activity.name}_${populant.uuid}`);
+          if (activity_progress_bar !== 'undefined' &&
+              activity_progress_bar != null) {
+            activity_progress_bar_fill.remove();
+          };
+            
+        };
+    
+      };
+    };*/
+  }; 
+};
 
 
 class Actor {
@@ -417,11 +488,68 @@ class Actor {
     this.activity = null;
     //this.activity_steps = 0;
 
-    let actor_element = this.generateElement();
-    document.getElementById('population_tab').appendChild(actor_element);
+    //let actor_element = this.generateElement();
+    //document.getElementById('population_tab').appendChild(actor_element);
+    this.buildPopulantElement();
 
 
   }
+
+
+  buildPopulantElement() {
+    console.debug(`Adding populant: <${this.name}> (<${this.uuid}>).`);
+
+    let population_tab = document.getElementById('population_tab');
+
+    let populant_element_pane = document.createElement('div');
+    populant_element_pane.setAttribute('id', `${this.uuid}_populant_pane`);
+    populant_element_pane.classList.add('populant_pane');
+    population_tab.appendChild(populant_element_pane);
+
+    // Get a simple base element from the populant's own method.
+    let populant_element = this.createSimpleElement('_populant');
+    populant_element_pane.appendChild(populant_element);
+
+    // Create an activity progress bar element
+    let activity_progress_bar = document.createElement('div');
+    activity_progress_bar.setAttribute('id', `${this.uuid}_activity_progress_bar`);
+    activity_progress_bar.classList.add('activity_progress_bar');
+    populant_element.appendChild(activity_progress_bar);
+
+    // Create an activity progress bar fill element
+    let activity_progress_bar_fill = document.createElement('div');
+    activity_progress_bar_fill.setAttribute('id', `${this.uuid}_activity_progress_bar_fill`);
+    activity_progress_bar_fill.classList.add('activity_progress_bar_fill');
+    activity_progress_bar.appendChild(activity_progress_bar_fill);
+
+    // Add a click handler to expand and hide the div
+    let self = this;
+    populant_element_pane.addEventListener('click', function(e) {
+      console.debug(`<${self.name}> populant pane clicked.`);
+      let target_id = e.target.getAttribute('id');
+      console.debug(`Populant pane click target id: ${target_id}`);
+      if (target_id == `${self.uuid}_populant` ||
+          target_id == `${self.uuid}_populant_image` ||
+          target_id == `${self.uuid}_populant_text_span`) {
+        console.debug(
+            `Stopping unintended click on <${self.name}> populant pane.`);
+        return;
+      };
+      populant_element_pane.classList.toggle('populant_pane_expanded');
+      let populant_element_text_span = document.getElementById(
+          `${self.uuid}_populant_text_span`);
+      populant_element_text_span.classList.toggle(
+          'populant_pane_title_text_expanded');
+    });
+  };
+
+
+  /*
+  updatePopulantElement() {
+    console.debug(`<${this.name}> updating populant element.`);
+  */
+    
+
 
   updateStatistic(statistic, delta) {
     statistic = this.statistics[statistic]
@@ -434,7 +562,8 @@ class Actor {
     };
   }
 
-  generateElement(id_suffix='') {
+  //generateElement(id_suffix='', expandable=true) {
+  createSimpleElement(id_suffix='') {
     /* Creates a new element to represent the octopus in population view. The
     element ID should be equal to the octopus's UUID, and the element
     should have a tooltip displaying details. */
@@ -445,10 +574,12 @@ class Actor {
     let entity_element = document.createElement('div');
     let entity_element_id = `${this.uuid}${id_suffix}`;
     entity_element.setAttribute('id', entity_element_id);
+    
 
     // Creates an image which represents the octopus.
     let entity_element_image = document.createElement('img');
-    entity_element_image.setAttribute('id', `${entity_element_id}_image`);
+    let entity_element_image_id = `${entity_element_id}_image`;
+    entity_element_image.setAttribute('id', entity_element_image_id);
     entity_element_image.setAttribute('src', 'octopus.png');
     entity_element_image.style.height = '16px';
     entity_element_image.style.width = '16px';
@@ -483,6 +614,26 @@ class Actor {
     entity_element.classList.add('tooltip');
     entity_element.appendChild(entity_element_tooltip_text_span);
 
+    // onclick
+    /*
+    if (expandable) {
+      entity_element.classList.add('populant_pane');
+      entity_element.addEventListener('click', function(e) {
+        if (e.target.getAttribute('id') != entity_element_id &&
+            e.target.getAttribute('id') != entity_element_image_id &&
+            e.target.getAttribute('id') != entity_element_text_span_id) {
+          return;
+        };
+        entity_element.classList.toggle('populant_pane_expanded');
+        entity_element_text_span.classList.toggle('populant_pane_title_text_expanded');
+        //Game.updatePopulationTab();
+      });
+    };
+    */
+
+         
+
+
     return entity_element
   }
     
@@ -498,7 +649,8 @@ class Actor {
         hunger: ${this.statistics.hunger.current}/${this.statistics.hunger.max}<br>
         `
     );
-  } 
+         
+  }; 
 
   generateRandomName() {
     console.log('generating a random name');
@@ -676,6 +828,9 @@ class Human extends Actor {
 };
 
 
+  
+
+
 function uuidv4() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
     var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -790,7 +945,8 @@ Game.buildUI();
 
 /* Game data is meant to be relevant and preserved between client reloads,
 basically saved progress. */
-var game_data = Game.loadGameData();
+var game_data = Game.createGameDataShell();
+game_data = Game.loadGameData();
 
 
 var runtime_data = Game.buildRuntimeData();
@@ -866,6 +1022,9 @@ var mainGameLoop = window.setInterval(function() {
 
     // Update octopus element
     //game_data.octopi[i].updatePopulationTab();
+
+
+    // Updates tooltips
     populant.updatePopulationTab();
 
     populant.updateStatistic('hunger', -1);
@@ -873,6 +1032,8 @@ var mainGameLoop = window.setInterval(function() {
   }
     
   Game.tryRandomTraveller();
+
+  Game.updatePopulationTab();
 
   // Update octopi count
   update('population_p', 'population: ' + game_data.population.length);
