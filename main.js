@@ -311,23 +311,34 @@ class Game {
         let activity_element_text_span = document.getElementById(
             `${activity_element_id}_text_span`);
         console.log(`populant_element children: <${populant_element.childNodes}>.`);
-        console.log(`populant activity: <${game_data.population[i].activity}>.`);
+        //console.log(`populant activity: <${game_data.population[i].activity.name}>.`);
         console.log(`activity name: <${activity_element_text_span.innerHTML}>.`);
-        if (game_data.population[i].activity == activity_element_text_span.innerHTML) {
-          let populant_element_text_span_id = 
-              `${game_data.population[i].uuid}_worker_text_span`;
-          console.log(`populant_element_text_span_id: \
-              <${populant_element_text_span_id}>.`);
-          let populant_element_text_span = populant_element.querySelector(
-              `#${populant_element_text_span_id}`);
-          console.log(populant_element_text_span);
-          populant_element_text_span.style.fontWeight = 'bold';
+        if (game_data.population[i].activity != null) {
+          if (game_data.population[i].activity.name == 
+              activity_element_text_span.innerHTML) {
+            let populant_element_text_span_id = 
+                `${game_data.population[i].uuid}_worker_text_span`;
+            console.log(`populant_element_text_span_id: \
+                <${populant_element_text_span_id}>.`);
+            let populant_element_text_span = populant_element.querySelector(
+                `#${populant_element_text_span_id}`);
+            console.log(populant_element_text_span);
+            populant_element_text_span.style.fontWeight = 'bold';
+          };
         };
         populant_element.addEventListener('click', function() {
           console.log('worker clicked!');
-          if (game_data.population[i].activity != 
-              activity_element_text_span.innerHTML) {
-            game_data.population[i].activity = activity_element_text_span.innerHTML;
+          if (game_data.population[i].activity == null ||
+              game_data.population[i].activity.name != 
+                  activity_element_text_span.innerHTML) {
+            //game_data.population[i].activity = activity_element_text_span.innerHTML;
+            let _activity = {
+              'name': 'hunt_prey',
+              'sequence': 1,
+              'subsequence': 1,
+              'subsequence_step': 1
+            };
+            game_data.population[i].activity = _activity;
           } else {
             game_data.population[i].activity = null;
           };
@@ -390,7 +401,7 @@ class Actor {
       
       if (self.statistics.energy['current'] <= self.energy_halt_point ||
           self.statistics.energy['current'] == 0) {
-        self.activity = 'sleep';
+        self.activity.name = 'sleep';
       };
     };
 
@@ -404,7 +415,7 @@ class Actor {
     if (this.id == null) { this.uuid = `actor_${uuidv4()}` };
 
     this.activity = null;
-    this.activity_steps = 0;
+    //this.activity_steps = 0;
 
     let actor_element = this.generateElement();
     document.getElementById('population_tab').appendChild(actor_element);
@@ -516,37 +527,126 @@ class Human extends Actor {
     this.statistics.hunger.max = 4320000;
   };
 
+
   hunt_prey() {
+
+    console.debug(`${this.name} is hunting prey.`);
+
+    let sequences = {
+      '1': '_locate_prey',
+      '2': '_stalk_prey',
+      '3': '_fight_prey',
+      '4': '_prepare_food_from_prey',
+      '5': '_eat_food_from_prey'
+    };
+
+    this[sequences[this.activity.sequence]]();
+  };
+
+  _locate_prey() {
+    let subsequence_end_step = 720 // Takes 12 hours to find prey.
+    this.activity.subsequence = 1;
+    console.debug(`${this.name} is locating prey (<${this.activity.subsequence_step}>/<${subsequence_end_step}>).`);
+    this.updateStatistic('energy', -1);
+    if (this.activity.subsequence_step >= subsequence_end_step) {
+      this.activity.subsequence_step = 1;
+      this.activity.sequence += 1;
+    } else {
+      this.activity.subsequence_step += 1;
+    };
+  };
+
+  _stalk_prey() {
+    let subsequence_end_step = 480 // Takes 8 hours.
+    this.activity.subsequence = 1; // No subsequencing
+    console.debug(
+        `${this.name} is stalking prey (<${this.activity.subsequence_step}>/<${subsequence_end_step}>).`);
+    this.updateStatistic('energy', -1);
+    if (this.activity.subsequence_step >= subsequence_end_step) {
+      this.activity.subsequence_step = 1;
+      this.activity.sequence += 1;
+    } else {
+      this.activity.subsequence_step += 1;
+    };
+  };
+
+  _fight_prey() {
+    let subsequence_end_step = 60 // 1 hour.
+    this.activity.subsequence = 1; // No subsequencing.
+    console.debug(
+        `${this.name} is fighting prey (<${this.activity.subsequence_step}>/<${subsequence_end_step}>).`);
+    this.updateStatistic('energy', -2);
+    this.updateStatistic('health', -2);
+    if (this.activity.subsequence_step >= subsequence_end_step) {
+      this.activity.subsequence_step = 1;
+      this.activity.sequence += 1;
+    } else {
+      this.activity.subsequence_step += 1;
+    };
+  };
+
+  _prepare_food_from_prey() {
+    let subsequence_end_step = 240 // 4 hours.
+    this.activity.subsequence = 1; // No subsequencing.
+    console.debug(
+        `${this.name} is preparing food (<${this.activity.subsequence_step}>/<${subsequence_end_step}>).`);
+    this.updateStatistic('energy', -1);
+    if (this.activity.subsequence_step >= subsequence_end_step) {
+      this.activity.subsequence_step = 1;
+      this.activity.sequence += 1;
+    } else {
+      this.activity.subsequence_step += 1;
+    };
+  };
+
+  _eat_food_from_prey() {
+    let subsequence_end_step = 480 // 8 hours
+    this.activity.subsequence = 1; // No subsequencing.
+    console.debug(
+        `${this.name} is preparing food (<${this.activity.subsequence_step}>/<${subsequence_end_step}>).`);
+    this.updateStatistic('energy', -1);
+    if (this.activity.subsequence_step >= subsequence_end_step) {
+      this.activity.subsequence_step = 1;
+      this.activity.sequence = 1;
+    } else {
+      this.activity.subsequence_step += 1;
+    };
+  };
+    
+  
+      
+    
+    /*
     let step = this.activity_steps;
-    let last_step = 45;
+    let last_step = 3680; // The last step, eating, lasts a full day
     console.debug(
         `${this.name} is hunting prey. (Step <${step}>/<${last_step}>).`);
     // Eating food prepared from the hunt.
-    if (step >= 40) {
+    if (step >= 2240) { // preparing food from the hunt takes 4 hours.
       console.debug(`${this.name} is eating.`);
       this.updateStatistic('hunger', 5);
       this.updateStatistic('energy', 1); 
     }
     // Preparing food from the prey carcass.
-    else if (step >= 25) {
+    else if (step >= 1980) { // fighting prey takes 1 hour.
       console.debug(
           `${this.name} is preparing food. (Step <${step}>/<${last_step}>)`);
       this.updateStatistic('energy', -1);
     }
     // Fight the prey.
-    else if (step >= 20) {
+    else if (step >= 1920) { // stalking prey takes 8 hours.
       console.debug(
           `${this.name} is fighting prey. (Step <${step}>/<${last_step}>)`);
-      this.updateStatistic('energy', -5);
-      this.updateStatistic('health', -5);
+      this.updateStatistic('energy', -2);
+      this.updateStatistic('health', -2);
     }
     // Stalk the prey.
-    else if (step >= 20) {
+    else if (step > 1440) { // locating prey takes 1 day
       console.debug(
           `${this.name} is stalking prey. (Step <${step}>/<${last_step}>)`);
       this.updateStatistic('energy', -1);
     }
-    // Locate prey / find trail.
+    // Locate prey / find trail (1 day).
     else {
       console.debug(
           `${this.name} is locating prey. (Step <${step}>/<${last_step}>)`);
@@ -559,7 +659,7 @@ class Human extends Actor {
     };
     this.activity_steps = step;
     //this.updateStatistic('hunger', 1);
-  };
+    */
 
   sleep() {
     let step = this.activity_steps;
@@ -756,11 +856,11 @@ var mainGameLoop = window.setInterval(function() {
     */
 
     if (populant.activity != null) {
-      console.log(`${populant.name} doing ${populant.activity}.`);
+      console.log(`${populant.name} doing ${populant.activity.name}.`);
       //if (populant.hasOwnProperty(populant.activity)) {
       if (true) {
         console.log(`${populant.name} has property ${populant.activity}.`);
-        populant[populant.activity]();
+        populant[populant.activity.name]();
       };
     };
 
