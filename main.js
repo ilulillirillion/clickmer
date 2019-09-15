@@ -340,7 +340,7 @@ class Game {
       for (let i = 0; i < game_data.population.length; i++) {
         console.log(
             `Adding ${game_data.population[i].name} to the workers list.`);
-        let populant_element = game_data.population[i].generateElement('_worker', false);
+        let populant_element = game_data.population[i].createSimpleElement('_worker');
         let activity_element_text_span = document.getElementById(
             `${activity_element_id}_text_span`);
         console.log(`populant_element children: <${populant_element.childNodes}>.`);
@@ -514,12 +514,13 @@ class Actor {
     let activity_progress_bar = document.createElement('div');
     activity_progress_bar.setAttribute('id', `${this.uuid}_activity_progress_bar`);
     activity_progress_bar.classList.add('activity_progress_bar');
-    populant_element.appendChild(activity_progress_bar);
+    populant_element_pane.appendChild(activity_progress_bar);
 
     // Create an activity progress bar fill element
     let activity_progress_bar_fill = document.createElement('div');
     activity_progress_bar_fill.setAttribute('id', `${this.uuid}_activity_progress_bar_fill`);
     activity_progress_bar_fill.classList.add('activity_progress_bar_fill');
+    activity_progress_bar_fill.style.width = '0%';
     activity_progress_bar.appendChild(activity_progress_bar_fill);
 
     // Add a click handler to expand and hide the div
@@ -542,6 +543,31 @@ class Actor {
           'populant_pane_title_text_expanded');
     });
   };
+
+  updateActivityProgressBar() {
+    if (this.activity == null) {
+      console.debug(
+          `Not updating ${this.name}'s activity progress bar because ` +
+          `their activity is null.`);
+      return;
+    };
+    // A return step function will be built in after activity refactor, for
+    // now testing with hardcoded value.
+    let total_steps = 100;
+    // This should map to total step, but waiting for activity refactor.
+    let steps = this.activity.subsequence_step;
+    console.debug(`Activity progress bar total steps: <${total_steps}> ` +
+                  `(<${this.name}>'s steps: <${steps}>).`);
+    let completion_percentage = 
+        Math.round((steps / total_steps) * 100);
+    console.debug('Activity progress bar completion percentage: ' +
+                  `<${completion_percentage}>.`);
+    let activity_progress_bar_fill = document.getElementById(
+        `${this.uuid}_activity_progress_bar_fill`);
+    activity_progress_bar_fill.style.width = `${completion_percentage}%`;
+
+  };
+
 
 
   /*
@@ -1026,6 +1052,7 @@ var mainGameLoop = window.setInterval(function() {
 
     // Updates tooltips
     populant.updatePopulationTab();
+    populant.updateActivityProgressBar();
 
     populant.updateStatistic('hunger', -1);
 

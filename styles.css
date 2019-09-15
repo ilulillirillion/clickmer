@@ -111,18 +111,20 @@ body {
 }
 
 .populant_pane_expanded {
-  padding: 100px;
+  /*padding: 100px;*/
+  height: 60px;
+  width: 180px;
 }
 
 .activity_progress_bar {
   position: relative;
-  width: 50%;
-  height: 50%
+  width: 100%;
+  height: 50%;
   border: 1px solid black;
 }
 
 .activity_progress_bar_fill {
   position: relative;
-  width: 50%;
+  height: 100%;
   background-color: grey;
 }
