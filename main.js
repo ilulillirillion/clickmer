@@ -68,11 +68,13 @@ class Game {
     };
   };
 
+  /*
   static loadGameData() {
     // Loading the game is no different than loading a save
     game_data = Game.loadSavedData();
     return game_data;
-  }; 
+  };
+  */ 
 
   static loadSavedData() {
     console.log('Loading saved data');
@@ -102,8 +104,8 @@ class Game {
         game_data['lastTick'] = save_data.lastTick;
       };
     };
-    console.log(`Returning game_data: <${game_data}>`);
-    return game_data
+    //console.log(`Returning game_data: <${game_data}>`);
+    //return game_data
   };
 
 
@@ -222,10 +224,30 @@ class Game {
     Game.createTab('population');
 
     console.debug('Creating population tab inner elements');
-    // Currently nothing special being made here, populant panes get created
-    // when populants are added.
+    let populants_pane = Game.createPopulantsPane('_population_tab', false);
+    let population_tab = document.getElementById('population_tab');
+    population_tab.appendChild(populants_pane);
     
   }
+
+  static createPopulantsPane(id_suffix='', populate=true) {
+    let populants_pane = document.createElement('div');
+    let populants_pane_id = `populant_pane${id_suffix}`;
+    populants_pane.setAttribute('id', populants_pane_id);
+
+    if (populate) {
+      for (var i=0; i < game_data.population.length; i++) {
+        let populant = game_data.population[i];
+        let populant_element = populant.createSimpleElement(
+            `_populants_pane${id_suffix}`);
+        populants_pane.appendChild(populant_element);
+
+      };
+    };
+    return populants_pane;
+  };
+    
+    
 
   static createResearchTab() {
     /*
@@ -250,11 +272,108 @@ class Game {
   //  updateActivityElement(activity_name);
   //};  
 
-  static buildActivity(activity_name, tooltip_text) {
+  
+  
+  static buildActivities() {
+
+    game_data.activities = [];
+    
+    //Game.buildActivity('hunt_prey', 'hunt nearby prey.');
+    let _1 = function(activity, participant) {
+      console.debug('test sequence 1');
+    };
+    let hunt_prey_sequences = {
+      '1': {
+        'steps': 100,
+        'effects': _1 
+      }
+    };
+    let hunt_prey_args = {
+        'name': 'hunt_prey',
+        'tooltip_text': 'hunt prey',
+        'sequences': hunt_prey_sequences
+    };
+    let hunt_prey = new Activity(hunt_prey_args);
+
+    game_data.activities.push(hunt_prey);
+ 
+    //Game.updateActivityElement('hunt_prey');
+    //game_data.activities = activities;
+
+      
+  };
+
+  static updatePopulationTab() {
+    console.debug('Updating population tab.');
+    /*
+    for (var i=0; i < game_data.population.length; i++) {
+      let populant = game_data.population[i];
+      if (populant.activity != null) {
+        let populant_element = document.getElementById(populant.uuid);
+        if (populant_element.classList.contains('populant_pane_expanded')) {
+          console.debug('Updating expanded population pane');
+
+          //FIXME: this will just keep recreating divs...
+          let activity_progress_bar = document.createElement('div');
+          activity_progress_bar.setAttribute('id', `activity_progress_bar_${populant.activity.name}_${populant.uuid}`);
+          activity_progress_bar.classList.add('activity_progress_bar');
+          populant_element.appendChild(activity_progress_bar);
+
+          let activity_progress_bar_fill = document.createElement('div');
+          activity_progress_bar_fill.setAttribute('id', `activity_progress_bar_fill_${populant.activity.name}_${populant.uuid}`);
+          activity_progress_bar_fill.classList.add('activity_progress_bar_fill');
+          activity_progress_bar.appendChild(activity_progress_bar_fill);
+    
+        }
+        // If the populant pane is not expanded...
+        else {
+          let activity_progress_bar = document.getElementById(`activity_progress_bar_${populant.activity.name}_${populant.uuid}`);
+          if (activity_progress_bar !== 'undefined' && 
+              activity_progress_bar != null) {
+            activity_progress_bar.remove();
+          };
+          let activity_progress_bar_fill = document.getElementById(`activity_prgoress_bar_${populant.activity.name}_${populant.uuid}`);
+          if (activity_progress_bar !== 'undefined' &&
+              activity_progress_bar != null) {
+            activity_progress_bar_fill.remove();
+          };
+            
+        };
+    
+      };
+    };*/
+  }; 
+};
+
+
+class Activity {
+
+  constructor(args={}) {
+    console.debug(`Creating activity with arguments: <${args}>.`);
+    this.name = 'activity';
+    if (args.name) {
+      this.name = args.name;
+    };
+    this.tooltip_text = 'tooltip_text';
+    if (args.tooltip_text) {
+      this.tooltip_text = args.tooltip_text;
+    };
+
+    this.sequences = {};
+    if (args.sequences) {
+      this.sequences = args.sequences;
+    };
+
+    this.element_base_id = this.name;
+
+    this.createElement();
+  };
+
+  createElement() {
 
     // Create a DOM element to represent the activity.
     let activity_element = document.createElement('div');
-    let activity_element_id = `${activity_name}_pane`;
+    let activity_element_id = `${this.element_base_id}_pane`;
     activity_element.setAttribute('id', activity_element_id);
     activity_element.classList.add('activity_pane');
 
@@ -266,7 +385,7 @@ class Game {
         'id', activity_element_text_span_id);
     activity_element_text_span.classList.add(
         `${activity_element_id}_title_text`);
-    activity_element_text_span.innerHTML = `${activity_name}`;
+    activity_element_text_span.innerHTML = `${this.name}`;
     activity_element.appendChild(activity_element_text_span);
 
 
@@ -275,7 +394,7 @@ class Game {
     activity_element_tooltip_text.setAttribute(
         'id', `${activity_element_id}_tooltip_text`);
     activity_element_tooltip_text.classList.add('tooltiptext');
-    activity_element_tooltip_text.innerHTML = tooltip_text;
+    activity_element_tooltip_text.innerHTML = this.tooltip_text;
     activity_element.classList.add('tooltip');
     activity_element.appendChild(activity_element_tooltip_text);
 
@@ -297,10 +416,14 @@ class Game {
     });
 
     document.getElementById('colony_tab').appendChild(activity_element);
-    Game.updateActivityElement('hunt_prey_pane');
+    //Game.updateActivityElement('hunt_prey_pane');
   };
 
-  static updateActivityElement(activity_element_id) {
+
+
+  ///////////
+  updateActivityElement() {
+    let activity_element_id = `${this.element_base_id}_pane`;
     let activity_element = document.getElementById(activity_element_id);
     if (!(activity_element.classList.contains('activity_pane_expanded'))) {
       let workers_list = document.getElementById(
@@ -310,8 +433,7 @@ class Game {
       }
     }
 
-    else {
-      
+    else {  
 
       let workers_list = document.getElementById(
         `${activity_element_id}_workers_list`);
@@ -367,9 +489,8 @@ class Game {
             //game_data.population[i].activity = activity_element_text_span.innerHTML;
             let _activity = {
               'name': 'hunt_prey',
-              'sequence': 1,
-              'subsequence': 1,
-              'subsequence_step': 1
+              //'sequence': 1,
+              'step': 1
             };
             game_data.population[i].activity = _activity;
           } else {
@@ -380,58 +501,54 @@ class Game {
       }
     } 
   };
-
-  static buildActivities() {
-    
-    Game.buildActivity('hunt_prey', 'hunt nearby prey.');
-    //Game.updateActivityElement('hunt_prey');
-    //game_data.activities = activities;
-
-      
-  };
-
-  static updatePopulationTab() {
-    console.debug('Updating population tab.');
-    /*
-    for (var i=0; i < game_data.population.length; i++) {
-      let populant = game_data.population[i];
-      if (populant.activity != null) {
-        let populant_element = document.getElementById(populant.uuid);
-        if (populant_element.classList.contains('populant_pane_expanded')) {
-          console.debug('Updating expanded population pane');
-
-          //FIXME: this will just keep recreating divs...
-          let activity_progress_bar = document.createElement('div');
-          activity_progress_bar.setAttribute('id', `activity_progress_bar_${populant.activity.name}_${populant.uuid}`);
-          activity_progress_bar.classList.add('activity_progress_bar');
-          populant_element.appendChild(activity_progress_bar);
-
-          let activity_progress_bar_fill = document.createElement('div');
-          activity_progress_bar_fill.setAttribute('id', `activity_progress_bar_fill_${populant.activity.name}_${populant.uuid}`);
-          activity_progress_bar_fill.classList.add('activity_progress_bar_fill');
-          activity_progress_bar.appendChild(activity_progress_bar_fill);
-    
-        }
-        // If the populant pane is not expanded...
-        else {
-          let activity_progress_bar = document.getElementById(`activity_progress_bar_${populant.activity.name}_${populant.uuid}`);
-          if (activity_progress_bar !== 'undefined' && 
-              activity_progress_bar != null) {
-            activity_progress_bar.remove();
-          };
-          let activity_progress_bar_fill = document.getElementById(`activity_prgoress_bar_${populant.activity.name}_${populant.uuid}`);
-          if (activity_progress_bar !== 'undefined' &&
-              activity_progress_bar != null) {
-            activity_progress_bar_fill.remove();
-          };
-            
-        };
-    
-      };
-    };*/
-  }; 
 };
 
+
+class Sequence {};
+
+
+class LocatePreySequence extends Sequence {
+  last_step = 720;
+  effect = function(participant) {
+    console.debug(`<${participant.name}> is searching for prey.`);
+    participant.updateStatistic('energy', '-1');
+  };
+};
+  
+
+
+class HuntPreyActivity extends Activity {
+
+  hunt_prey() {
+
+    console.debug(`${this.name} is hunting prey.`);
+
+    let sequences = {
+      '1': '_locate_prey',
+      '2': '_stalk_prey',
+      '3': '_fight_prey',
+      '4': '_prepare_food_from_prey',
+      '5': '_eat_food_from_prey'
+    };
+
+    this[sequences[this.activity.sequence]]();
+  };
+  
+  /*
+  _locate_prey() {
+    let subsequence_end_step = 720 // Takes 12 hours to find prey.
+    this.activity.subsequence = 1;
+    console.debug(`${this.name} is locating prey (<${this.activity.subsequence_step}>/<${subsequence_end_step}>).`);
+    this.updateStatistic('energy', -1);
+    if (this.activity.subsequence_step >= subsequence_end_step) {
+      this.activity.subsequence_step = 1;
+      this.activity.sequence += 1;
+    } else {
+      this.activity.subsequence_step += 1;
+    };
+  };
+  */
+};
 
 class Actor {
   constructor(args={
@@ -454,6 +571,8 @@ class Actor {
       }) {
 
     this.statistics = args.statistics;
+
+            
 
 
     // If no name was specified, generate a random one
@@ -494,6 +613,18 @@ class Actor {
 
 
   }
+
+
+  tickActivityEffects() {
+    if (this.activity != null) {
+      let activity = runtime_data.activities[this.activity.name];
+      let effects = activity.sequences[this.activity.sequence];
+      for (var i=0; i < effects.length; i++) {
+        let effect = effects[i];
+        effect(activity, this);
+      };
+    };
+  };
 
 
   buildPopulantElement() {
@@ -706,34 +837,8 @@ class Human extends Actor {
   };
 
 
-  hunt_prey() {
-
-    console.debug(`${this.name} is hunting prey.`);
-
-    let sequences = {
-      '1': '_locate_prey',
-      '2': '_stalk_prey',
-      '3': '_fight_prey',
-      '4': '_prepare_food_from_prey',
-      '5': '_eat_food_from_prey'
-    };
-
-    this[sequences[this.activity.sequence]]();
-  };
-
-  _locate_prey() {
-    let subsequence_end_step = 720 // Takes 12 hours to find prey.
-    this.activity.subsequence = 1;
-    console.debug(`${this.name} is locating prey (<${this.activity.subsequence_step}>/<${subsequence_end_step}>).`);
-    this.updateStatistic('energy', -1);
-    if (this.activity.subsequence_step >= subsequence_end_step) {
-      this.activity.subsequence_step = 1;
-      this.activity.sequence += 1;
-    } else {
-      this.activity.subsequence_step += 1;
-    };
-  };
-
+  
+  
   _stalk_prey() {
     let subsequence_end_step = 480 // Takes 8 hours.
     this.activity.subsequence = 1; // No subsequencing
@@ -965,14 +1070,16 @@ window.onmousemove = function(e) {
 ///////////////////////////
 
 
-// Construct all of the UI elements.
-Game.buildUI();
-
-
 /* Game data is meant to be relevant and preserved between client reloads,
 basically saved progress. */
 var game_data = Game.createGameDataShell();
-game_data = Game.loadGameData();
+
+
+// Construct all of the UI elements.
+Game.buildUI();
+
+Game.loadSavedData();
+
 
 
 var runtime_data = Game.buildRuntimeData();
@@ -1008,13 +1115,15 @@ var mainGameLoop = window.setInterval(function() {
     let activity = runtime_data['activities'][i];
     activity.updateElement();
   */
+  /*
   activity_panes = document.getElementsByClassName('activity_pane');
   for (var i=0; i < activity_panes.length; i++ ) {
     let activity = activity_panes[i];
     console.log(`Iterating activity (<${activity}>) for update.`);
     let activity_id = `${activity.getAttribute('id')}`;
-    Game.updateActivityElement(activity_id);
+    //Game.updateActivityElement(activity_id);
   };
+  */
 
   for (var i = 0; i < game_data.population.length; i++) {
     let populant = game_data.population[i];
