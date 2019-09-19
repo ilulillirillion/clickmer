@@ -224,33 +224,41 @@ class Game {
     Game.createTab('population');
 
     console.debug('Creating population tab inner elements');
-    let populants_pane = Game.createPopulantsPane('_population_tab');
+    let population_pane = Game.createPopulationPane('_population_tab');
     let population_tab = document.getElementById('population_tab');
-    population_tab.appendChild(populants_pane);
+    population_tab.appendChild(population_pane);
     
   }
 
-  static createPopulantsPane(id_suffix='', populate=false, simple=false) {
-    let populants_pane = document.createElement('div');
-    let populants_pane_id = `populants_pane${id_suffix}`;
-    populants_pane.setAttribute('id', populants_pane_id);
+  static createPopulationPane(id_suffix='', populate=false, simple=false) {
+    let population_pane = document.createElement('div');
+    let population_pane_id = `population_pane${id_suffix}`;
+    population_pane.setAttribute('id', population_pane_id);
 
     if (simple) {
-      populants_pane.classList.add('simple_populants_pane');
+      population_pane.classList.add('simple_population_pane');
     } else {
-      populants_pane.classList.add('populants_pane');
+      population_pane.classList.add('population_pane');
     };
 
     if (populate) {
       for (var i=0; i < game_data.population.length; i++) {
         let populant = game_data.population[i];
         let populant_element = populant.createSimpleElement(
-            `_populants_pane${id_suffix}`);
-        populants_pane.appendChild(populant_element);
+            `_population_pane${id_suffix}`);
+        population_pane.appendChild(populant_element);
 
       };
     };
-    return populants_pane;
+    return population_pane;
+  };
+
+  static createActivityPopulationPane(id_suffix='') {
+    let activity_population_pane = document.createElement('div');
+    let activity_population_pane_id = `activity_population_pane${id_suffix}`;
+    activity_population_pane.setAttribute('id', activity_population_pane_id);
+    activity_population_pane.classList.add('activity_population_pane');
+    return activity_population_pane;
   };
     
     
@@ -406,8 +414,10 @@ class Activity {
 
 
     // Create a population pane to show
-    let activity_element_populants_pane = Game.createPopulantsPane(`_${activity_element_id}`, false, true);
-    activity_element.appendChild(activity_element_populants_pane);
+    //let activity_element_population_pane = Game.createPopulationPane(`_${activity_element_id}`, false, true);
+    let activity_element_population_pane = Game.createActivityPopulationPane(
+        `_${activity_element_id}`);
+    activity_element.appendChild(activity_element_population_pane);
     
 
 
@@ -624,7 +634,7 @@ class Actor {
     //this.buildPopulantElement();
     //let populant_pane = this.createPopulantPane();
     //document.appendChild(populant_pane);
-    this.updatePopulantsPanes();
+    this.updatePopulationPanes();
 
 
   }
@@ -673,18 +683,14 @@ class Actor {
       console.debug(`<${self.name}> populant pane clicked.`);
       let target_id = e.target.getAttribute('id');
       console.debug(`Populant pane click target id: ${target_id}`);
-      if (target_id == `${self.uuid}_populant` ||
-          target_id == `${self.uuid}_populant_image` ||
-          target_id == `${self.uuid}_populant_text_span`) {
+      if (target_id == `${self.uuid}${id_suffix}` ||
+          target_id == `${self.uuid}_image${id_suffix}` ||
+          target_id == `${self.uuid}_text_span${id_suffix}`) {
         console.debug(
             `Stopping unintended click on <${self.name}> populant pane.`);
         return;
       };
       populant_element_pane.classList.toggle('populant_pane_expanded');
-      let populant_element_text_span = document.getElementById(
-          `${self.uuid}_populant_text_span${id_suffix}`);
-      populant_element_text_span.classList.toggle(
-          'populant_pane_title_text_expanded');
     });
     return populant_element_pane;
   };
@@ -780,7 +786,7 @@ class Actor {
         name: ${this.name}<br>
         hunger: ${this.statistics.hunger['current']}<br>`
     entity_element_tooltip_text_span.setAttribute(
-        'id', `${this.uuid}_tooltip_text`);
+        'id', `${entity_element_id}_tooltip_text`);
     entity_element_tooltip_text_span.classList.add('tooltiptext');
     // Appends tooltip text span and add tooltip class to octopus root element.
     entity_element.classList.add('tooltip');
@@ -811,27 +817,29 @@ class Actor {
     
 
 
-  updatePopulantsPanes(simple=false) {
-    let class_selector = 'populants_pane';
-    if (simple) {
-      class_selector = 'simple_populants_pane';
-    };
-    let populants_panes = document.getElementsByClassName(class_selector);
-    for (let i=0; i < populants_panes.length; i++) {
-      let populants_pane = populants_panes[i];
-      let populant_pane = populants_pane.querySelector(`[id^="${this.uuid}"]`);
+  updatePopulationPanes() {
+    //let population_panes = document.getElementsByClassName(class_selector);
+    //let population_panes = document.querySelectorAll(`[class$="population_pane"]`);
+    let population_panes = document.getElementsByClassName('population_pane');
+    console.debug(`Updating population panes <${population_panes}> (length: <${population_panes.length}>).`);
+    for (let i=0; i < population_panes.length; i++) {
+      let population_pane = population_panes[i];
+      let populant_pane = population_pane.querySelector(`[id^="${this.uuid}"]`);
+      console.debug(`Updating <${this.name}> on <${population_pane}>.`);
       if (populant_pane == null) {
-        console.debug(`Creating populant pane for <${this.name}> on <${populants_pane}>.`);
-        let populants_pane_id = populants_pane.getAttribute('id');
-        if (simple) {
-          populant_pane = this.createSimpleElement(`_${populants_pane_id}`);
-        } else {
-          populant_pane = this.createPopulantPane(`_${populants_pane_id}`);
-        };
-        populants_pane.appendChild(populant_pane);
+        console.debug(`Creating populant pane for <${this.name}> on <${population_pane}>.`);
+        let population_pane_id = population_pane.getAttribute('id');
+        //if (population_pane.classList.contains('simple_population_pane')) {
+        //  populant_pane = this.createSimpleElement(`_${population_pane_id}`);
+        //} else {
+        //  populant_pane = this.createPopulantPane(`_${population_pane_id}`);
+        //};
+        populant_pane = this.createPopulantPane(`_${population_pane_id}`);
+        population_pane.appendChild(populant_pane);
       }
-      let tooltip = populants_pane.querySelector(`[id^="${this.uuid}_tooltip_text"]`);
+      let tooltip = population_pane.querySelector(`[id*="${this.uuid}"][id$="tooltip_text"]`);
       let tooltip_id = tooltip.getAttribute('id');
+      console.debug(`Updating tooltip <${tooltip}> with id <${tooltip_id}>.`);
       
       //update(`${this.uuid}_tooltip_text`, 
       update(tooltip_id, 
@@ -844,6 +852,54 @@ class Actor {
       );
     };
   }; 
+
+  updateActivityPopulationPanes() {
+    let activity_population_panes = document.getElementsByClassName(
+        'activity_population_pane');
+    for (let i=0; i < activity_population_panes.length; i++) {
+      let activity_population_pane = activity_population_panes[i];
+      let populant_pane = activity_population_pane.querySelector(
+          `[id^="${this.uuid}"]`);
+      if (populant_pane == null) {
+        let population_pane_id = activity_population_pane.getAttribute('id');
+        //populant_pane = this.createPopulantPane(`_${population_pane_id}`);
+        populant_pane = this.createSimpleElement(`_${population_pane_id}`);
+      
+        populant_pane.addEventListener('click', function() {
+          console.log('worker clicked!');
+          if (game_data.population[i].activity == null ||
+              game_data.population[i].activity.name != 
+                  activity_element_text_span.innerHTML) {
+            //game_data.population[i].activity = activity_element_text_span.innerHTML;
+            let _activity = {
+              'name': 'hunt_prey',
+              //'sequence': 1,
+              'step': 1
+            };
+            game_data.population[i].activity = _activity;
+          } else {
+            game_data.population[i].activity = null;
+          };
+        });
+        
+
+
+        activity_population_pane.appendChild(populant_pane);
+      };
+      let tooltip = activity_population_pane.querySelector(
+          `[id*="${this.uuid}"][id$="tooltip_text"]`);
+      let tooltip_id = tooltip.getAttribute('id');
+      update(tooltip_id, 
+          `
+          name: ${this.name}<br>
+          energy: ${this.statistics.energy.current}/${this.statistics.energy.max}<br>
+          health: ${this.statistics.health.current}/${this.statistics.health.max}<br>
+          hunger: ${this.statistics.hunger.current}/${this.statistics.hunger.max}<br>
+          `
+      );
+    };
+  };
+      
 
 
   generateRandomName() {
@@ -1188,7 +1244,7 @@ var mainGameLoop = window.setInterval(function() {
       //if (populant.hasOwnProperty(populant.activity)) {
       if (true) {
         console.log(`${populant.name} has property ${populant.activity}.`);
-        populant[populant.activity.name]();
+        //populant[populant.activity.name]();
       };
     };
 
@@ -1198,8 +1254,11 @@ var mainGameLoop = window.setInterval(function() {
 
     // Updates tooltips
     //populant.updatePopulationTab();
-    populant.updatePopulantsPanes();
-    populant.updatePopulantsPanes(true);
+    populant.updatePopulationPanes();
+    populant.updatePopulationPanes(true);
+
+    populant.updateActivityPopulationPanes();
+
     populant.updateActivityProgressBar();
 
     populant.updateStatistic('hunger', -1);
