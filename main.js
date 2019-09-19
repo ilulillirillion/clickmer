@@ -714,7 +714,7 @@ class Actor {
     console.debug('Activity progress bar completion percentage: ' +
                   `<${completion_percentage}>.`);
     let activity_progress_bar_fill = document.getElementById(
-        `${this.uuid}_activity_progress_bar_fill`);
+        `${this.uuid}_activity_progress_bar_fill_population_pane_population_tab`);
     activity_progress_bar_fill.style.width = `${completion_percentage}%`;
 
   };
