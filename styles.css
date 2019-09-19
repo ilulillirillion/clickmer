@@ -49,8 +49,16 @@ body {
   width: 80px;
 } 
 
+.activity_pane [class$="populants_pane"] {
+  display: none
+}
+
 .activity_pane_expanded {
   padding: 100px;
+}
+
+.activity_pane_expanded [class$="populants_pane"] {
+  display: inline-block;
 }
 
 .activity_pane_title_text {
