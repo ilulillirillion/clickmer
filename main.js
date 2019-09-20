@@ -3,7 +3,7 @@ function capitalizeString(string) {
 };
 
 
-class Game {
+class OldGame {
 
   static createGameDataShell() {
     let game_data_shell = {
@@ -360,12 +360,23 @@ class Game {
 };
 
 
-class DomMixin = Base => class extends Base {
+//class DomMixin = Base => class extends Base {
+//class DomMixin {
+const DomMixin = Base => class extends Base {
   constructor() {
     super();
+    console.debug('Executing DomMixin constructor.');
     this.element_id = this.uuid;
+    this.element_root = this.createElementRoot();
   }
+
+  createElementRoot() {
+    return null
+  };
 };
+
+
+        
   
 
 class Thing {
@@ -378,6 +389,62 @@ class Thing {
     console.debug(`Generated _uuid for <${class_name}>: <${_uuid}>.`);
     this.uuid = `${class_name}_${_uuid}`
     console.debug(`Set <${class_name}> uuid to <${this.uuid}>.`);
+  };
+};
+
+
+//class Game extends Thing {
+//  constructor() {
+//    super();
+//    console.debug(`Instantiating a new game with uuid: <${this.uuid}>.`);
+//    //this.ui = this.buildUI();
+//  };
+//
+//  buildUI() {
+//    console.debug(`Building UI for game <${this.uuid}>.`);
+//    ui = new UI();
+//    return ui;
+//  };
+//};
+
+
+class UI extends Thing {
+  constructor() {
+    super();
+    console.debug(`Instantiating a new UI with uuid: <${this.uuid}>.`);
+
+    this.tabs = this.createTabs();
+    this.navigation_pane = new NavigationPane();
+  };
+
+  // Propogates tick downward to UI children.
+  tick() {
+    this.navigation_pane.tick(this.tabs);
+    for (var tab of this.tabs) {
+      tab.tick();
+    };
+  };
+
+  createTabs() {
+    console.debug(`Creating tabs for UI with uuid: <${this.uuid}>).`);
+    let tabs = [];
+    // Colony Tab
+    let colony_tab = new ColonyTab();
+    tabs.push(colony_tab);
+    console.debug(
+      `Added colony tab (<${colony_tab.uuid}>) to UI (<${this.uuid}>).`);
+    // Population Tab
+    let population_tab = new PopulationTab();
+    tabs.push(population_tab);
+    console.debug(
+      `Added population tab (<${population_tab.uuid}>) to UI (<${this.uuid}>).`);
+    // Research Tab
+    let research_tab = new ResearchTab();
+    tabs.push(research_tab);
+    console.debug(
+      `Added research tab (<${research_tab.uuid}>) to UI (<${this.uuid}>).`);
+    return tabs;
+  };
 };
 
 
@@ -391,12 +458,30 @@ class Tab extends DomMixin(Thing) {
     this.name = name;
     console.debug(`Set tab name to <${this.name}>.`);
 
-    let element = this.createTabElement();
-    let navigation_button_element = this.createNavigationButtonElement()
+    // Element root
+    console.debug(`Element root set to <${this.element_root}>.`);
 
-    runtime_data.ui.tabs.append(this);
+    //let element_root = this.createElementRoot();
+    //let navigation_button_element = this.createNavigationButtonElement()
 
-  createTabElement() {
+    //ui.tabs.append(this);
+  };
+
+  tick() {
+    console.debug(`Ticking tab (<${this.uuid}>).`);
+  };
+
+  hide() {
+    console.debug(`Showing tab (<${this.uuid}>).`);
+    this.element_root.style.display = 'none';
+  };
+
+  show() {
+    console.debug(`Showing tab (<${this.uuid}>).`);
+    this.element_root.style.display = 'inline-block';
+  };
+
+  createElementRoot() {
     console.debug('Creating tab DOM element.');
 
     // Create the tab element itself.
@@ -404,6 +489,8 @@ class Tab extends DomMixin(Thing) {
     tab_element.setAttribute('id', this.element_id);
     document.body.append(tab_element);
     console.debug(`Created tab element with id <${this.element_id}>.`);
+
+    return tab_element;
 
   };
 
@@ -435,39 +522,57 @@ class ResearchTab extends Tab {
 class NavigationPane extends DomMixin(Thing) {
   constructor() {
     super();
-    console.debug(`Creating navigation pane (uuid: <${this.uuid}>.`);
+    console.debug(`Creating navigation pane (uuid: <${this.uuid}>).`);
 
-    let this.element = this.createTabElement();
-    document.body.append(this.element);
-    runtime_data.ui.panes.append(this);
+    //this.element_root = this.createElementRoot();
+    console.debug(`<${this.uuid}> element root is <${this.element_root}>.`);
+    document.body.append(this.element_root);
+    //runtime_data.ui.panes.append(this);
     
 
   };
 
-  tick() {
-    console.debug(`Ticking navigation pane (uuid: <${this.uuid}>.`);
-    for (let i=0; i < runtime_data.ui.tabs.length; i++) {
-      let tab = runtime_data.data.ui.tabs[i];
-      let button = tab.element.querySelector(`#${tab.element_id}_button`);
+  tick(tabs) {
+    console.debug(`Ticking navigation pane (uuid: <${this.uuid}>).`);
+    //for (let i=0; i < runtime_data.ui.tabs.length; i++) {
+    //  let tab = runtime_data.data.ui.tabs[i];
+    for (let tab of tabs) {
+      let button_query = `#${tab.element_id}_button`;
+      console.debug(
+          `Looking for button in <${this.element_root}> with query <${button_query}>.`);
+      let button = this.element_root.querySelector(button_query);
       if (button == null) {
-        let button = this.createTabButtonElement(tab);
+        button = this.createTabButtonElement(tabs, tab);
+        this.element_root.appendChild(button);
       };
-      button.innerHTML = `${capitalizeString(tab.name)} view`'
+      button.innerHTML = `${capitalizeString(tab.name)} view`;
     }
   }
 
-  createTabButtonElement(tab) {
+  createTabButtonElement(tabs, tab) {
     console.debug(`Creating button for <${tab.name}>.`);
     let button = document.createElement('button');
-    button.setAttribute('id', `${tab.element_id}_button`);
+    let button_id = `${tab.element_id}_button`;
+    button.setAttribute('id', button_id);
+    console.debug(`Set button id to <${button.getAttribute('id')}>.`);
     //button.innerHTML = `${capitalizeString(tab.name)} view`;
     button.addEventListener('click', function() {
-      Game.showTab(tab);
+      console.debug(`Triggered <${tab.name}> button on <${tab.uuid}>.`);
+      for (let _tab of tabs) {
+        console.debug(`Checking whether to show or hide <${_tab.uuid}>.`);
+        if (_tab.uuid == tab.uuid) {
+          console.debug(`Going to show <${_tab.uuid}>.`);
+          _tab.show();
+        } else {
+          console.debug(`Going to hide <${_tab.uuid}>.`);
+          _tab.hide();
+        }
+      }
     });
     return button;
   };
     
-  createTabElement() {
+  createElementRoot() {
     console.debug('Creating navigation pane DOM element.');
 
     // Navigation Pane
@@ -1186,13 +1291,14 @@ function uuidv6() {
     var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
     return v.toString(16);
   });
+};
 
 function uuidv5() {
   return 'axxxxxxx-xxxx-xxxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
     var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
     return v.toString(16);
   });
-
+};
 
 
 function uuidv4() {
@@ -1296,43 +1402,98 @@ window.onmousemove = function(e) {
 };
 
 
+function buildUI() {
+  console.debug(`Building UI for game <${this.uuid}>.`);
+  ui = new UI();
+  return ui;
+};
 
+
+function createGameData() {
+  console.debug('Creating game data.');
+  game_data = {};
+  console.debug(`Create game data: <${game_data}>.`);
+  return game_data;
+};
+
+
+function loadSavedData(game_data) {
+  console.debug('Loading saved data');
+  return game_data;
+};
+
+
+function tick() {
+  console.debug('Ticking.');
+  ui.tick();
+};
+
+
+function loopMain() {
+  console.debug('Starting main loop.');
+  setInterval(function() {
+    tick();
+  }, 1000);
+};
   
 
 // Do main ////////////////
 ///////////////////////////
 
 
+// Create game data.
+game_data = createGameData();
+
+// Load saved data.
+game_data = loadSavedData(game_data);
+
+// Create the UI.
+ui = new UI();
+
+// Start the main loop;
+loopMain();
+
+
+
+
+
+
+
+
+
+
 /* Game data is meant to be relevant and preserved between client reloads,
 basically saved progress. */
-var game_data = Game.createGameDataShell();
+
+//var game_data = Game.createGameDataShell();
 
 
 // Construct all of the UI elements.
-Game.buildUI();
+//Game.buildUI();
 
-Game.loadSavedData();
+//Game.loadSavedData();
 
 
 
-var runtime_data = Game.buildRuntimeData();
+//var runtime_data = Game.buildRuntimeData();
 
 
 // Retrieve any valid save data and start autosaving.
 //var [game_data, save_data] = Game.loadSavedData();
-Game.startAutosaveScheduler();
+//Game.startAutosaveScheduler();
 
 //runtime_data['activities'] = generateActivities();
 
-createEventLog();
+//createEventLog();
 
 // go to a tab for the first time, so not all show
 //tab('colony_tab')
 
-console.log(game_data);
-var mainGameLoop = window.setInterval(function() {
+//console.log(game_data);
+//var mainGameLoop = window.setInterval(function() {
 
-  console.log(game_data);
+
+  //console.log(game_data);
 
   // Figure out delta from last tick
   // May need this for offline progress (time_delta / main loop ms), but
@@ -1340,7 +1501,7 @@ var mainGameLoop = window.setInterval(function() {
   //time_delta = Date.now() - game_data.lastTick;
 
   // Save current time as the new "last" tick
-  game_data.lastTick = Date.now()
+  //game_data.lastTick = Date.now()
 
   // Refresh activity panes
   /*
@@ -1348,18 +1509,17 @@ var mainGameLoop = window.setInterval(function() {
     let activity = runtime_data['activities'][i];
     activity.updateElement();
   */
-  /*
-  activity_panes = document.getElementsByClassName('activity_pane');
-  for (var i=0; i < activity_panes.length; i++ ) {
-    let activity = activity_panes[i];
-    console.log(`Iterating activity (<${activity}>) for update.`);
-    let activity_id = `${activity.getAttribute('id')}`;
+  //activity_panes = document.getElementsByClassName('activity_pane');
+  //for (var i=0; i < activity_panes.length; i++ ) {
+  //  let activity = activity_panes[i];
+  //  console.log(`Iterating activity (<${activity}>) for update.`);
+  //  let activity_id = `${activity.getAttribute('id')}`;
     //Game.updateActivityElement(activity_id);
-  };
-  */
+  //};
 
-  for (var i = 0; i < game_data.population.length; i++) {
-    let populant = game_data.population[i];
+
+  //for (var i = 0; i < game_data.population.length; i++) {
+  //  let populant = game_data.population[i];
 
     /*
     // Check and apply octopus tasks
@@ -1379,14 +1539,14 @@ var mainGameLoop = window.setInterval(function() {
     };
     */
 
-    if (populant.activity != null) {
-      console.log(`${populant.name} doing ${populant.activity.name}.`);
-      //if (populant.hasOwnProperty(populant.activity)) {
-      if (true) {
-        console.log(`${populant.name} has property ${populant.activity}.`);
-        //populant[populant.activity.name]();
-      };
-    };
+    //if (populant.activity != null) {
+    //  console.log(`${populant.name} doing ${populant.activity.name}.`);
+    //  //if (populant.hasOwnProperty(populant.activity)) {
+    //  if (true) {
+    //    console.log(`${populant.name} has property ${populant.activity}.`);
+    //    //populant[populant.activity.name]();
+    //  };
+    //};
 
     // Update octopus element
     //game_data.octopi[i].updatePopulationTab();
@@ -1394,23 +1554,23 @@ var mainGameLoop = window.setInterval(function() {
 
     // Updates tooltips
     //populant.updatePopulationTab();
-    populant.updatePopulationPanes();
-    populant.updatePopulationPanes(true);
+    //populant.updatePopulationPanes();
+    //populant.updatePopulationPanes(true);
 
-    populant.updateActivityPopulationPanes();
+    //populant.updateActivityPopulationPanes();
 
-    populant.updateActivityProgressBar();
+    //populant.updateActivityProgressBar();
 
-    populant.updateStatistic('hunger', -1);
+    //populant.updateStatistic('hunger', -1);
 
-  }
+  //}
     
-  Game.tryRandomTraveller();
+  //Game.tryRandomTraveller();
 
-  Game.updatePopulationTab();
+  //Game.updatePopulationTab();
 
   // Update octopi count
-  update('population_p', 'population: ' + game_data.population.length);
+  //update('population_p', 'population: ' + game_data.population.length);
   
 
-}, 1000)
+//}, 1000)
