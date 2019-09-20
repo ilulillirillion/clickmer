@@ -360,6 +360,134 @@ class Game {
 };
 
 
+class DomMixin = Base => class extends Base {
+  constructor() {
+    super();
+    this.element_id = this.uuid;
+  }
+};
+  
+
+class Thing {
+  constructor() {
+    console.debug('Instantiating an object.');
+    let class_name = this.constructor.name.toLowerCase();
+    console.debug(`Instantiating a <${class_name}>.`);
+
+    let _uuid = uuidv6();
+    console.debug(`Generated _uuid for <${class_name}>: <${_uuid}>.`);
+    this.uuid = `${class_name}_${_uuid}`
+    console.debug(`Set <${class_name}> uuid to <${this.uuid}>.`);
+};
+
+
+// DomMixin provides element_id.
+class Tab extends DomMixin(Thing) {
+  constructor(name) {
+    super();
+    console.debug(`Creating tab with name: <${name}>.`);
+
+    // Name
+    this.name = name;
+    console.debug(`Set tab name to <${this.name}>.`);
+
+    let element = this.createTabElement();
+    let navigation_button_element = this.createNavigationButtonElement()
+
+    runtime_data.ui.tabs.append(this);
+
+  createTabElement() {
+    console.debug('Creating tab DOM element.');
+
+    // Create the tab element itself.
+    let tab_element = document.createElement('div');
+    tab_element.setAttribute('id', this.element_id);
+    document.body.append(tab_element);
+    console.debug(`Created tab element with id <${this.element_id}>.`);
+
+  };
+
+};
+
+
+class ColonyTab extends Tab {
+  constructor() {
+    super('colony_tab');
+    console.debug('Creating colony tab.');
+  };
+};
+
+class PopulationTab extends Tab {
+  constructor() {
+    super('population_tab');
+    console.log('Creating population tab.');
+  };
+};
+
+class ResearchTab extends Tab {
+  constructor() {
+    super('research_tab');
+    console.log('Creating research tab.');
+  };
+};
+
+
+class NavigationPane extends DomMixin(Thing) {
+  constructor() {
+    super();
+    console.debug(`Creating navigation pane (uuid: <${this.uuid}>.`);
+
+    let this.element = this.createTabElement();
+    document.body.append(this.element);
+    runtime_data.ui.panes.append(this);
+    
+
+  };
+
+  tick() {
+    console.debug(`Ticking navigation pane (uuid: <${this.uuid}>.`);
+    for (let i=0; i < runtime_data.ui.tabs.length; i++) {
+      let tab = runtime_data.data.ui.tabs[i];
+      let button = tab.element.querySelector(`#${tab.element_id}_button`);
+      if (button == null) {
+        let button = this.createTabButtonElement(tab);
+      };
+      button.innerHTML = `${capitalizeString(tab.name)} view`'
+    }
+  }
+
+  createTabButtonElement(tab) {
+    console.debug(`Creating button for <${tab.name}>.`);
+    let button = document.createElement('button');
+    button.setAttribute('id', `${tab.element_id}_button`);
+    //button.innerHTML = `${capitalizeString(tab.name)} view`;
+    button.addEventListener('click', function() {
+      Game.showTab(tab);
+    });
+    return button;
+  };
+    
+  createTabElement() {
+    console.debug('Creating navigation pane DOM element.');
+
+    // Navigation Pane
+    let navigation_pane = document.createElement('div');
+    navigation_pane.setAttribute('id', this.element_id);
+    document.body.append(navigation_pane);
+    console.debug(`Created navigation pane element with id <${this.element_id}>.`);
+    return navigation_pane;
+
+  };
+
+};
+  
+
+  
+    
+    
+    
+
+
 class Activity {
 
   constructor(args={}) {
@@ -1053,6 +1181,18 @@ class Human extends Actor {
 
 
   
+function uuidv6() {
+  return 'xxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+
+function uuidv5() {
+  return 'axxxxxxx-xxxx-xxxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+
 
 
 function uuidv4() {
