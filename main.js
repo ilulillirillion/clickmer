@@ -61,6 +61,15 @@ function loopMain(game_data, ui) {
     tick(game_data, ui);
   }, 1000, game_data, ui);
 };
+
+
+function createActivities() {
+  let activities = [];
+
+  let hunt_prey_activity = new HuntPreyActivity();
+  activities.push(hunt_prey_activity);
+  return activities;
+};
   
 
 // Do main ////////////////
@@ -68,7 +77,8 @@ function loopMain(game_data, ui) {
 
 console.debug('Starting main.');
 
-import UI from './classes/ui.js'
+import UI from './classes/UI.js'
+import HuntPreyActivity from './classes/HuntPreyActivity.js';
 
 
 // Create game data.
@@ -76,6 +86,8 @@ var game_data = createGameData();
 
 // Load saved data.
 game_data = loadSavedData(game_data);
+
+var activities = createActivities();
 
 // Create the UI.
 var ui = new UI();

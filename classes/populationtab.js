@@ -1,4 +1,4 @@
-import Tab from './tab.js';
+import Tab from './Tab.js';
 
 export default class PopulationTab extends Tab {
   constructor() {

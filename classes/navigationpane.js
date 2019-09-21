@@ -1,6 +1,6 @@
-import { DomMixin } from './dom_mixin.js';
-import Thing from './thing.js';
-import capitalizeString from '../functions/capitalizestring.js'
+import { DomMixin } from '../mixins/DomMixin.js';
+import Thing from './Thing.js';
+import capitalizeString from '../functions/capitalizeString.js'
 
 export default class NavigationPane extends DomMixin(Thing) {
   constructor() {

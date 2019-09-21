@@ -1,8 +1,8 @@
-import Thing from './thing.js';
-import NavigationPane from './navigationpane.js';
-import ColonyTab from './colonytab.js';
-import PopulationTab from './populationtab.js';
-import ResearchTab from './researchtab.js';
+import Thing from './Thing.js';
+import NavigationPane from './NavigationPane.js';
+import ColonyTab from './ColonyTab.js';
+import PopulationTab from './PopulationTab.js';
+import ResearchTab from './ResearchTab.js';
 
 export default class UI extends Thing {
   constructor() {

@@ -1,164 +1,76 @@
-class Activity {
+import Thing from './Thing.js';
+import { DomMixin } from '../mixins/DomMixin.js';
 
-  constructor(args={}) {
-    console.debug(`Creating activity with arguments: <${args}>.`);
-    this.name = 'activity';
-    if (args.name) {
-      this.name = args.name;
-    };
-    this.tooltip_text = 'tooltip_text';
-    if (args.tooltip_text) {
-      this.tooltip_text = args.tooltip_text;
-    };
+export default class Activity extends DomMixin(Thing) {
 
-    this.sequences = {};
-    if (args.sequences) {
-      this.sequences = args.sequences;
-    };
+  constructor() {
+    super();
+    console.debug(`Creating new activity <${this.uuid}>.`);
 
-    this.element_base_id = this.name;
+    this.dom = {};
 
-    this.createElement();
+    this.dom.activity_pane = this.createActivityPane();
+
+    this.dom.activity_pane_text_span = this.createActivityPaneTextSpan();
+    this.dom.activity_pane.appendChild(this.dom.activity_pane_text_span);
+
+    this.dom.activity_pane_tooltip_text_span = this.createActivityPaneTooltipTextSpan();
+    this.dom.activity_pane.appendChild(this.dom.activity_pane_tooltip_text_span);
+
+    this.dom.activity_pane_population_pane = this.createActivityPanePopulationPane();
+    this.dom.activity_pane.appendChild(this.dom.activity_pane_population_pane);
+
   };
 
-  createElement() {
+  createActivityPane() {
+    console.debug(`Creating <${this.uuid}> DOM element.`);
+    
+    // Activity Pane
+    let activity_pane = document.createElement('div');
+    //let activity_pane_id = this.element_id;
+    let activity_pane_id = `${this.uuid}_activity_pane`;
+    activity_pane.setAttribute('id', activity_pane_id);
+    console.debug(`Set <${this.uuid}> activity pane id to <${activity_pane.getAttribute('id')}>.`);
+    activity_pane.classList.add('activity_pane');
+    activity_pane.classList.add('has_tooltip');
 
-    // Create a DOM element to represent the activity.
-    let activity_element = document.createElement('div');
-    let activity_element_id = `${this.element_base_id}_pane`;
-    activity_element.setAttribute('id', activity_element_id);
-    activity_element.classList.add('activity_pane');
+    activity_pane.addEventListener('click', function(e) {
+      console.debug(`<${this.uuid}> clicked.`);
+    };
 
+    return activity_pane;
 
-    // Create and attach a span to act as inner text.
-    let activity_element_text_span = document.createElement('span');
-    let activity_element_text_span_id = `${activity_element_id}_text_span`;
-    activity_element_text_span.setAttribute(
-        'id', activity_element_text_span_id);
-    activity_element_text_span.classList.add(
-        `${activity_element_id}_title_text`);
-    activity_element_text_span.innerHTML = `${this.name}`;
-    activity_element.appendChild(activity_element_text_span);
-
-
-    // Create a tooltip text span
-    let activity_element_tooltip_text = document.createElement('span');
-    activity_element_tooltip_text.setAttribute(
-        'id', `${activity_element_id}_tooltip_text`);
-    activity_element_tooltip_text.classList.add('tooltiptext');
-    activity_element_tooltip_text.innerHTML = this.tooltip_text;
-    activity_element.classList.add('tooltip');
-    activity_element.appendChild(activity_element_tooltip_text);
-
-
-    // Create a population pane to show
-    //let activity_element_population_pane = Game.createPopulationPane(`_${activity_element_id}`, false, true);
-    let activity_element_population_pane = Game.createActivityPopulationPane(
-        `_${activity_element_id}`);
-    activity_element.appendChild(activity_element_population_pane);
-
-
-
-    activity_element.addEventListener('click', function(e) {
-
-      if (e.target.getAttribute('id') != activity_element_id &&
-          e.target.getAttribute('id') != activity_element_text_span_id) {
-        return;
-      }
-      activity_element.classList.toggle('activity_pane_expanded');
-      activity_element_text_span.classList.toggle(
-          'activity_pane_title_text_expanded');
-      console.log(
-          `activity_element_text_span className: \
-          ${activity_element_text_span.className}`);
-      //Game.updateActivityElement(activity_element_id);
-
-    });
-
-    document.getElementById('colony_tab').appendChild(activity_element);
-    //Game.updateActivityElement('hunt_prey_pane');
   };
 
-
-
-  ///////////
-  updateActivityElement() {
-    let activity_element_id = `${this.element_base_id}_pane`;
-    let activity_element = document.getElementById(activity_element_id);
-    if (!(activity_element.classList.contains('activity_pane_expanded'))) {
-      let workers_list = document.getElementById(
-          `${activity_element_id}_workers_list`);
-      if (typeof workers_list !== 'undefined' && workers_list != null) {
-        workers_list.remove();
-      }
-    }
-
-    else {
-
-      let workers_list = document.getElementById(
-        `${activity_element_id}_workers_list`);
-      try {
-        console.log(`workers list: ${workers_list}`);
-        workers_list.remove()
-        console.log('removed worker list');
-      } catch(error) {
-        console.log('error');
-      };
-
-      // Create a div to house the population list
-      workers_list = document.createElement('div');
-      workers_list.setAttribute('id',
-          `${activity_element_id}_workers_list`);
-      activity_element.appendChild(workers_list);
-
-      // Create a header for the population
-      let workers_list_header = document.createElement('span');
-      workers_list_header.setAttribute(
-          'id', `${activity_element_id}_workers_list_header`);
-      workers_list_header.innerHTML = 'Workers:';
-      workers_list.appendChild(workers_list_header);
-
-      console.log(`game_data.population.length = ${game_data.population.length}`);
-      for (let i = 0; i < game_data.population.length; i++) {
-        console.log(
-            `Adding ${game_data.population[i].name} to the workers list.`);
-        let populant_element = game_data.population[i].createSimpleElement('_worker');
-        let activity_element_text_span = document.getElementById(
-            `${activity_element_id}_text_span`);
-        console.log(`populant_element children: <${populant_element.childNodes}>.`);
-        //console.log(`populant activity: <${game_data.population[i].activity.name}>.`);
-        console.log(`activity name: <${activity_element_text_span.innerHTML}>.`);
-        if (game_data.population[i].activity != null) {
-          if (game_data.population[i].activity.name ==
-              activity_element_text_span.innerHTML) {
-            let populant_element_text_span_id =
-                `${game_data.population[i].uuid}_worker_text_span`;
-            console.log(`populant_element_text_span_id: \
-                <${populant_element_text_span_id}>.`);
-            let populant_element_text_span = populant_element.querySelector(
-                `#${populant_element_text_span_id}`);
-            console.log(populant_element_text_span);
-            populant_element_text_span.style.fontWeight = 'bold';
-          };
-        };
-        populant_element.addEventListener('click', function() {
-          console.log('worker clicked!');
-          if (game_data.population[i].activity == null ||
-              game_data.population[i].activity.name !=
-                  activity_element_text_span.innerHTML) {
-            //game_data.population[i].activity = activity_element_text_span.innerHTML;
-            let _activity = {
-              'name': 'hunt_prey',
-              //'sequence': 1,
-              'step': 1
-            };
-            game_data.population[i].activity = _activity;
-          } else {
-            game_data.population[i].activity = null;
-          };
-        });
-        workers_list.appendChild(populant_element);
-      }
-    }
+  createActivityPaneTextSpan() {
+    console.debug(`Creating <${this.uuid}> activity pane text span.`);
+    let text_span = document.createElement('span');
+    let text_span_id = `${this.uuid}_activity_pane_text_span`;
+    text_span.setAttribute('id', text_span_id);
+    text_span.classList.add('activity_pane_text_span');
+    text_span.innerHTML = this.name;
+    console.debug(`Created activity pane text span with element id <${text_span.getAttribute('id')}>.`);
+    return text_span;
   };
+
+  createActivityPaneTooltipTextSpan() {
+    console.debug(`Creating <${this.uuid}> activity pane tooltip text span.`);
+    let tooltip_text_span = document.createElement('span');
+    let tooltip_text_span_id = `${this.uuid}_activity_pane_tooltip_text_span`;
+    tooltip_text_span.setAttribute('id', tooltip_text_span_id);
+    tooltip_text_span.classClist.add('tooltip_text');
+    tooltip_text_span.innerHTML = this.tooltip_text_string;
+    return tooltip_text_span;
+  };
+
+  createActivityPanePopulationPane() {
+    console.debug(`Creating <${this.uuid}> activity pane population pane.`);
+    let population_pane = document.createElement('div');
+    let population_pane_id = `${this.uuid}_activity_pane_population_pane`;
+    population_pane.setAttribute('id', population_pane_id);
+    population_pane.classList.add('activity_pane_population_pain');
+    console.debug(`Created <${this.uuid}> activity pane population pane with element id <${population_pane.getAttribute('id')}>.`);
+    return population_pane;
+  };
+
 };

@@ -1,5 +1,5 @@
-import { DomMixin } from './dom_mixin.js';
-import Thing from './thing.js';
+import { DomMixin } from '../mixins/DomMixin.js';
+import Thing from './Thing.js';
 
 // DomMixin provides element_id.
 export default class Tab extends DomMixin(Thing) {
