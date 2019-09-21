@@ -12,12 +12,17 @@ export default class Tab extends DomMixin(Thing) {
     console.debug(`Set tab name to <${this.name}>.`);
 
     // Element root
-    console.debug(`Element root set to <${this.element_root}>.`);
+    //console.debug(`Element root set to <${this.element_root}>.`);
 
     //let element_root = this.createElementRoot();
     //let navigation_button_element = this.createNavigationButtonElement()
 
     //ui.tabs.append(this);
+  
+    this.dom = {};
+    this.dom.tab = this.createTabElement();  
+    this.dom.root = this.dom.tab;
+    this.dom.tab_pane = this.dom.tab;
   };
 
   tick() {
@@ -31,16 +36,22 @@ export default class Tab extends DomMixin(Thing) {
 
   show() {
     console.debug(`Showing tab (<${this.uuid}>).`);
-    this.element_root.style.display = 'inline-block';
+    this.dom.tab.style.display = 'inline-block';
   };
 
-  createElementRoot() {
+  createTabElement() {
     console.debug('Creating tab DOM element.');
 
     // Create the tab element itself.
     let tab_element = document.createElement('div');
     tab_element.setAttribute('id', this.element_id);
-    document.body.append(tab_element);
+
+    tab_element.addEventListener('hide_tabs', function() {
+      console.debug(`<${this.uuid}> responding to 'hide_tabs' event.`);
+      tab_element.style.display = 'none';
+    });
+
+    //document.body.append(tab_element);
     console.debug(`Created tab element with id <${this.element_id}>.`);
 
     return tab_element;

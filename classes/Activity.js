@@ -9,20 +9,20 @@ export default class Activity extends DomMixin(Thing) {
 
     this.dom = {};
 
-    this.dom.activity_pane = this.createActivityPane();
+    this.dom.activity_pane = this.createActivityPaneElement();
 
-    this.dom.activity_pane_text_span = this.createActivityPaneTextSpan();
+    this.dom.activity_pane_text_span = this.createActivityPaneTextSpanElement();
     this.dom.activity_pane.appendChild(this.dom.activity_pane_text_span);
 
-    this.dom.activity_pane_tooltip_text_span = this.createActivityPaneTooltipTextSpan();
+    this.dom.activity_pane_tooltip_text_span = this.createActivityPaneTooltipTextSpanElement();
     this.dom.activity_pane.appendChild(this.dom.activity_pane_tooltip_text_span);
 
-    this.dom.activity_pane_population_pane = this.createActivityPanePopulationPane();
+    this.dom.activity_pane_population_pane = this.createActivityPanePopulationPaneElement();
     this.dom.activity_pane.appendChild(this.dom.activity_pane_population_pane);
 
   };
 
-  createActivityPane() {
+  createActivityPaneElement() {
     console.debug(`Creating <${this.uuid}> DOM element.`);
     
     // Activity Pane
@@ -36,13 +36,13 @@ export default class Activity extends DomMixin(Thing) {
 
     activity_pane.addEventListener('click', function(e) {
       console.debug(`<${this.uuid}> clicked.`);
-    };
+    });
 
     return activity_pane;
 
   };
 
-  createActivityPaneTextSpan() {
+  createActivityPaneTextSpanElement() {
     console.debug(`Creating <${this.uuid}> activity pane text span.`);
     let text_span = document.createElement('span');
     let text_span_id = `${this.uuid}_activity_pane_text_span`;
@@ -53,17 +53,17 @@ export default class Activity extends DomMixin(Thing) {
     return text_span;
   };
 
-  createActivityPaneTooltipTextSpan() {
+  createActivityPaneTooltipTextSpanElement() {
     console.debug(`Creating <${this.uuid}> activity pane tooltip text span.`);
     let tooltip_text_span = document.createElement('span');
     let tooltip_text_span_id = `${this.uuid}_activity_pane_tooltip_text_span`;
     tooltip_text_span.setAttribute('id', tooltip_text_span_id);
-    tooltip_text_span.classClist.add('tooltip_text');
+    tooltip_text_span.classList.add('tooltip_text');
     tooltip_text_span.innerHTML = this.tooltip_text_string;
     return tooltip_text_span;
   };
 
-  createActivityPanePopulationPane() {
+  createActivityPanePopulationPaneElement() {
     console.debug(`Creating <${this.uuid}> activity pane population pane.`);
     let population_pane = document.createElement('div');
     let population_pane_id = `${this.uuid}_activity_pane_population_pane`;
