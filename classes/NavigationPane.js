@@ -12,7 +12,7 @@ export default class NavigationPane extends DomMixin(Thing) {
     //console.debug(`<${this.uuid}> element root is <${this.element_root}>.`);
     //document.body.append(this.element_root);
     //runtime_data.ui.panes.append(this);
-    this.dom = {};
+    //this.dom = {};
     this.dom.navigation_pane = this.createNavigationPaneElement();
     console.debug(`<${this.uuid}> dom.navigation_pane: <${this.dom.navigation_pane}>.`);
     this.dom.navigation_pane_buttons = [];

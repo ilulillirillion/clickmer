@@ -20,7 +20,7 @@ export default class TabNavigationButton extends DomMixin(Thing) {
     this.tab = tab;
     console.debug(`<${this.uuid}> tab set to <${this.tab.uuid}>.`);
 
-    this.dom = {};
+    //this.dom = {};
     console.debug(`Created <${this.uuid}> dom: <${this.dom}>.`);
 
     this.dom.button = this.createTabNavigationButtonElement();

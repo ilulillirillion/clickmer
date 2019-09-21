@@ -19,7 +19,7 @@ export default class Tab extends DomMixin(Thing) {
 
     //ui.tabs.append(this);
   
-    this.dom = {};
+    //this.dom = {};
     this.dom.tab = this.createTabElement();  
     this.dom.root = this.dom.tab;
     this.dom.tab_pane = this.dom.tab;

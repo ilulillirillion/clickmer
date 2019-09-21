@@ -7,7 +7,7 @@ export default class Activity extends DomMixin(Thing) {
     super();
     console.debug(`Creating new activity <${this.uuid}>.`);
 
-    this.dom = {};
+    //this.dom = {};
 
     this.dom.activity_pane = this.createActivityPaneElement();
 

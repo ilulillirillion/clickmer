@@ -10,7 +10,7 @@ export default class UI extends DomMixin(Thing) {
     super();
     console.debug(`Instantiating a new UI with uuid: <${this.uuid}>.`);
 
-    this.dom = {};
+    //this.dom = {};
     this.dom.root_pane = this.createRootPane();
 
     this.buildTabs();
