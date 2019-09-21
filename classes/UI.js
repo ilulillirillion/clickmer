@@ -13,8 +13,14 @@ export default class UI extends DomMixin(Thing) {
     //this.dom = {};
     this.dom.root_pane = this.createRootPane();
 
-    this.buildTabs();
+    //TODO: replace these with 'this.attribute =' syntax for readability
+    //this.buildTabs();
     this.buildNavigationPane();
+
+    this.tabs = this.createTabs();
+    for (let tab of this.tabs) {
+      this.dom.root_pane.appendChild(tab.dom.tab_pane);
+    };
 
     //this.tabs = this.createTabs();
     //this.navigation_pane = new NavigationPane();
@@ -23,6 +29,10 @@ export default class UI extends DomMixin(Thing) {
     let self = this;
     document.addEventListener('hide_tabs', function() {
       console.debug(`<${self.uuid}> responding to hide_tabs event.`);
+      for (let tab of self.tabs) {
+        //tab.dom.tab_pane.style.display = 'none';
+        tab.hide();
+      };
     });
 
     document.body.append(this.dom.root_pane);
@@ -59,27 +69,27 @@ export default class UI extends DomMixin(Thing) {
     root_pane.appendChild(tab.dom.tab_pane);
   };
 
-  buildTabs() {
+  createTabs() {
     console.debug(`Building tabs for UI with uuid: <${this.uuid}>).`);
-    this.tabs = [];
+    let tabs = [];
     // Colony Tab
     let colony_tab = new ColonyTab();
-    this.addTab(colony_tab);
-    //tabs.push(colony_tab);
-    //console.debug(
-    //  `Added colony tab (<${colony_tab.uuid}>) to UI (<${this.uuid}>).`);
+    //this.addTab(colony_tab);
+    tabs.push(colony_tab);
+    console.debug(
+      `Added colony tab (<${colony_tab.uuid}>) to UI (<${this.uuid}>).`);
     // Population Tab
     let population_tab = new PopulationTab();
-    this.addTab(population_tab);
-    //tabs.push(population_tab);
-    //console.debug(
-    //  `Added population tab (<${population_tab.uuid}>) to UI (<${this.uuid}>).`);
+    //this.addTab(population_tab);
+    tabs.push(population_tab);
+    console.debug(
+      `Added population tab (<${population_tab.uuid}>) to UI (<${this.uuid}>).`);
     // Research Tab
     let research_tab = new ResearchTab();
-    this.addTab(research_tab);
-    //tabs.push(research_tab);
-    //console.debug(
-    //  `Added research tab (<${research_tab.uuid}>) to UI (<${this.uuid}>).`);
-    //return tabs;
+    //this.addTab(research_tab);
+    tabs.push(research_tab);
+    console.debug(
+      `Added research tab (<${research_tab.uuid}>) to UI (<${this.uuid}>).`);
+    return tabs;
   };
 };

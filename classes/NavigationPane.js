@@ -82,7 +82,7 @@ export default class NavigationPane extends DomMixin(Thing) {
 
     // Navigation Pane
     let navigation_pane = document.createElement('div');
-    navigation_pane.setAttribute('id', this.element_id);
+    navigation_pane.setAttribute('id', `${this.uuid}_navigation_pane`);
 
     let self = this;
     navigation_pane.addEventListener('hide_tabs', function() {
