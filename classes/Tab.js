@@ -22,6 +22,8 @@ export default class Tab extends Pane {
     let tab_pane_name = `${this.name}_tab_pane`;
     console.debug(tab_pane_name);
     this.dom[tab_pane_name].classList.add('tab');
+    // Tabs are hidden by default.
+    this.dom[tab_pane_name].style.display = 'none';
 
     this.dom.main_tab_pane = this.dom[tab_pane_name];
 
