@@ -19,7 +19,7 @@ export default class UI extends DomMixin(Thing) {
 
     this.tabs = this.createTabs();
     for (let tab of this.tabs) {
-      this.dom.root_pane.appendChild(tab.dom.tab_pane);
+      this.dom.root_pane.appendChild(tab.dom.main_tab_pane);
     };
 
     //this.tabs = this.createTabs();

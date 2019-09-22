@@ -2,7 +2,7 @@ import Tab from './Tab.js';
 
 export default class ColonyTab extends Tab {
   constructor() {
-    super('colony_tab');
+    super(name = 'colony');
     console.debug('Creating colony tab.');
 
     this.header_text = 'Colony Tab!';
