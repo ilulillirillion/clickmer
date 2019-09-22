@@ -1,4 +1,5 @@
 import Pane from '../classes/Pane.js';
+import PopulantPane from '../classes/PopulantPane.js';
 
 
 export default class PopulantsPane extends Pane {
@@ -9,6 +10,9 @@ export default class PopulantsPane extends Pane {
     // Header text.
     this.header_text = 'populants_pane';
     console.debug(`<${this.uuid}> header text set to <${this.header_text}>.`);
+
+    let test_populant_pane = new PopulantPane();
+    this.dom.main_pane.appendChild(test_populant_pane.dom.main_pane);
 
   };
 

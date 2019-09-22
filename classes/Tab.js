@@ -8,7 +8,7 @@ import Pane from '../classes/Pane.js';
 export default class Tab extends Pane {
   constructor(name) {
     let super_name = `${name}_tab`;
-    super(super_name);
+    super({ 'name': super_name });
     console.debug(`Creating tab with name: <${name}>.`);
 
     // Name
@@ -19,13 +19,15 @@ export default class Tab extends Pane {
     this.header_text = 'A tab.';
     console.debug(`<${this.uuid}> header text set to <${this.header_text}>.`);
 
-    let tab_pane_name = `${this.name}_tab_pane`;
-    console.debug(tab_pane_name);
-    this.dom[tab_pane_name].classList.add('tab');
+    //let tab_pane_name = `${this.name}_tab_pane`;
+    //console.debug(tab_pane_name);
+    //this.dom[tab_pane_name].classList.add('tab');
     // Tabs are hidden by default.
-    this.dom[tab_pane_name].style.display = 'none';
+    //this.dom[tab_pane_name].style.display = 'none';
 
-    this.dom.main_tab_pane = this.dom[tab_pane_name];
+    //this.dom.main_tab_pane = this.dom[tab_pane_name];
+    
+    this.dom.main_pane.style.display = 'none';
 
     // Element root
     //console.debug(`Element root set to <${this.element_root}>.`);
@@ -72,14 +74,16 @@ export default class Tab extends Pane {
 
   hide() {
     console.debug(`Showing tab (<${this.uuid}>).`);
-    let tab_pane_name = `${this.name}_tab_pane`;
-    this.dom[tab_pane_name].style.display = 'none';
+    //let tab_pane_name = `${this.name}_tab_pane`;
+    //this.dom[tab_pane_name].style.display = 'none';
+    this.dom.main_pane.style.display = 'none';
   };
 
   show() {
     console.debug(`Showing tab (<${this.uuid}>).`);
-    let tab_pane_name = `${this.name}_tab_pane`;
-    this.dom[tab_pane_name].style.display = 'inline-block';
+    //let tab_pane_name = `${this.name}_tab_pane`;
+    //this.dom[tab_pane_name].style.display = 'inline-block';
+    this.dom.main_pane.style.display = 'inline-block';
   };
 
   createHeaderTextElement(
