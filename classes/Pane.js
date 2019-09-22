@@ -9,6 +9,7 @@ export default class Pane extends DomMixin(Thing) {
     console.debug(`Instantiating <${name}> Pane <${this.uuid}>.`);
     let default_args = Pane.default_args;
 
+    /*
     // Name.
     this.name = args.name;
     let default_name = default_args.name;
@@ -17,6 +18,7 @@ export default class Pane extends DomMixin(Thing) {
       this.name = default_name;
     };
     console.debug(`<${this.uuid}> name set to <${this.name}>.`);
+    */
 
 
     // Header text.

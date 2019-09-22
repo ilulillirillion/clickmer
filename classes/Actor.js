@@ -1,5 +1,5 @@
 export default class Actor extends Thing {
-  let default_args = {
+  static default_args = {
     'uuid': null,
     'name': null,
     'statistics': {
@@ -37,9 +37,10 @@ export default class Actor extends Thing {
     }
       }) {
   */
-  constructor(args=default_args) {
+  constructor(args = Actor.default_args) {
     super();
     console.debug(`Instantiating Actor <${this.uuid}>.`);
+    let default_args = Actor.default_args;
 
     this.statistics = args.statistics;
 
