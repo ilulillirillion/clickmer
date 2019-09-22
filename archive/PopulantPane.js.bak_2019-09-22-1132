@@ -1,21 +1,6 @@
 // vim: set ft=javascript:
 
-
 import Pane from '../classes/Pane.js';
-
-
-/*
-export default class PopulantPane extends DomMixin(Actor) {
-  constructor() {
-    console.debug('Instantiating PopulantPane.');
-    super();
-    console.debug(`Instantiating <${this.uuid}>.`);
-
-    let create_pane_args = { 'name': this.name, 'uuid': this.uuid };
-    //this.dom.pane = { 'element': Pane.createPaneElement(create_pane_args) };
-    //this.dom.
-    this.dom.pane = 
-*/
 
 
 //var default_args = { 'name': 'populant_pane' };

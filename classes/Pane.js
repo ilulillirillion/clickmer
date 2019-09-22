@@ -32,7 +32,8 @@ export default class Pane extends DomMixin(Thing) {
 
     // Pane element.
     let pane_name = `${this.name_plus_underscore}pane`;
-    this.dom[pane_name] = this.createPaneElement(this.name);
+    //this.dom[pane_name] = this.createPaneElement(this.name);
+    this.dom[pane_name] = this.createPaneElement();
     // Main pane alias.
     this.dom.main_pane = this.dom[pane_name];
     console.debug(`<${this.uuid}> main pane set to <${this.dom[pane_name]}>.`); 
@@ -57,12 +58,14 @@ export default class Pane extends DomMixin(Thing) {
   };
 
 
-  createPaneElement(name = this.name, uuid = this.uuid) {    
+  /*
+  //createPaneElement(name = this.name, uuid = this.uuid) {    
+  createPaneElement(args = { 'name': this.name, 'uuid': this.uuid } ) {
     let pane = document.createElement('div');
-    let pane_id = `${uuid}_${name}_pane`;
+    let pane_id = `${args.uuid}_${args.name}_pane`;
     pane.setAttribute('id', pane_id);
     pane.classList.add('pane');
-    pane.classList.add(`${name}_pane`);
+    pane.classList.add(`${args.name}_pane`);
     return pane;
   };
 
@@ -76,5 +79,6 @@ export default class Pane extends DomMixin(Thing) {
     header_text.innerHTML = text;
     return header_text;
   };
+  */
 
 };

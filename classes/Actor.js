@@ -42,9 +42,21 @@ export default class Actor extends Thing {
     console.debug(`Instantiating Actor <${this.uuid}>.`);
     let default_args = Actor.default_args;
 
-    this.statistics = args.statistics;
+    //this.statistics = args.statistics;
+
+      
+
+    // Name. If a name is not explicitly given, generate a random one.
+    let name = args.name;
+    if (!name) {
+      console.debug(`Empty or invalid name <${name}> given for <${this.uuid}>, generating a random name.`);
+      let name = generateRandomName();
+    };
+    this.name = name;
+    console.debug(`<${this.uuid}> name set to <${this.name}>.`);
 
     // If no name was specified, generate a random one
+    /*
     this.name = args['name'];
     if (this.name == null) { 
       console.debug(`Generating random name for <${this.uuid}>.`);
@@ -52,7 +64,17 @@ export default class Actor extends Thing {
       this.name = name;
     };
     console.debug(`<${this.name}> set to <${this.name}>.`);
+    */
 
+    // Statistics.
+    this.statistics = args.statistics;
+    if (!this.statistics) {
+      let default_statistics = default_args.statistics;
+      console.debug(`Empty or invalid statistics <${this.statistics}> given for <${this.uuid}>, using default statistics <${default_statistics}> instead.`);
+      this.statistics = default_statistics;
+    };
+
+    console.debug(`<${this.uuid}> statistics set to <${this.statistics}>.`);
     //TODO: These should be listener lists...
     // Hunger listener.
     let self = this;
@@ -88,7 +110,14 @@ export default class Actor extends Thing {
     //this.buildPopulantElement();
     //let populant_pane = this.createPopulantPane();
     //document.appendChild(populant_pane);
-    this.updatePopulationPanes();
+    //this.updatePopulationPanes();
+
+    //this.dom.population_tab_populant_pane = 
+    //    createPopulationTabPopulantPaneElement();
+
+    //this.populant_panes = createPopulantPanes();
+
+    
 
 
   }
@@ -106,6 +135,18 @@ export default class Actor extends Thing {
     };
   };
   */
+
+
+  createPopulationTabPopulantPaneElement() {
+    // Get a pane element template from the Pane class
+    let populant_pane_args = {
+      'name': this.name,
+      'uuid': this.uuid
+    };
+    let populant_pane = Pane.createPaneElement(populant_pane_args);
+    
+    
+    
 
 
   createPopulantPane(id_suffix='') {
