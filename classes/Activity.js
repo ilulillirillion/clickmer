@@ -1,7 +1,9 @@
 import Thing from './Thing.js';
-import { DomMixin } from '../mixins/DomMixin.js';
+//import { DomMixin } from '../mixins/DomMixin.js';
 
-export default class Activity extends DomMixin(Thing) {
+
+//export default class Activity extends DomMixin(Thing) {
+export default class Activity extends Thing {
 
   constructor() {
     super();
@@ -9,6 +11,7 @@ export default class Activity extends DomMixin(Thing) {
 
     //this.dom = {};
 
+    /*
     this.dom.activity_pane = this.createActivityPaneElement();
 
     this.dom.activity_pane_text_span = this.createActivityPaneTextSpanElement();
@@ -19,6 +22,7 @@ export default class Activity extends DomMixin(Thing) {
 
     this.dom.activity_pane_population_pane = this.createActivityPanePopulationPaneElement();
     this.dom.activity_pane.appendChild(this.dom.activity_pane_population_pane);
+    */
 
   };
 

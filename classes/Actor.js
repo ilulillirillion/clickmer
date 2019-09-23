@@ -1,3 +1,7 @@
+import Thing from '../classes/Thing.js';
+//import generateRandomName from '../functions/generateRandomName.js';
+
+
 export default class Actor extends Thing {
   static default_args = {
     'uuid': null,
@@ -49,8 +53,9 @@ export default class Actor extends Thing {
     // Name. If a name is not explicitly given, generate a random one.
     let name = args.name;
     if (!name) {
-      console.debug(`Empty or invalid name <${name}> given for <${this.uuid}>, generating a random name.`);
-      let name = generateRandomName();
+      //console.debug(`Empty or invalid name <${name}> given for <${this.uuid}>, generating a random name.`);
+      let name = this.generateRandomName();
+      console.debug(`Generated random name <${name}> for <${this.uuid}>.`);
     };
     this.name = name;
     console.debug(`<${this.uuid}> name set to <${this.name}>.`);
@@ -147,6 +152,8 @@ export default class Actor extends Thing {
       'uuid': this.uuid
     };
     let populant_pane = Pane.createPaneElement(populant_pane_args);
+
+  };
     
     
     

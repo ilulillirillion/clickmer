@@ -1,5 +1,6 @@
 import Pane from '../classes/Pane.js';
 import PopulantPane from '../classes/PopulantPane.js';
+import Actor from '../classes/Actor.js';
 
 
 export default class PopulantsPane extends Pane {
@@ -21,12 +22,23 @@ export default class PopulantsPane extends Pane {
     //let test_populant_pane_element = this.dom.find(element => element.name == 'pane');
     //main_pane.element.appendChild(test_populant_pane_element);
 
+    this.populant_panes = [];
+    let test_actor = new Actor();
+    this.test_actor = test_actor;
+    let populant_pane = new PopulantPane(test_actor);
+    this.populant_panes.push(populant_pane);
+    this.element.appendChild(populant_pane.element);
+
   };
 
   tick() {
     console.debug(`Ticking <${this.uuid}>.`);
     //this.propogateTickToSuper();
     super.tick();
+    for (let populant_pane of this.populant_panes) {
+      console.debug(`<${this.uuid}> propogating tick to <${populant_pane.uuid}>.`);
+      populant_pane.tick();
+    };
   };
 };
       
