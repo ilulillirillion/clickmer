@@ -40,7 +40,7 @@ export default class Actor extends Thing {
   constructor(args = Actor.default_args) {
     super();
     console.debug(`Instantiating Actor <${this.uuid}>.`);
-    let default_args = Actor.default_args;
+    //let default_args = Actor.default_args;
 
     //this.statistics = args.statistics;
 
@@ -68,13 +68,16 @@ export default class Actor extends Thing {
 
     // Statistics.
     this.statistics = args.statistics;
+    console.debug(`<${this.uuid}> statistics set to <${this.statistics}>.`);
+    /*
+    this.statistics = args.statistics;
     if (!this.statistics) {
       let default_statistics = default_args.statistics;
       console.debug(`Empty or invalid statistics <${this.statistics}> given for <${this.uuid}>, using default statistics <${default_statistics}> instead.`);
       this.statistics = default_statistics;
     };
+    */
 
-    console.debug(`<${this.uuid}> statistics set to <${this.statistics}>.`);
     //TODO: These should be listener lists...
     // Hunger listener.
     let self = this;

@@ -125,7 +125,11 @@ export default class Pane extends WrappedElement {
 
 
   tickHeaderTextSpan() {
-    this.header_text_span.text_span_contents = this.header_text_span_contents;
+    let new_text_span_contents = this.header_text_span_contents;
+    (`Updating <${this.uuid}> <${this.header_text_span.uuid}> header text span contents <${this.header_text_span.text_span_contents}> to <${new_text_span_contents}>`);
+    //this.header_text_span.text_span_contents = this.header_text_span_contents;
+    this.header_text_span.text_span_contents = new_text_span_contents;
+    (`<${this.uuid}>'s <${this.header_text_span.uuid}> text span contents set to <${this.header_text_span.text_span_contents}>.`);
     this.header_text_span.tick();
   };
 

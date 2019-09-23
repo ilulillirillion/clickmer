@@ -8,8 +8,10 @@ export default class PopulantsPane extends Pane {
     console.debug(`Instantiating PopulantsPane <${this.uuid}>.`);
     
     // Header text.
-    this.header_text = 'populants_pane';
-    console.debug(`<${this.uuid}> header text set to <${this.header_text}>.`);
+    ///this.header_text = 'populants_pane';
+    //console.debug(`<${this.uuid}> header text set to <${this.header_text}>.`);
+    this.header_text_span_contents = 'populants pane'
+    console.debug(`<${this.uuid}> header text span contents set to <${this.header_text_span_contents}>.`);
 
     //let test_populant_pane = new PopulantPane();
     //this.dom.main_pane.appendChild(test_populant_pane.dom.main_pane);
@@ -21,9 +23,10 @@ export default class PopulantsPane extends Pane {
 
   };
 
-  tick(master=null) {
+  tick() {
     console.debug(`Ticking <${this.uuid}>.`);
-    this.propogateTickToSuper(master);
+    //this.propogateTickToSuper();
+    super.tick();
   };
 };
       

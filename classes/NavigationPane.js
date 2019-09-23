@@ -11,7 +11,7 @@ export default class NavigationPane extends Pane {
     super();
     console.debug(`Creating navigation pane (uuid: <${this.uuid}>).`);
 
-    this.header_text = 'navigation pane';
+    this.header_text_span_contents = 'navigation pane';
 
     //this.element_root = this.createElementRoot();
     //console.debug(`<${this.uuid}> element root is <${this.element_root}>.`);
@@ -38,7 +38,8 @@ export default class NavigationPane extends Pane {
 
   tick(master=null, tabs) {
     console.debug(`Ticking navigation pane (uuid: <${this.uuid}>).`);
-    this.propogateTickToSuper(master);
+    //this.propogateTickToSuper(master);
+    super.tick();
     //for (let i=0; i < runtime_data.ui.tabs.length; i++) {
     //  let tab = runtime_data.data.ui.tabs[i];
     for (let tab of tabs) {

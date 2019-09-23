@@ -78,7 +78,8 @@ export default class Tab extends Pane {
   tick(master=null) {
     console.debug(`Ticking tab <${this.uuid}>.`);
     //this.propogateTickToSuper(master);
-    super.tick(null, this.header_text_span_contents);
+    //super.tick(null, this.header_text_span_contents);
+    super.tick()
     //this.header_text_span.tick(null, this.header_text_span_contents);
   };
 
