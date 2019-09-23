@@ -23,4 +23,22 @@ export default class Thing {
     };
     console.debug(`<${this.uuid}> name set to <${this.name}>.`);
   };
+
+  tick() {
+    console.debug(`Ticking <${this.uuid}>.`);
+  };
+
+  propogateTickToSuper(master=null) {
+    //let master_string = if (master) { return master.uuid } else { return "'(no master)'" };
+    //console.debug(`<${this.uuid} super-propogating tick to <${super.uuid}> with master <}>.`);
+    /*
+    if (master) {
+      console.debug(`<${this.uuid}> super-propogating tick to <${super.uuid}> with master <${master.uuid}>.`);
+    } else {
+      console.debug(`<${this.uuid}> super-propogating tick to <${super.uuid}>.`);
+    };
+    super.tick(master);
+    */
+    //super.tick();
+  };
 };

@@ -1,0 +1,63 @@
+// vim: set ft=javascript:
+
+
+import Pane from '../classes/Pane.js';
+
+
+export default class PopulantPane extends DomMixin(Actor) {
+  constructor() {
+    console.debug('Instantiating PopulantPane.');
+    super();
+    console.debug(`Instantiating <${this.uuid}>.`);
+
+    let create_pane_args = { 'name': this.name, 'uuid': this.uuid };
+    //this.dom.pane = { 'element': Pane.createPaneElement(create_pane_args) };
+    //this.dom.
+    this.dom.pane = { 
+      'element': this.createPaneElement(),
+      'header_text':
+        'element': this.createPaneHeaderTextElement() 
+    };
+    console.debug(`<${this.uuid}> dom set to <${this.dom}>.`);
+  };
+};
+
+
+/*
+//var default_args = { 'name': 'populant_pane' };
+//console.warn(default_args);
+export default class PopulantPane extends Pane {
+  static default_args = { 'name': 'populant_pane' };
+  //let default_args = { 'name': 'populant_pane' };
+  constructor(args = PopulantPane.default_args) {
+  //constructor(args = {}) {
+  //constructor(args = default_args) {
+  //constructor(args = { 'name': 'populant_pane' } ) {
+    super(args);
+
+    //this.default_args = args;
+    //console.warn(this.default_args);
+    console.debug(`Instantiating PopulantPane <${this.uuid}>.`);
+    //console.warn(this.dom.main_pane);
+  };
+};
+*/
+
+    /*
+    // Name.
+    this.name = args.name;
+    if (!this.name) {
+      console.debug(`Empty or invalid name <${this.name}> given for <${this.uuid}>, using default name <${default_args.name}>.`);
+      this.name = default_args.name;
+    };
+    console.debug(`<${this.uuid}> name set to <${this.name}>.`);
+
+    // Header text.
+    this.header_text = args.header_text;
+    if (!this.header_text) {
+      let default_header_text = default_args.header_text || default_args.name;
+      console.debug(`Empty of invalid name <${this.header_text}> given for <${this.uuid}>, using default header text <${default_header_text}>.`);
+      this.header_text = default_header_text;
+    };
+    console.debug(`<${this.uuid}> header text set to <${this.header_text}>.`);
+    */

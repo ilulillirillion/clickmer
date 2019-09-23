@@ -1,13 +1,21 @@
-import { DomMixin } from '../mixins/DomMixin.js'
-import Thing from '../classes/Thing.js'
+//import { DomMixin } from '../mixins/DomMixin.js'
+//import Thing from '../classes/Thing.js'
+import WrappedElement from '../classes/WrappedElement.js';
+import HeaderTextSpan from '../classes/HeaderTextSpan.js';
 
 
-export default class Pane extends DomMixin(Thing) {
-  static default_args = { 'name': '' };
-  constructor(args = Pane.default_args) {
-    super(args);
-    console.debug(`Instantiating <${name}> Pane <${this.uuid}>.`);
-    let default_args = Pane.default_args;
+//export default class Pane extends DomMixin(Thing) {
+export default class Pane extends WrappedElement {
+  //static default_args = { 'name': '' };
+  //constructor(args = Pane.default_args) {
+  //constructor({ name = '', header_text_span_contents = '' }) {
+  //constructor(name = '', header_text_span_contents = '') {
+  //constructor(header_text_span_contents = '') {
+  constructor() {
+    //super(args);
+    super();
+    //console.debug(`Instantiating <${name}> Pane <${this.uuid}>.`);
+    //let default_args = Pane.default_args;
 
     /*
     // Name.
@@ -22,14 +30,39 @@ export default class Pane extends DomMixin(Thing) {
 
 
     // Header text.
-    this.header_text = args.header_text;
-    if (!this.header_text) {
+    //this.header_text_span_contents = args.header_text_span_contents;
+    //this.header_text_span_contents = header_text_span_contents;
+    this.header_text_span_contents = 'A pane';
+    console.debug(`<${this.uuid}> header text set to <${this.header_text_span_contents}>.`);
+    /*
+    if (!this.header_text_span_) {
       let default_header_text = default_args.header_text || default_args.name;
       console.debug(`Empty of invalid header text <${this.header_text}> given for <${this.uuid}>, using default header text <${default_header_text}>.`);
       this.header_text = default_header_text;
     };
-    console.debug(`<${this.uuid}> header text set to <${this.header_text}>.`);
+    */
 
+    this.element = this.createDomElement();
+
+
+    /*
+    this.dom = [
+      {
+        'name': 'pane',
+        'element': this.createPaneElement(),
+        'children': [
+          {
+            'name': 'header_text',
+            'element': this.createPaneHeaderTextElement(),
+            'children': null
+          }
+        ]
+      }
+    ];
+    console.debug(`<${this.uuid}> dom set to <${this.dom}>.`);
+    */
+
+    /*
     // Pane element.
     let pane_name = `${this.name_plus_underscore}pane`;
     //this.dom[pane_name] = this.createPaneElement(this.name);
@@ -44,8 +77,12 @@ export default class Pane extends DomMixin(Thing) {
     this.dom[pane_name].appendChild(this.dom[header_text_name]);
     // Main pane text header alias.
     this.dom.main_pane_header_text = this.dom[header_text_name];
-    console.debug(`<${this.uuid}> <${header_text_name}> set to <${this.dom[header_text_name]}>.`);    
+    console.debug(`<${this.uuid}> <${header_text_name}> set to <${this.dom[header_text_name]}>.`);
+    */
 
+    this.header_text_span = new HeaderTextSpan();
+    this.element.appendChild(this.header_text_span.element);
+    console.debug(`<${this.uuid}> header text span set to <${this.header_text_span}>.`);
 
   };
 
@@ -55,6 +92,27 @@ export default class Pane extends DomMixin(Thing) {
     let name_plus_underscore = this.name;
     if (name) { name_plus_underscore = `${name}_` };
     return name_plus_underscore;
+  };
+
+  
+  tick(master=null, header_text_span_contents = this.header_text_span_contents) {
+    console.debug(`Ticking pane <${this.uuid}> with header text span contents <${header_text_span_contents}>.`);
+    //this.propogateTickToSuper(master);
+    super.tick();
+    // Tick header text
+    //this.header_text.text(this);
+    this.header_text_span.tick(null, header_text_span_contents);
+  };
+    
+
+
+  createDomElement(args = { 'name': this.name, 'uuid': this.uuid } ) {
+    let pane = document.createElement('div');
+    let pane_id = `${args.uuid}_${args.name}_pane`;
+    pane.setAttribute('id', pane_id);
+    pane.classList.add('pane');
+    pane.classList.add(`${args.name}_pane`);
+    return pane;
   };
 
 

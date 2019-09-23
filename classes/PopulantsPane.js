@@ -13,9 +13,18 @@ export default class PopulantsPane extends Pane {
 
     //let test_populant_pane = new PopulantPane();
     //this.dom.main_pane.appendChild(test_populant_pane.dom.main_pane);
+    //this.dom.main_pane.appendChild(test_populant_pane.dom.pane.element);
+    //let main_pane = this.dom.find(element => element.name == 'pane');
+    //main_pane.children.push(test_populant_pane.dom);
+    //let test_populant_pane_element = this.dom.find(element => element.name == 'pane');
+    //main_pane.element.appendChild(test_populant_pane_element);
 
   };
 
+  tick(master=null) {
+    console.debug(`Ticking <${this.uuid}>.`);
+    this.propogateTickToSuper(master);
+  };
 };
       
 

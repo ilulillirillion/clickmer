@@ -7,17 +7,20 @@ import Pane from '../classes/Pane.js';
 //export default class Tab extends DomMixin(Thing) {
 export default class Tab extends Pane {
   constructor(name) {
-    let super_name = `${name}_tab`;
-    super({ 'name': super_name });
+    //let super_name = `${name}_tab`;
+    //super({ 'name': super_name });
     console.debug(`Creating tab with name: <${name}>.`);
+    super();
 
     // Name
     this.name = name;
     console.debug(`Set tab name to <${this.name}>.`);
 
 
-    this.header_text = 'A tab.';
-    console.debug(`<${this.uuid}> header text set to <${this.header_text}>.`);
+    this.header_text_span_contents = 'A tab.';
+    console.debug(`<${this.uuid}> header text span contents set to <${this.header_text_span_contents}>.`);
+
+    this.navigation_button = null;
 
     //let tab_pane_name = `${this.name}_tab_pane`;
     //console.debug(tab_pane_name);
@@ -27,7 +30,11 @@ export default class Tab extends Pane {
 
     //this.dom.main_tab_pane = this.dom[tab_pane_name];
     
-    this.dom.main_pane.style.display = 'none';
+    //this.dom.main_pane.style.display = 'none';
+    //let pane = this.dom.find(element => element.name == 'pane').element;
+    //console.warn(pane);
+    //pane.style.display = 'none';
+    this.element.style.display = 'none';
 
     // Element root
     //console.debug(`Element root set to <${this.element_root}>.`);
@@ -68,24 +75,30 @@ export default class Tab extends Pane {
   };
 
 
-  tick() {
-    console.debug(`Ticking tab (<${this.uuid}>).`);
+  tick(master=null) {
+    console.debug(`Ticking tab <${this.uuid}>.`);
+    //this.propogateTickToSuper(master);
+    super.tick(null, this.header_text_span_contents);
+    //this.header_text_span.tick(null, this.header_text_span_contents);
   };
 
   hide() {
     console.debug(`Showing tab (<${this.uuid}>).`);
     //let tab_pane_name = `${this.name}_tab_pane`;
     //this.dom[tab_pane_name].style.display = 'none';
-    this.dom.main_pane.style.display = 'none';
+    //this.dom.main_pane.style.display = 'none';
+    this.element.style.display = 'none';
   };
 
   show() {
     console.debug(`Showing tab (<${this.uuid}>).`);
     //let tab_pane_name = `${this.name}_tab_pane`;
     //this.dom[tab_pane_name].style.display = 'inline-block';
-    this.dom.main_pane.style.display = 'inline-block';
+    //this.dom.main_pane.style.display = 'inline-block';
+    this.element.style.display = 'inline-block';
   };
 
+  /*
   createHeaderTextElement(
       name, 
       text = this.header_text,
@@ -97,7 +110,9 @@ export default class Tab extends Pane {
     header_text.innerHTML = text;
     return header_text;
   };
+  */
 
+  /*
   createTabPaneElement(name, uuid = this.uuid) {
     console.debug('Creating tab DOM element.');
 
@@ -120,5 +135,6 @@ export default class Tab extends Pane {
     return tab_element;
 
   };
+  */
 
 };
