@@ -19,6 +19,7 @@ export default class PopulantPane extends Pane {
     this.header_span_contents = 'populant pane';
 
     //this.tooltip_span_contents = 'testREMOVE';
+    this.tooltip_span_contents = 'Populant Test';
 
     // Actor.
     this.actor = actor;

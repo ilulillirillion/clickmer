@@ -35,7 +35,7 @@ export default class NavigationPane extends Pane {
 
 
     let update_tab_navigation_buttons_tick_listener = function() {
-      console.warn(self);
+      //console.warn(self);
       for (let tab of self.tabs) {
         let navigation_button = tab.navigation_button;
         if (navigation_button == null) {

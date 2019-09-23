@@ -166,6 +166,7 @@ export default class Pane extends DomTooltipMixin(WrappedElement) {
     
 
 
+  /*
   createDomElement(args = { 'name': this.name, 'uuid': this.uuid } ) {
     let pane = document.createElement('div');
     let pane_id = `${args.uuid}_${args.name}_pane`;
@@ -174,6 +175,7 @@ export default class Pane extends DomTooltipMixin(WrappedElement) {
     pane.classList.add(`${args.name}_pane`);
     return pane;
   };
+  */
 
   
   /*

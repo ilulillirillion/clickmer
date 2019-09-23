@@ -38,6 +38,8 @@ export default class WrappedElement extends Thing {
   createDomElement(element_type) {
     let element = document.createElement(element_type);
     element.setAttribute('id', this.uuid);
+    element.classList.add('wrapped_element');
+    console.debug(`Created DOM element <${element}> with id <${element.id}> and classes <${element.classList}>.`);
     return element;
   };
 
