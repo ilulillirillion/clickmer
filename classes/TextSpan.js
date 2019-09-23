@@ -16,9 +16,9 @@ export default class TextSpan extends WrappedElement {
   };
 
   get effective_text_contents() {
-    console.warn(this.uuid);
-    console.warn(this.master);
-    console.warn(this.text_span_contents);
+    //console.warn(this.uuid);
+    //console.warn(this.master);
+    //console.warn(this.text_span_contents);
     //let text = this.header_text;
     let text = this.text_span_contents;
     if (this.master && this.master.text_span_contents) {
@@ -30,14 +30,15 @@ export default class TextSpan extends WrappedElement {
     return text;
   };
 
-  tick(master=null, text_span_contents = this.text_span_contents) {
-    console.debug(`Ticking TextSpan <${this.uuid}> with text span contents <${text_span_contents}>.`);
+  //tick(master=null, text_span_contents = this.text_span_contents) {
+  tick() {
+    //console.debug(`Ticking TextSpan <${this.uuid}> with text span contents <${text_span_contents}>.`);
     //this.propogateTickToSuper(master);
     super.tick();
     //this.element.innerHTML = this.effective_text;
     //console.debug(`Set <${this.uuid}> innerHTML to <${this.element.innerHTML}>.`)
-    //this.element.innerHTML = this.text_span_contents;
-    this.element.innerHTML = text_span_contents;
+    this.element.innerHTML = this.text_span_contents;
+    //this.element.innerHTML = text_span_contents;
     console.debug(`Set <${this.uuid}> innerHTML to <${this.element.innerHTML}>.`)
   };
 

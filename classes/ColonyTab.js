@@ -5,7 +5,7 @@ export default class ColonyTab extends Tab {
     super(name = 'colony');
     console.debug('Creating colony tab.');
 
-    this.header_text = 'Colony Tab!';
+    this.header_text_span_contents = 'Colony Tab';
     //this.dom.header_text = this.createHeaderTextElement();
   };
 

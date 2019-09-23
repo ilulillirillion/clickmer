@@ -7,6 +7,7 @@ export default class Thing {
     let default_args = Thing.default_args;
 
     let class_name = this.constructor.name.toLowerCase();
+    this.class_name = class_name;
     console.debug(`Instantiating a <${class_name}>.`);
 
     let _uuid = uuidv6();

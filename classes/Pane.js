@@ -32,8 +32,9 @@ export default class Pane extends WrappedElement {
     // Header text.
     //this.header_text_span_contents = args.header_text_span_contents;
     //this.header_text_span_contents = header_text_span_contents;
-    this.header_text_span_contents = 'A pane';
-    console.debug(`<${this.uuid}> header text set to <${this.header_text_span_contents}>.`);
+    //this.header_text_span_contents = 'A pane';
+    //this.header_text_span_contents = '';
+    //console.debug(`<${this.uuid}> header text set to <${this.header_text_span_contents}>.`);
     /*
     if (!this.header_text_span_) {
       let default_header_text = default_args.header_text || default_args.name;
@@ -80,6 +81,8 @@ export default class Pane extends WrappedElement {
     console.debug(`<${this.uuid}> <${header_text_name}> set to <${this.dom[header_text_name]}>.`);
     */
 
+    this.header_text_span_contents = '';
+
     this.header_text_span = new HeaderTextSpan();
     this.element.appendChild(this.header_text_span.element);
     console.debug(`<${this.uuid}> header text span set to <${this.header_text_span}>.`);
@@ -95,13 +98,18 @@ export default class Pane extends WrappedElement {
   };
 
   
-  tick(master=null, header_text_span_contents = this.header_text_span_contents) {
-    console.debug(`Ticking pane <${this.uuid}> with header text span contents <${header_text_span_contents}>.`);
+  //tick(master=null, header_text_span_contents = this.header_text_span_contents) {
+  tick() {
+    console.debug(`Ticking pane <${this.uuid}.`);
+    //console.debug(`Ticking pane <${this.uuid}> with header text span contents <${header_text_span_contents}>.`);
     //this.propogateTickToSuper(master);
     super.tick();
     // Tick header text
     //this.header_text.text(this);
-    this.header_text_span.tick(null, header_text_span_contents);
+    //this.header_text_span.text_span_contents = this.header_text_span_contents;
+    //this.header_text_span.tick(null, header_text_span_contents);
+    //this.header_text_span.tick();
+    this.tickHeaderTextSpan();
   };
     
 
@@ -113,6 +121,12 @@ export default class Pane extends WrappedElement {
     pane.classList.add('pane');
     pane.classList.add(`${args.name}_pane`);
     return pane;
+  };
+
+
+  tickHeaderTextSpan() {
+    this.header_text_span.text_span_contents = this.header_text_span_contents;
+    this.header_text_span.tick();
   };
 
 

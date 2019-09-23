@@ -9,7 +9,8 @@ export default class HeaderTextSpan extends TextSpan {
     console.debug(`Super finished, continuing to instantiate <${this.class_name}> <${this.uuid}>.`);
     
     //this.text = 'header text span';
-    this.header_text_span_contents = 'header text span';
+    //this.header_text_span_contents = 'header text span';
+    this.text_span_contents = 'header text span';
   };
 
   /*
@@ -25,10 +26,13 @@ export default class HeaderTextSpan extends TextSpan {
   }
   */
 
-  tick(master=null, header_text_span_contents = this.header_text_span_contents) {
-    console.debug(`Ticking <${this.uuid}> with header text span contents <${header_text_span_contents}>.`);
+  //tick(master=null, header_text_span_contents = this.header_text_span_contents) {
+  tick() {
+    console.debug(`Ticking <${this.uuid}>.`);
+    //console.debug(`Ticking <${this.uuid}> with header text span contents <${header_text_span_contents}>.`);
     //this.propogateTickToSuper(master, this.header_text_span_contents);
-    super.tick(null, header_text_span_contents);
+    //super.tick(null, header_text_span_contents);
     //super.tick(this.header_text_span_contents);
+    super.tick();
   };
 }; 

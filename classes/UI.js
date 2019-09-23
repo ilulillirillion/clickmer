@@ -12,6 +12,8 @@ export default class UI extends Pane {
     super();
     console.debug(`Instantiating a new UI with uuid: <${this.uuid}>.`);
 
+    this.header_text_span_contents = 'Clickmer'
+
     //this.dom = {};
     //this.dom.root_pane = this.createRootPane();
 
