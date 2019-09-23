@@ -1,4 +1,4 @@
-import TextSpan from '../classes/TextSpan.js';
+import TextSpan from '../classes/WrappedTextSpan.js';
 
 
 export default class HeaderTextSpan extends TextSpan {

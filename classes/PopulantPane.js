@@ -1,9 +1,12 @@
 // vim: set ft=javascript:
 
+
+import { DomTooltipMixin } from '../mixins/DomTooltipMixin.js';
 import Pane from '../classes/Pane.js';
 
 
-export default class PopulantPane extends Pane {
+export default class PopulantPane extends DomTooltipMixin(Pane) {
+//export default class PopulantPane extends DomTooltipMixin(Pane) {
   //static default_args = { 'name': 'populant_pane' };
   //constructor(args = PopulantPane.default_args) {
   constructor(actor) {

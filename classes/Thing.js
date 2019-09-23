@@ -1,10 +1,10 @@
 import uuidv6 from '../functions/uuidv6.js';
 
 export default class Thing {
-  static default_args = { 'name': 'thing' };
-  constructor(args = Thing.default_args) {
+  //static default_args = { 'name': 'thing' };
+  constructor() {
     console.debug('Instantiating an object.');
-    let default_args = Thing.default_args;
+    //let default_args = Thing.default_args;
 
     let class_name = this.constructor.name.toLowerCase();
     this.class_name = class_name;
@@ -15,6 +15,7 @@ export default class Thing {
     this.uuid = `${class_name}_${_uuid}`
     console.debug(`Set <${class_name}> uuid to <${this.uuid}>.`);
 
+    /*
     // Name.
     this.name = args.name;
     let default_name = default_args.name;
@@ -22,6 +23,8 @@ export default class Thing {
       console.debug(`Empty or invalid name <${this.name}> given for <${this.uuid}>, using default name <${default_name}>.`);
       this.name = default_name;
     };
+    */
+    this.name = 'thing';
     console.debug(`<${this.uuid}> name set to <${this.name}>.`);
   };
 

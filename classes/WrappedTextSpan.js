@@ -1,10 +1,16 @@
+//import { DomTooltipMixin } from '../mixins/DomTooltipMixin.js';
 import WrappedElement from '../classes/WrappedElement.js';
 
 
-export default class TextSpan extends WrappedElement {
+export default class WrappedTextSpan extends WrappedElement {
+//export default class WrappedTextSpan extends DomTooltipMixin(WrappedElement) {
   constructor(master=null) {
     console.debug('Instantiating a new TextSpan.');
-    super(master);
+
+    super()
+    //let element = this.createDomElement();
+    //super(element);
+
     console.debug(`Instantiating a new <${this.class_name}> <${this.uuid}>.`);
 
     //this.text_span_contents = 'text span';

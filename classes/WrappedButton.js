@@ -1,4 +1,4 @@
-import TextSpan from '../classes/TextSpan.js';
+import TextSpan from '../classes/WrappedTextSpan.js';
 import WrappedElement from '../classes/WrappedElement.js';
 
 

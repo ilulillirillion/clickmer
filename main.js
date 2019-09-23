@@ -71,6 +71,11 @@ function createActivities() {
   return activities;
 };
   
+function addStyleString(str) {
+    var node = document.createElement('style');
+    node.innerHTML = str;
+    document.body.appendChild(node);
+}
 
 // Do main ////////////////
 ///////////////////////////
@@ -79,6 +84,24 @@ console.debug('Starting main.');
 
 import UI from './classes/UI.js'
 import HuntPreyActivity from './classes/HuntPreyActivity.js';
+
+
+// Build stylesheet.
+//var stylesheet = document.createElement('stylesheet');
+//stylesheet.type = 'text/css'
+addStyleString('.has_tooltip .tooltip_text { visibility: hidden }');
+addStyleString('.has_tooltip .tooltip_text { width: 120px }');
+addStyleString('.has_tooltip .tooltip_text { background-color: black }');
+addStyleString('.has_tooltip .tooltip_text { color: #fff }');
+addStyleString('.has_tooltip .tooltip_text { text-align: center }');
+addStyleString('.has_tooltip .tooltip_text { border-radius: 6px }');
+addStyleString('.has_tooltip .tooltip_text { padding: 5px 0 }');
+addStyleString('.has_tooltip .tooltip_text { position: absolute }');
+addStyleString('.has_tooltip .tooltip_text { z-index: 1 }');
+
+addStyleString('.has_tooltip:hover .tooltip_text { visibility: visible }');
+
+
 
 
 // Create game data.
