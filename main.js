@@ -71,11 +71,13 @@ function createActivities() {
   return activities;
 };
   
+/*
 function addStyleString(str) {
     var node = document.createElement('style');
     node.innerHTML = str;
     document.body.appendChild(node);
 }
+*/
 
 // Do main ////////////////
 ///////////////////////////
@@ -86,9 +88,50 @@ import UI from './classes/UI.js'
 import HuntPreyActivity from './classes/HuntPreyActivity.js';
 
 
+/*
 // Build stylesheet.
 //var stylesheet = document.createElement('stylesheet');
+var main_style = document.createElement('style');
+// Have to append to access sheet.
+document.head.appendChild(main_style);
 //stylesheet.type = 'text/css'
+
+main_style.sheet.insertRule("body { background-image: url('static/images/free_use_blue_ocean.jpg') }");
+main_style.sheet.insertRule('body { background-repeat: no-repeat }');
+main_style.sheet.insertRule('body { border-bottom: 1px dotted black }');
+
+// Tooltip text of things with tooltips.
+tooltips_style.sheet.insertRule('.has_tooltip .tooltip_text { visibility: hidden }');
+tooltips_style.sheet.insertRule('.has_tooltip .tooltip_text { width: 120px }');
+tooltips_style.sheet.insertRule('.has_tooltip .tooltip_text { background-color: black }');
+tooltips_style.sheet.insertRule('.has_tooltip .tooltip_text { color: #fff }');
+tooltips_style.sheet.insertRule('.has_tooltip .tooltip_text { text-align: center }');
+tooltips_style.sheet.insertRule('.has_tooltip .tooltip_text { border-radius: 6px }');
+tooltips_style.sheet.insertRule('.has_tooltip .tooltip_text { padding: 5px 0 }');
+tooltips_style.sheet.insertRule('.has_tooltip .tooltip_text { position: absolute }');
+tooltips_style.sheet.insertRule('.has_tooltip .tooltip_text { z-index: 1 }');
+// Tooltip text of things with tooltips when mouse is hovering.
+tooltips_style.sheet.insertRule('.has_tooltip:hover .tooltip_text { visibility: visible }');
+*/
+
+
+/*
+stylesheet.insertRule('.has_tooltip .tooltip_text { visibility: hidden }');
+stylesheet.insertRule('.has_tooltip .tooltip_text { width: 120px }');
+stylesheet.insertRule('.has_tooltip .tooltip_text { background-color: black }');
+stylesheet.insertRule('.has_tooltip .tooltip_text { color: #fff }');
+stylesheet.insertRule('.has_tooltip .tooltip_text { text-align: center }');
+stylesheet.insertRule('.has_tooltip .tooltip_text { border-radius: 6px }');
+stylesheet.insertRule('.has_tooltip .tooltip_text { padding: 5px 0 }');
+stylesheet.insertRule('.has_tooltip .tooltip_text { position: absolute }');
+stylesheet.insertRule('.has_tooltip .tooltip_text { z-index: 1 }');
+
+stylesheet.insertRule('.has_tooltip:hover .tooltip_text { visibility: visible }');
+document.head.appendChild(stylesheet);
+*/
+
+
+/*
 addStyleString('.has_tooltip .tooltip_text { visibility: hidden }');
 addStyleString('.has_tooltip .tooltip_text { width: 120px }');
 addStyleString('.has_tooltip .tooltip_text { background-color: black }');
@@ -100,7 +143,7 @@ addStyleString('.has_tooltip .tooltip_text { position: absolute }');
 addStyleString('.has_tooltip .tooltip_text { z-index: 1 }');
 
 addStyleString('.has_tooltip:hover .tooltip_text { visibility: visible }');
-
+*/
 
 
 
