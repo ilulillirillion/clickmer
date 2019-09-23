@@ -7,15 +7,26 @@ export default class TooltipSpan extends WrappedTextSpan {
     super();
     console.debug(`Constructing a <${this.class_name}> <${this.uuid}>.`);
 
+    this.span_contents = 'tooltip text';
+
     this.element = this.createDomElement();
     console.debug(`<${this.uuid}> element set to <${this.element}>.`);
 
     console.debug(`Finished constructing <${this}>.`);
   };
 
-  tick() {
+  tick(overrides={}) {
     console.debug(`Ticking <${this.class_name}> <${this.uuid}>.`);
-    super.tick();
+    super.tick(overrides);
+    this.element.innerHTML = this.span_contents;
+    //this.text_contents = this.text_contents;
+    //this.element.innerHTML = this.tooltip_text_contents;
+    /*
+    for (listener of this.tick_listeners) {
+      console.debug(`<${this.uuid}> invoking tick listener <${listener}>.`);
+      listener();
+    };
+    */
   };
 
   createDomElement() {

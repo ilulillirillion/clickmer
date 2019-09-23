@@ -10,7 +10,8 @@ export default class HeaderTextSpan extends TextSpan {
     
     //this.text = 'header text span';
     //this.header_text_span_contents = 'header text span';
-    this.text_span_contents = 'header text span';
+    //this.text_span_contents = 'header text span';
+    this.span_contents = '';
   };
 
   /*
@@ -27,6 +28,7 @@ export default class HeaderTextSpan extends TextSpan {
   */
 
   //tick(master=null, header_text_span_contents = this.header_text_span_contents) {
+  /*
   tick() {
     console.debug(`Ticking <${this.uuid}>.`);
     //console.debug(`Ticking <${this.uuid}> with header text span contents <${header_text_span_contents}>.`);
@@ -35,4 +37,5 @@ export default class HeaderTextSpan extends TextSpan {
     //super.tick(this.header_text_span_contents);
     super.tick();
   };
+  */
 }; 

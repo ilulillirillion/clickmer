@@ -7,7 +7,9 @@ export default class PopulationTab extends Tab {
     super('population');
     console.log('Creating population tab.');
 
-    this.header_text_span_contents = 'Population Tab';
+    //this.header_text_span_contents = 'Population Tab';
+
+    this.header_span_contents = 'Population Tab';
 
     // Populants Pane.
     this.populants_pane = new PopulantsPane();
@@ -19,12 +21,21 @@ export default class PopulationTab extends Tab {
 
     //console.debug(`<${this.uuid}> populants pane set to <${this.dom.population_tab_pane_populants_pane}>.`);
 
+
+    let self = this;
+    let update_populants_pane_tick_listener = function() {
+      self.populants_pane.tick();
+    };
+    this.tick_listeners.push(update_populants_pane_tick_listener);
+
   };
 
+  /*
   tick() {
     console.debug(`Ticking <${this.uuid}>.`);
     //this.propogateTickToSuper();
     super.tick();
     this.populants_pane.tick();
   };
+  */
 };

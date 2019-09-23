@@ -26,10 +26,25 @@ export default class Thing {
     */
     this.name = 'thing';
     console.debug(`<${this.uuid}> name set to <${this.name}>.`);
+
+    this.tick_listeners = [];
+
   };
 
+
+
   tick() {
-    console.debug(`Ticking <${this.uuid}>.`);
+    //console.debug(`Ticking <${this.uuid}> with overrides <${overrides}>.`);
+    //for (const [override_attribute, override_value] of Object.entries(overrides)) {
+    //  console.warn(`Overriding <${this.uuid}>'s <${override_attribute}> attribute value of <${this[override_attribute]}> with <${override_value}>.`);
+    //  this[override_attribute] = this.override_value;
+    //  console.warn(`<${this.uuid}>'s <${override_value}> overridden to <${this[override_attribute]}>.`);
+    //};
+    console.debug(`Ticking <${this.class_name}> <${this.uuid}>.`);
+    for (let listener of this.tick_listeners) {
+      console.debug(`<${this.uuid}> invoking tick listener <${listener}>.`);
+      listener();
+    };
   };
 
   propogateTickToSuper(master=null) {

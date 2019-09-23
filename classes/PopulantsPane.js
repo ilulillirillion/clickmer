@@ -14,6 +14,10 @@ export default class PopulantsPane extends Pane {
     this.header_text_span_contents = 'populants pane'
     console.debug(`<${this.uuid}> header text span contents set to <${this.header_text_span_contents}>.`);
 
+    // Tooltip text
+    this.tooltip_text_contents = 'populants pane tooltip'
+    console.debug(`<${this.uuid}> tooltip text contents set to <${this.tooltip_text_contents}>.`);
+
     //let test_populant_pane = new PopulantPane();
     //this.dom.main_pane.appendChild(test_populant_pane.dom.main_pane);
     //this.dom.main_pane.appendChild(test_populant_pane.dom.pane.element);
@@ -29,8 +33,17 @@ export default class PopulantsPane extends Pane {
     this.populant_panes.push(populant_pane);
     this.element.appendChild(populant_pane.element);
 
+    let self = this;
+    let update_populant_panes_tick_listener = function() {
+      for (let populant_pane of self.populant_panes) {
+        populant_pane.tick();
+      };
+    };
+    this.tick_listeners.push(update_populant_panes_tick_listener);
+
   };
 
+  /*
   tick() {
     console.debug(`Ticking <${this.uuid}>.`);
     //this.propogateTickToSuper();
@@ -40,6 +53,7 @@ export default class PopulantsPane extends Pane {
       populant_pane.tick();
     };
   };
+  */
 };
       
 

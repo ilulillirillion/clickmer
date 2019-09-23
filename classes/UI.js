@@ -44,6 +44,19 @@ export default class UI extends Pane {
     //document.body.append(this.dom.root_pane);
     document.body.append(this.element);
 
+    let update_navigation_pane_tick_listener = function() {
+      self.navigation_pane.tabs = self.tabs;
+      self.navigation_pane.tick(self.tabs);
+    };
+    this.tick_listeners.push(update_navigation_pane_tick_listener);
+    
+    let update_tabs_tick_listener = function() {
+      for (let tab of self.tabs) {
+        tab.tick();
+      };
+    };
+    this.tick_listeners.push(update_tabs_tick_listener);
+
   };
 
   // Propogates tick downward to UI children.

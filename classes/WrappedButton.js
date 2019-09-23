@@ -14,10 +14,12 @@ export default class WrappedButton extends WrappedElement {
     this.text_span = new TextSpan(this);
   };
 
+  /*
   tick(master=null) {
     console.debug(`Ticking <${this.uuid}>.`);
     this.propogateTickToSuper(master);
   };
+  */
 
   createDomElement(element_id = this.uuid) {
     let element = document.createElement('button');

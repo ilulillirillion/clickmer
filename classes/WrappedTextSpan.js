@@ -14,13 +14,25 @@ export default class WrappedTextSpan extends WrappedElement {
     console.debug(`Instantiating a new <${this.class_name}> <${this.uuid}>.`);
 
     //this.text_span_contents = 'text span';
-    this.text_span_contents = '';
-    console.debug(`<${this.uuid}> text span contents set to <${this.text_span_contents}>.`);
+    this.span_contents = '';
+    console.debug(`<${this.uuid}> span contents set to <${this.span_contents}>.`);
 
     this.element = this.createDomElement();
 
+    let self = this;
+    let update_span_contents_tick_listener = function() {
+      console.warn(self.span_contents);
+      let new_contents = self.span_contents;
+      console.debug(`Updating <${self.uuid}> element innerHTML (<${self.element.innerHTML}>) to <${new_contents}>.`);
+      self.element.innerHTML = self.span_contents;
+      console.debug(`<${self.uuid}> element innerHTML set to <${self.element.innerHTML}>.`);
+    };
+    this.tick_listeners.push(update_span_contents_tick_listener);
+    //this.tick_listeners.push(_updateSpanContents(this.element, this.span_contents));
+
   };
 
+  /*
   get effective_text_contents() {
     //console.warn(this.uuid);
     //console.warn(this.master);
@@ -35,24 +47,35 @@ export default class WrappedTextSpan extends WrappedElement {
     console.debug(`Returning effective text contents: <${text}>.`);
     return text;
   };
+  */
+
+  /*
+  static _updateSpanContents(element, text) {
+    //self.element.innerHTML = self.text_span_contents;
+    element.innerHTML = text;
+  }:
+  */
 
   //tick(master=null, text_span_contents = this.text_span_contents) {
-  tick() {
+  //tick(overrides={}) {
+  //tick() {
     //console.debug(`Ticking TextSpan <${this.uuid}> with text span contents <${text_span_contents}>.`);
     //this.propogateTickToSuper(master);
-    super.tick();
+    //super.tick(overrides);
     //this.element.innerHTML = this.effective_text;
     //console.debug(`Set <${this.uuid}> innerHTML to <${this.element.innerHTML}>.`)
-    this.element.innerHTML = this.text_span_contents;
+  //  this.element.innerHTML = this.text_span_contents;
     //this.element.innerHTML = text_span_contents;
-    console.debug(`Set <${this.uuid}> innerHTML to <${this.element.innerHTML}>.`)
-  };
+  //  console.debug(`Set <${this.uuid}> innerHTML to <${this.element.innerHTML}>.`)
+  //};
 
   //createDomElement({ element_id = this.uuid, text = this.text }) {
-  createDomElement(element_id = this.uuid, text = this.effective_text_contents) {
+  //createDomElement(element_id = this.uuid, text = this.effective_text_contents) {
+  createDomElement() {
     let element = document.createElement('span');
+    let element_id = this.uuid;
     element.setAttribute('id', element_id);
-    element.innerHTML = text;
+    element.innerHTML = this.span_contents;
     console.debug(`Set <${this.uuid}> element innerHTML to <${element.innerHTML}>.`);
     return element;
   };

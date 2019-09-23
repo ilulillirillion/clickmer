@@ -34,15 +34,31 @@ export default class NavigationPane extends Pane {
     });
 
 
+    let update_tab_navigation_buttons_tick_listener = function() {
+      console.warn(self);
+      for (let tab of self.tabs) {
+        let navigation_button = tab.navigation_button;
+        if (navigation_button == null) {
+          console.debug(`Creating new tab navigation button for <${tab.uuid}>.`);
+          navigation_button = new TabNavigationButton(tab);
+          self.tab_navigation_buttons.push(navigation_button);
+          self.element.appendChild(navigation_button.element);
+        };
+        navigation_button.tick();
+      };
+    };
+    this.tick_listeners.push(update_tab_navigation_buttons_tick_listener);
+
+
   };
 
-  tick(master=null, tabs) {
-    console.debug(`Ticking navigation pane (uuid: <${this.uuid}>).`);
+  //tick(master=null, tabs) {
+  //  console.debug(`Ticking navigation pane (uuid: <${this.uuid}>).`);
     //this.propogateTickToSuper(master);
-    super.tick();
+  //  super.tick();
     //for (let i=0; i < runtime_data.ui.tabs.length; i++) {
     //  let tab = runtime_data.data.ui.tabs[i];
-    for (let tab of tabs) {
+  //  for (let tab of tabs) {
 
       //let navigation_button = 
       //    this.dom.navigation_pane_buttons.find(button => button.tab.uuid == tab.uuid);
@@ -63,6 +79,7 @@ export default class NavigationPane extends Pane {
       navigation_button.tick();
       */
 
+      /*
       let navigation_button = tab.navigation_button;
       if (navigation_button == null) {
         console.debug(`Creating new tab navigation button for <${tab.uuid}>.`);
@@ -71,6 +88,7 @@ export default class NavigationPane extends Pane {
         this.element.appendChild(navigation_button.element);
       };
       navigation_button.tick();
+      */
 
 
       
@@ -83,8 +101,8 @@ export default class NavigationPane extends Pane {
       //  this.element_root.appendChild(button);
       //};
       //button.innerHTML = `${capitalizeString(tab.name)} view`;
-    };
-  };
+    //};
+  //};
 
   createTabButtonElement(tabs, tab) {
     console.debug(`Creating button for <${tab.name}>.`);

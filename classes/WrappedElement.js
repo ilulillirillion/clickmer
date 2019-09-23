@@ -1,5 +1,5 @@
 import Thing from '../classes/Thing.js';
-//import TooltipSpan from '../classes/TooltipSpan.js';
+import TooltipSpan from '../classes/TooltipSpan.js';
 
 
 export default class WrappedElement extends Thing {
@@ -31,15 +31,27 @@ export default class WrappedElement extends Thing {
 
   };
 
-  tick(master=null) {
-    console.debug(`Ticking <${this.uuid}>.`);
+  //tick(overrides={}) {
+  //tick() {
+  //  console.debug(`Ticking <${this.uuid}>.`);
+    //super.tick(overrides);
+    /*
+    if (this.element) {
+      if (!this.tooltip) {
+        let tooltip = new TooltipSpan();
+        this.tooltip = tooltip;
+        this.element.classList.add('has_tooltip');
+        console.debug(`<${this.uuid}> tooltip set to <${this.tooltip}>.`);
+      };
+    };
+    */
     //console.debug(`<${this.uuid
     //super(master);
-    this.propogateTickToSuper();
-    if (master) {
-      this.master = this.adoptMaster();
-    };
-  };
+    //this.propogateTickToSuper();
+    //if (master) {
+    //  this.master = this.adoptMaster();
+    //};
+  //};
 
   /*
   createDomElement() {
@@ -61,8 +73,10 @@ export default class WrappedElement extends Thing {
     let tooltip = 
   */
 
+  /*
   adoptMaster(master) {
     console.debug(`<${this.uuid}> adopting new master <${master.uuid}>.`);
     return master
   };
+  */
 };

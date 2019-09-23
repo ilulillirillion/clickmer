@@ -24,6 +24,9 @@ export default class Pane extends WrappedElement {
     //console.debug(`Instantiating <${name}> Pane <${this.uuid}>.`);
     //let default_args = Pane.default_args;
 
+    this.tooltip_span_contents = '';
+    this.header_span_contents = '';
+
     /*
     // Name.
     this.name = args.name;
@@ -94,6 +97,23 @@ export default class Pane extends WrappedElement {
     this.element.appendChild(this.header_text_span.element);
     console.debug(`<${this.uuid}> header text span set to <${this.header_text_span}>.`);
 
+    /*
+    let self = this;
+    let update_tooltip_span_tick_listener = function() {
+      this.tooltip.tick();
+    };
+    this.tick_listeners.push(update_tooltip_span_tick_listener);
+    */
+
+    let self = this;
+    let update_header_span_tick_listener = function() {
+      if (self.header_span_contents) {
+        self.header_text_span.span_contents = self.header_span_contents;
+      };
+      self.header_text_span.tick();
+    };
+    this.tick_listeners.push(update_header_span_tick_listener);
+
   };
 
   
@@ -104,8 +124,14 @@ export default class Pane extends WrappedElement {
     return name_plus_underscore;
   };
 
+  /*
+  static _updateTooltipSpanTick(tooltip) {
+    tooltip.tick();
+  };
+  */
   
   //tick(master=null, header_text_span_contents = this.header_text_span_contents) {
+  /*
   tick() {
     console.debug(`Ticking pane <${this.uuid}.`);
     //console.debug(`Ticking pane <${this.uuid}> with header text span contents <${header_text_span_contents}>.`);
@@ -117,7 +143,13 @@ export default class Pane extends WrappedElement {
     //this.header_text_span.tick(null, header_text_span_contents);
     //this.header_text_span.tick();
     this.tickHeaderTextSpan();
+    //this.tickTooltipSpan();
+    //let tooltip_tick_args = { 'span_contents': this.text_span_contents }
+    console.warn(this.tooltip_span_contents);
+    let tooltip_tick_args = { 'span_contents': this.tooltip_span_contents }
+    this.tooltip.tick(tooltip_tick_args);
   };
+  */
     
 
 
@@ -130,10 +162,19 @@ export default class Pane extends WrappedElement {
     return pane;
   };
 
+  
+  /*
+  tickTooltip() {
+    let new_span_contents = this.tooltip_span_contents;
+    console.debug(`Updating <${this.uuid}> <${this.tooltip}> span contents <${this.tooltip.span_contents}> to <${new_span_contents}>.`);
+    this.tooltip_span_contents;
+  */
+    
+
 
   tickHeaderTextSpan() {
     let new_text_span_contents = this.header_text_span_contents;
-    (`Updating <${this.uuid}> <${this.header_text_span.uuid}> header text span contents <${this.header_text_span.text_span_contents}> to <${new_text_span_contents}>`);
+    console.debug(`Updating <${this.uuid}> <${this.header_text_span.uuid}> header text span contents <${this.header_text_span.text_span_contents}> to <${new_text_span_contents}>`);
     //this.header_text_span.text_span_contents = this.header_text_span_contents;
     this.header_text_span.text_span_contents = new_text_span_contents;
     (`<${this.uuid}>'s <${this.header_text_span.uuid}> text span contents set to <${this.header_text_span.text_span_contents}>.`);

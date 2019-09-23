@@ -6,6 +6,7 @@ import Pane from '../classes/Pane.js';
 
 
 export default class PopulantPane extends DomTooltipMixin(Pane) {
+//export default class PopulantPane extends Pane {
 //export default class PopulantPane extends DomTooltipMixin(Pane) {
   //static default_args = { 'name': 'populant_pane' };
   //constructor(args = PopulantPane.default_args) {
@@ -15,7 +16,9 @@ export default class PopulantPane extends DomTooltipMixin(Pane) {
     console.debug(`Instantiating <${this.class_name}> <${this.uuid}>.`);
 
     // Header text.
-    this.header_text_span_contents = 'populant pane';
+    this.header_span_contents = 'populant pane';
+
+    this.tooltip_span_contents = 'testREMOVE';
 
     // Actor.
     this.actor = actor;
@@ -33,4 +36,11 @@ export default class PopulantPane extends DomTooltipMixin(Pane) {
     ];
     */
   };
+
+  /*
+  tick(overrides={}) {
+    console.debug(`Ticking <${this.class_name}> <${this.uuid}>.`);
+    super.tick(overrides);
+  };
+  */
 };

@@ -17,8 +17,10 @@ export default class Tab extends Pane {
     console.debug(`Set tab name to <${this.name}>.`);
 
 
-    this.header_text_span_contents = 'A tab.';
-    console.debug(`<${this.uuid}> header text span contents set to <${this.header_text_span_contents}>.`);
+    //this.header_text_span_contents = 'A tab.';
+    //console.debug(`<${this.uuid}> header text span contents set to <${this.header_text_span_contents}>.`);
+    this.header_span_contents = 'A tab.';
+    console.debug(`<${this.uuid}> header text span contents set to <${this.header_span_contents}>.`);
 
     this.navigation_button = null;
 
@@ -75,6 +77,7 @@ export default class Tab extends Pane {
   };
 
 
+  /*
   tick(master=null) {
     console.debug(`Ticking tab <${this.uuid}>.`);
     //this.propogateTickToSuper(master);
@@ -82,6 +85,7 @@ export default class Tab extends Pane {
     super.tick()
     //this.header_text_span.tick(null, this.header_text_span_contents);
   };
+  */
 
   hide() {
     console.debug(`Showing tab (<${this.uuid}>).`);

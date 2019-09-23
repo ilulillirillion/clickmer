@@ -22,7 +22,30 @@ body {
   border-bottom: 1px dotted black;
 }
 
+/*
 .tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+*/
+
+  /* Position the tooltip */
+/*
+  position: absolute;
+  z-index: 1;
+}
+*/
+/*
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+*/
+
+.has_tooltip .tooltip_text {
   visibility: hidden;
   width: 120px;
   background-color: black;
@@ -36,7 +59,7 @@ body {
   z-index: 1;
 }
 
-.tooltip:hover .tooltiptext {
+.has_tooltip:hover .tooltip_text {
   visibility: visible;
 }
 
