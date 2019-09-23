@@ -6,17 +6,19 @@ export default class WrappedElement extends Thing {
   //static default_args = { 'name': 'element' };
   //constructor({ name = 'element' } = {}) {
   //constructor(master=null) {
-  constructor(element=null) {
+  constructor(element_type='div') {
     super();
     console.debug(`Instantiating WrappedDomElement <${name}> (<${this.uuid}>).`);
 
     //this.master = master;
 
     // Element
+    /*
     this.element = null;
-    if (element) {
+    if (this.element) {
       this.element = element;
     };
+    */
 
     // Tooltip
     if (this.element) {
@@ -29,6 +31,14 @@ export default class WrappedElement extends Thing {
     //this.element = this.createDomElement();
     //this.element = document.createElement('p');
 
+    this.element = this.createDomElement(element_type);
+
+  };
+
+  createDomElement(element_type) {
+    let element = document.createElement(element_type);
+    element.setAttribute('id', this.uuid);
+    return element;
   };
 
   //tick(overrides={}) {

@@ -7,7 +7,7 @@ export default class WrappedTextSpan extends WrappedElement {
   constructor(master=null) {
     console.debug('Instantiating a new TextSpan.');
 
-    super()
+    super('span')
     //let element = this.createDomElement();
     //super(element);
 
@@ -17,7 +17,13 @@ export default class WrappedTextSpan extends WrappedElement {
     this.span_contents = '';
     console.debug(`<${this.uuid}> span contents set to <${this.span_contents}>.`);
 
-    this.element = this.createDomElement();
+    //this.element = this.createDomElement();
+    //let element = document.createElement('span');
+    //let element_id = this.uuid;
+    //element.setAttribute('id', element_id);
+    this.element.innerHTML = this.span_contents;
+    console.debug(`Set <${this.uuid}> element innerHTML to <${this.element.innerHTML}>.`);
+    //return element;
 
     let self = this;
     let update_span_contents_tick_listener = function() {
@@ -71,6 +77,8 @@ export default class WrappedTextSpan extends WrappedElement {
 
   //createDomElement({ element_id = this.uuid, text = this.text }) {
   //createDomElement(element_id = this.uuid, text = this.effective_text_contents) {
+
+  /*
   createDomElement() {
     let element = document.createElement('span');
     let element_id = this.uuid;
@@ -79,5 +87,6 @@ export default class WrappedTextSpan extends WrappedElement {
     console.debug(`Set <${this.uuid}> element innerHTML to <${element.innerHTML}>.`);
     return element;
   };
+  */
 
 };

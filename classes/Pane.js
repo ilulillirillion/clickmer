@@ -7,7 +7,7 @@ import HeaderTextSpan from '../classes/HeaderTextSpan.js';
 
 //export default class Pane extends DomMixin(Thing) {
 //export default class Pane extends DomTooltipMixin(WrappedElement) {
-export default class Pane extends WrappedElement {
+export default class Pane extends DomTooltipMixin(WrappedElement) {
   //static default_args = { 'name': '' };
   //constructor(args = Pane.default_args) {
   //constructor({ name = '', header_text_span_contents = '' }) {
@@ -17,9 +17,22 @@ export default class Pane extends WrappedElement {
     super();
     //super(args);
 
-    let element = this.createDomElement();
+    //let element = this.createDomElement();
     //super(element);
-    this.element = element;
+    //this.element = element;
+
+
+    /*
+    let pane = document.createElement('div');
+    let pane_id = `${args.uuid}_${args.name}_pane`;
+    pane.setAttribute('id', pane_id);
+    pane.classList.add('pane');
+    pane.classList.add(`${args.name}_pane`);
+    return pane;
+    */
+
+    this.element.classList.add('pane');
+
     console.debug(`<${this.uuid}> element set to <${this.element}>.`);
     //console.debug(`Instantiating <${name}> Pane <${this.uuid}>.`);
     //let default_args = Pane.default_args;
