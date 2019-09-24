@@ -23,7 +23,8 @@ export default class PopulantPane extends Pane {
     this.header_span_contents = this._header_span_contents;
 
     //this.tooltip_span_contents = 'testREMOVE';
-    this.tooltip_span_contents = 'Populant Test';
+    //this.tooltip_span_contents = 'Populant Test';
+    this.tooltip_span_contents = this._tooltip_span_contents;
 
 
     /* Offloaded to Pane superclass
@@ -42,6 +43,11 @@ export default class PopulantPane extends Pane {
   // Hide the getter so as not to interfere with sets.
   get _header_span_contents() {
     let text = `-${this.actor.name}-`;
+    return text;
+  };
+
+  get _tooltip_span_contents() {
+    let text = `name: ${this.actor.name}`;
     return text;
   };
 
