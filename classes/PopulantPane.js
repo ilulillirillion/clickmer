@@ -47,7 +47,13 @@ export default class PopulantPane extends Pane {
   };
 
   get _tooltip_span_contents() {
-    let text = `name: ${this.actor.name}`;
+    //let text = `name: ${this.actor.name}`;
+    //console.warn(this.actor);
+    //console.warn(this.actor.statistics);
+    let text = `
+        health: ${this.actor.statistics.health.current}/${this.actor.statistics.health.max}<br>
+        energy: ${this.actor.statistics.energy.current}/${this.actor.statistics.energy.max}<br>
+        hunger: ${this.actor.statistics.hunger.current}/${this.actor.statistics.hunger.max}<br>`
     return text;
   };
 
