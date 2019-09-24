@@ -27,7 +27,7 @@ export default class WrappedTextSpan extends WrappedElement {
 
     let self = this;
     let update_span_contents_tick_listener = function() {
-      console.warn(self.span_contents);
+      //console.warn(self.span_contents);
       let new_contents = self.span_contents;
       console.debug(`Updating <${self.uuid}> element innerHTML (<${self.element.innerHTML}>) to <${new_contents}>.`);
       self.element.innerHTML = self.span_contents;
