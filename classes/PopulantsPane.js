@@ -27,16 +27,28 @@ export default class PopulantsPane extends Pane {
     //main_pane.element.appendChild(test_populant_pane_element);
 
     this.populant_panes = [];
+    /*
     let test_actor = new Actor();
     this.test_actor = test_actor;
     let populant_pane = new PopulantPane(test_actor);
     this.populant_panes.push(populant_pane);
     this.element.appendChild(populant_pane.element);
+    */
 
     let self = this;
-    let update_populant_panes_tick_listener = function() {
+    let update_populant_panes_tick_listener = function(game_data) {
+      for (let populant of game_data.population) {
+        let populant_pane = self.populant_panes.find(pane => pane.actor.uuid == populant.uuid);
+        if (!populant_pane) {
+          let populant_pane = new PopulantPane(populant);
+          self.populant_panes.push(populant_pane);
+          self.element.appendChild(populant_pane);
+        };
+        populant_pane.tick();
+      /*
       for (let populant_pane of self.populant_panes) {
         populant_pane.tick();
+      */
       };
     };
     this.tick_listeners.push(update_populant_panes_tick_listener);

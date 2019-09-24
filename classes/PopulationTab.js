@@ -22,12 +22,19 @@ export default class PopulationTab extends Tab {
     //console.debug(`<${this.uuid}> populants pane set to <${this.dom.population_tab_pane_populants_pane}>.`);
 
 
+    /*
     let self = this;
-    let update_populants_pane_tick_listener = function() {
-      self.populants_pane.tick();
+    let update_populants_pane_tick_listener = function(game_data) {
+      //self.populants_pane.tick(population);
+      self.populants_pane.tick(game_data);
     };
     this.tick_listeners.push(update_populants_pane_tick_listener);
+    */
 
+  };
+
+  _tick(game_data) {
+    this.populants_pane.tick(game_data);
   };
 
   /*

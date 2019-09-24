@@ -25,6 +25,7 @@ export default class WrappedTextSpan extends WrappedElement {
     console.debug(`Set <${this.uuid}> element innerHTML to <${this.element.innerHTML}>.`);
     //return element;
 
+    /*
     let self = this;
     let update_span_contents_tick_listener = function() {
       //console.warn(self.span_contents);
@@ -35,7 +36,13 @@ export default class WrappedTextSpan extends WrappedElement {
     };
     this.tick_listeners.push(update_span_contents_tick_listener);
     //this.tick_listeners.push(_updateSpanContents(this.element, this.span_contents));
+    */
 
+  };
+
+  _tick() {
+    console.warn(this.span_contents);
+    this.element.innerHTML = this.span_contents;
   };
 
   /*

@@ -34,6 +34,7 @@ export default class NavigationPane extends Pane {
     });
 
 
+    /*
     let update_tab_navigation_buttons_tick_listener = function() {
       //console.warn(self);
       for (let tab of self.tabs) {
@@ -48,8 +49,24 @@ export default class NavigationPane extends Pane {
       };
     };
     this.tick_listeners.push(update_tab_navigation_buttons_tick_listener);
+    */
 
 
+  };
+
+  _tick(game_data, tabs) {
+    console.debug(`_ticking <${this.uuid}>.`);
+    for (let tab of tabs) {
+      console.debug(`Handling navigation button tick actions for <${tab.uuid}>.`);
+      let navigation_button = tab.navigation_button;
+      if (navigation_button == null) {
+        console.debug(`Creating new tab navigation button for <${tab.uuid}>.`);
+        navigation_button = new TabNavigationButton(tab);
+        this.tab_navigation_buttons.push(navigation_button);
+        this.element.appendChild(navigation_button.element);
+      };
+      navigation_button.tick(game_data);
+    };
   };
 
   //tick(master=null, tabs) {

@@ -1,7 +1,7 @@
-import TextSpan from '../classes/WrappedTextSpan.js';
+import WrappedTextSpan from '../classes/WrappedTextSpan.js';
 
 
-export default class HeaderTextSpan extends TextSpan {
+export default class HeaderTextSpan extends WrappedTextSpan {
   constructor(master=null) {
     //console.debug(
         //`Instantating a new HeaderTextSpan with master <${master.uuid || "'(no master)'"}>.`);
@@ -11,7 +11,9 @@ export default class HeaderTextSpan extends TextSpan {
     //this.text = 'header text span';
     //this.header_text_span_contents = 'header text span';
     //this.text_span_contents = 'header text span';
-    this.span_contents = '';
+    this.span_contents = 'test2';
+    console.debug(`Constructed <${this.class_name}> <${this.uuid}> <${this}>.`);
+    console.warn(this.span_contents);
   };
 
   /*

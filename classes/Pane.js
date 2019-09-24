@@ -119,6 +119,7 @@ export default class Pane extends WrappedElement {
     this.tick_listeners.push(update_tooltip_span_tick_listener);
     */
 
+    /*
     let self = this;
     let update_header_span_tick_listener = function() {
       if (self.header_span_contents) {
@@ -127,7 +128,15 @@ export default class Pane extends WrappedElement {
       self.header_text_span.tick();
     };
     this.tick_listeners.push(update_header_span_tick_listener);
+    */
 
+  };
+
+  _tick(game_data) {
+    if (this.header_span_contents) {
+      this.header_text_span.span_contents = self.header_span_contents;
+    };
+    self.header_text_span.tick(game_data);
   };
 
   

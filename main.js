@@ -36,7 +36,7 @@ function loadSavedData(game_data) {
 
 function tick(game_data, ui) {
   console.debug('Ticking.');
-  ui.tick();
+  ui.tick(game_data);
 
 };
 
@@ -50,11 +50,13 @@ function saveGame() {
 function loopMain(game_data, ui) {
   console.debug('Starting main loop.');
 
+  /*
   setInterval(function(game_data) {
     console.info('Autosaving.');
     //localStorage.setItem('game_save_data', JSON.stringify(game_data))
     saveGame(game_data);
   }, 15000, game_data);
+  */
 
 
   setInterval(function() {
@@ -85,6 +87,9 @@ function addStyleString(str) {
 console.debug('Starting main.');
 
 import UI from './classes/UI.js'
+import Actor from '../classes/Actor.js';
+
+
 import HuntPreyActivity from './classes/HuntPreyActivity.js';
 
 
@@ -154,6 +159,10 @@ var game_data = createGameData();
 game_data = loadSavedData(game_data);
 
 var activities = createActivities();
+
+game_data.population = [];
+let test_actor = new Actor();
+game_data.population.push(test_actor);
 
 // Create the UI.
 var ui = new UI();

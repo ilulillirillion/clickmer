@@ -33,21 +33,29 @@ export default class Thing {
 
 
 
-  tick() {
+  tick(game_data, ...args) {
+    console.debug(`Ticking <${this.class_name}> <${this.uuid}>.`);
+    try { this._tick(game_data, ...args) } catch (e) { console.warn(e) };
+    //try { this.super.tick(game_data) } catch (e) { console.warn(e) };
+    try { super.tick(game_data) } catch (e) { console.warn(e) };
+    //try { super._tick(game_data) } catch (error) {};
+  };
     //console.debug(`Ticking <${this.uuid}> with overrides <${overrides}>.`);
     //for (const [override_attribute, override_value] of Object.entries(overrides)) {
     //  console.warn(`Overriding <${this.uuid}>'s <${override_attribute}> attribute value of <${this[override_attribute]}> with <${override_value}>.`);
     //  this[override_attribute] = this.override_value;
     //  console.warn(`<${this.uuid}>'s <${override_value}> overridden to <${this[override_attribute]}>.`);
     //};
+    /*
     console.debug(`Ticking <${this.class_name}> <${this.uuid}>.`);
     for (let listener of this.tick_listeners) {
       console.debug(`<${this.uuid}> invoking tick listener <${listener}>.`);
-      listener();
+      listener(game_data);
     };
-  };
+    */
+  //};
 
-  propogateTickToSuper(master=null) {
+  //propogateTickToSuper(master=null) {
     //let master_string = if (master) { return master.uuid } else { return "'(no master)'" };
     //console.debug(`<${this.uuid} super-propogating tick to <${super.uuid}> with master <}>.`);
     /*
@@ -59,5 +67,5 @@ export default class Thing {
     super.tick(master);
     */
     //super.tick();
-  };
+  //};
 };

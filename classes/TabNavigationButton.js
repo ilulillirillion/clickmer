@@ -40,6 +40,12 @@ export default class TabNavigationButton extends WrappedButton {
 
   };
 
+  _tick(game_data) {
+    let button_text = `${capitalizeString(this.tab.name)} view`;
+    this.element.innerHTML = button_text;
+  };
+
+  /*
   //tick(tab={ 'uuid': this.tab_uuid, 'name': this.tab_name }) {
   //tick(tab=this.tab) {
   tick(master=null) {
@@ -53,6 +59,7 @@ export default class TabNavigationButton extends WrappedButton {
     //this.dom.button.innerHTML = button_text;
     this.element.innerHTML = button_text;
   };
+  */
     
 
   createTabNavigationButtonElement() {

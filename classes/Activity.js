@@ -5,9 +5,11 @@ import Thing from './Thing.js';
 //export default class Activity extends DomMixin(Thing) {
 export default class Activity extends Thing {
 
-  constructor() {
+  constructor(actor) {
     super();
     console.debug(`Creating new activity <${this.uuid}>.`);
+
+    this.actor = actor;
 
     this.name = 'activity';
     this.populant_pane_string = 'doing something';

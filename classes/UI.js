@@ -44,6 +44,7 @@ export default class UI extends Pane {
     //document.body.append(this.dom.root_pane);
     document.body.append(this.element);
 
+    /*
     let update_navigation_pane_tick_listener = function() {
       self.navigation_pane.tabs = self.tabs;
       self.navigation_pane.tick(self.tabs);
@@ -52,13 +53,23 @@ export default class UI extends Pane {
     
     let update_tabs_tick_listener = function() {
       for (let tab of self.tabs) {
-        tab.tick();
+        tab.tick(game_data);
       };
     };
     this.tick_listeners.push(update_tabs_tick_listener);
+    */
 
   };
 
+  _tick(game_data) {
+    this.navigation_pane.tabs = this.tabs;
+    this.navigation_pane.tick(game_data, this.tabs);
+    for (let tab of self.tabs) {
+      tab.tick(game_data)
+    };
+  }; 
+
+  /*
   // Propogates tick downward to UI children.
   tick(master=null) {
     console.debug(`Ticking <${this.uuid}>.`);
@@ -66,9 +77,10 @@ export default class UI extends Pane {
     super.tick();
     this.navigation_pane.tick(master, this.tabs);
     for (var tab of this.tabs) {
-      tab.tick(master);
+      tab.tick(game_data);
     };
   };
+  */
 
   buildNavigationPane() {
     console.debug(`Building navigation pane for <${this.uuid}>.`);

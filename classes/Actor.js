@@ -112,7 +112,7 @@ export default class Actor extends Thing {
     //if (this.id == null) { this.uuid = `actor_${uuidv4()}` };
 
 
-    this.activity = new IdleActivity();    
+    this.activity = new IdleActivity(this);    
 
 
     //this.activity = null;
@@ -131,7 +131,11 @@ export default class Actor extends Thing {
 
     //this.populant_panes = createPopulantPanes();
 
-    
+    /*
+    let tick_listener = function() {
+      self.activity.tick()
+    };
+    */ 
 
 
   }

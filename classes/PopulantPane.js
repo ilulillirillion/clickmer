@@ -27,11 +27,13 @@ export default class PopulantPane extends DomTooltipMixin(Pane) {
     this.tooltip_span_contents = this._tooltip_span_contents;
 
 
+    /*
     let self = this;
     let update_element_tick_listener = function() {
       self.element.classList.add('populant_pane');
     };
     this.tick_listeners.push(update_element_tick_listener);
+    */
 
     /* Offloaded to Pane superclass
     this.dom = [
@@ -44,6 +46,10 @@ export default class PopulantPane extends DomTooltipMixin(Pane) {
       }]
     ];
     */
+  };
+  
+  _tick() {
+    self.element.classList.add('populant_pane');
   };
 
   // Hide the getter so as not to interfere with sets.
