@@ -40,7 +40,7 @@ export default class TabNavigationButton extends WrappedButton {
 
   };
 
-  _tick(game_data) {
+  tick(game_data) {
     let button_text = `${capitalizeString(this.tab.name)} view`;
     this.element.innerHTML = button_text;
   };

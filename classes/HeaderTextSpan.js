@@ -11,9 +11,16 @@ export default class HeaderTextSpan extends WrappedTextSpan {
     //this.text = 'header text span';
     //this.header_text_span_contents = 'header text span';
     //this.text_span_contents = 'header text span';
-    this.span_contents = 'test2';
+    //this.span_contents = 'test2';
+    //this.span_contents = 'what';
+    this.span_contents = '';
     console.debug(`Constructed <${this.class_name}> <${this.uuid}> <${this}>.`);
     console.warn(this.span_contents);
+  };
+
+  tick(text = this.span_contents) {
+    console.debug(`Ticking <${this.class_name}> <${this.uuid}> with text <${text}>.`);
+    super.tick(text);
   };
 
   /*

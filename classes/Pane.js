@@ -132,11 +132,12 @@ export default class Pane extends WrappedElement {
 
   };
 
-  _tick(game_data) {
-    if (this.header_span_contents) {
-      this.header_text_span.span_contents = self.header_span_contents;
-    };
-    self.header_text_span.tick(game_data);
+  tick(game_data) {
+    //if (this.header_span_contents) {
+      //this.header_text_span.span_contents = self.header_span_contents;
+    //};
+    this.header_text_span.tick(this.header_span_contents);
+    //self.header_text_span.tick(game_data);
   };
 
   

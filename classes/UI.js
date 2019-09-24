@@ -61,10 +61,11 @@ export default class UI extends Pane {
 
   };
 
-  _tick(game_data) {
+  tick(game_data) {
+    console.debug(`Ticking <${this.uuid}>.`);
     this.navigation_pane.tabs = this.tabs;
     this.navigation_pane.tick(game_data, this.tabs);
-    for (let tab of self.tabs) {
+    for (let tab of this.tabs) {
       tab.tick(game_data)
     };
   }; 

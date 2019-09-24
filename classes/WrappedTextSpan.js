@@ -40,9 +40,11 @@ export default class WrappedTextSpan extends WrappedElement {
 
   };
 
-  _tick() {
-    console.warn(this.span_contents);
-    this.element.innerHTML = this.span_contents;
+  tick(text = this.span_contents) {
+    
+    //console.warn(this.span_contents);
+    //this.element.innerHTML = this.span_contents;
+    this.element.innerHTML = text;
   };
 
   /*

@@ -76,6 +76,10 @@ export default class Tab extends Pane {
 
   };
 
+  //tick() {
+  //  this.super.tick()
+  //};
+
 
   /*
   tick(master=null) {

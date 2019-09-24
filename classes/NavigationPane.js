@@ -54,7 +54,7 @@ export default class NavigationPane extends Pane {
 
   };
 
-  _tick(game_data, tabs) {
+  tick(game_data, tabs) {
     console.debug(`_ticking <${this.uuid}>.`);
     for (let tab of tabs) {
       console.debug(`Handling navigation button tick actions for <${tab.uuid}>.`);

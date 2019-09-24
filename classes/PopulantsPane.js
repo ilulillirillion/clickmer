@@ -11,7 +11,8 @@ export default class PopulantsPane extends Pane {
     // Header text.
     ///this.header_text = 'populants_pane';
     //console.debug(`<${this.uuid}> header text set to <${this.header_text}>.`);
-    this.header_text_span_contents = 'populants pane'
+    //this.header_text_span_contents = 'populants pane'
+    this.header_span_contents = 'populants pane';
     console.debug(`<${this.uuid}> header text span contents set to <${this.header_text_span_contents}>.`);
 
     // Tooltip text
@@ -35,6 +36,7 @@ export default class PopulantsPane extends Pane {
     this.element.appendChild(populant_pane.element);
     */
 
+    /*
     let self = this;
     let update_populant_panes_tick_listener = function(game_data) {
       for (let populant of game_data.population) {
@@ -45,14 +47,27 @@ export default class PopulantsPane extends Pane {
           self.element.appendChild(populant_pane);
         };
         populant_pane.tick();
-      /*
-      for (let populant_pane of self.populant_panes) {
-        populant_pane.tick();
-      */
+      //for (let populant_pane of self.populant_panes) {
+      //  populant_pane.tick();
       };
     };
     this.tick_listeners.push(update_populant_panes_tick_listener);
+    */
 
+  };
+
+  tick(game_data) {
+    for (let populant of game_data.population) {
+      let populant_pane = this.populant_panes.find(pane => pane.actor.uuid == populant.uuid);
+      if (populant_pane === 'undefined' || populant_pane == null) {
+        //console.warn('wtf');
+        populant_pane = new PopulantPane(populant);
+        this.populant_panes.push(populant_pane);
+        this.element.appendChild(populant_pane.element);
+        console.warn(populant_pane);
+      };
+      populant_pane.tick()
+    };
   };
 
   /*

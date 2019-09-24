@@ -33,13 +33,13 @@ export default class Thing {
 
 
 
-  tick(game_data, ...args) {
-    console.debug(`Ticking <${this.class_name}> <${this.uuid}>.`);
-    try { this._tick(game_data, ...args) } catch (e) { console.warn(e) };
+  //tick(game_data, ...args) {
+  //  console.debug(`Ticking <${this.class_name}> <${this.uuid}>.`);
+  //  try { this._tick(game_data, ...args) } catch (e) { console.warn(e) };
     //try { this.super.tick(game_data) } catch (e) { console.warn(e) };
-    try { super.tick(game_data) } catch (e) { console.warn(e) };
+  //  try { super.tick(game_data) } catch (e) { console.warn(e) };
     //try { super._tick(game_data) } catch (error) {};
-  };
+  //};
     //console.debug(`Ticking <${this.uuid}> with overrides <${overrides}>.`);
     //for (const [override_attribute, override_value] of Object.entries(overrides)) {
     //  console.warn(`Overriding <${this.uuid}>'s <${override_attribute}> attribute value of <${this[override_attribute]}> with <${override_value}>.`);
