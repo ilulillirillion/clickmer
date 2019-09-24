@@ -57,6 +57,7 @@ export default class PopulantPane extends DomTooltipMixin(Pane) {
     //console.warn(this.actor);
     //console.warn(this.actor.statistics);
     let text = `
+        activity: ${this.actor.activity.populant_pane_string}<br>
         health: ${this.actor.statistics.health.current}/${this.actor.statistics.health.max}<br>
         energy: ${this.actor.statistics.energy.current}/${this.actor.statistics.energy.max}<br>
         hunger: ${this.actor.statistics.hunger.current}/${this.actor.statistics.hunger.max}<br>`

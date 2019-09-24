@@ -1,4 +1,5 @@
 import Thing from '../classes/Thing.js';
+import IdleActivity from '../classes/IdleActivity.js';
 //import generateRandomName from '../functions/generateRandomName.js';
 
 
@@ -110,7 +111,12 @@ export default class Actor extends Thing {
 
     //if (this.id == null) { this.uuid = `actor_${uuidv4()}` };
 
-    this.activity = null;
+
+    this.activity = new IdleActivity();    
+
+
+    //this.activity = null;
+    //this.activity = 'idle';
     //this.activity_steps = 0;
 
     //let actor_element = this.generateElement();

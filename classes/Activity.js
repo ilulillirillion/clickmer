@@ -9,6 +9,9 @@ export default class Activity extends Thing {
     super();
     console.debug(`Creating new activity <${this.uuid}>.`);
 
+    this.name = 'activity';
+    this.populant_pane_string = 'doing something';
+
     //this.dom = {};
 
     /*
