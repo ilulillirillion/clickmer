@@ -15,15 +15,16 @@ export default class PopulantPane extends Pane {
     super();
     console.debug(`Instantiating <${this.class_name}> <${this.uuid}>.`);
 
+    // Actor.
+    this.actor = actor;
+    console.debug(`<${this.uuid}> actor set to <${this.actor.uuid}>.`);
+
     // Header text.
-    this.header_span_contents = 'populant pane';
+    this.header_span_contents = this._header_span_contents;
 
     //this.tooltip_span_contents = 'testREMOVE';
     this.tooltip_span_contents = 'Populant Test';
 
-    // Actor.
-    this.actor = actor;
-    console.debug(`<${this.uuid}> actor set to <${this.actor.uuid}>.`);
 
     /* Offloaded to Pane superclass
     this.dom = [
@@ -36,6 +37,12 @@ export default class PopulantPane extends Pane {
       }]
     ];
     */
+  };
+
+  // Hide the getter so as not to interfere with sets.
+  get _header_span_contents() {
+    let text = `-${this.actor.name}-`;
+    return text;
   };
 
   /*

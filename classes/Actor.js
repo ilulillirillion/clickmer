@@ -54,7 +54,7 @@ export default class Actor extends Thing {
     let name = args.name;
     if (!name) {
       //console.debug(`Empty or invalid name <${name}> given for <${this.uuid}>, generating a random name.`);
-      let name = this.generateRandomName();
+      name = this.generateRandomName();
       console.debug(`Generated random name <${name}> for <${this.uuid}>.`);
     };
     this.name = name;
