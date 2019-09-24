@@ -1,13 +1,14 @@
 //import { DomMixin } from '../mixins/DomMixin.js'
 //import Thing from '../classes/Thing.js'
-import { DomTooltipMixin } from '../mixins/DomTooltipMixin.js';
+//import { DomTooltipMixin } from '../mixins/DomTooltipMixin.js';
 import WrappedElement from '../classes/WrappedElement.js';
 import HeaderTextSpan from '../classes/HeaderTextSpan.js';
 
 
 //export default class Pane extends DomMixin(Thing) {
 //export default class Pane extends DomTooltipMixin(WrappedElement) {
-export default class Pane extends DomTooltipMixin(WrappedElement) {
+//export default class Pane extends DomTooltipMixin(WrappedElement) {
+export default class Pane extends WrappedElement {
   //static default_args = { 'name': '' };
   //constructor(args = Pane.default_args) {
   //constructor({ name = '', header_text_span_contents = '' }) {

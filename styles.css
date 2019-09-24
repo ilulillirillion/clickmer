@@ -45,7 +45,7 @@ body {
 }
 */
 
-.wrapped_element .tooltip_text {
+.has_tooltip .tooltip_text {
   visibility: hidden;
   width: 120px;
   background-color: black;
@@ -59,11 +59,11 @@ body {
   z-index: 1;
 }
 
-.wrapped_element:hover .tooltip_text {
+.has_tooltip:hover .tooltip_text {
   visibility: visible;
 }
 
-.wrapped_element:hover .tooltip_text:empty {
+.has_tooltip:hover .tooltip_text:empty {
   visibility: hidden;
 }
 

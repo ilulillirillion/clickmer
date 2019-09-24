@@ -1,5 +1,5 @@
 import Thing from '../classes/Thing.js';
-import TooltipSpan from '../classes/TooltipSpan.js';
+//import TooltipSpan from '../classes/TooltipSpan.js';
 
 
 export default class WrappedElement extends Thing {
