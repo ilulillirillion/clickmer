@@ -36,6 +36,9 @@ function loadSavedData(game_data) {
 
 function tick(game_data, ui) {
   console.debug('Ticking.');
+  for (let populant of game_data.population) {
+    populant.tick();
+  };
   ui.tick(game_data);
 
 };

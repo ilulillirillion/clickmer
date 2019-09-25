@@ -38,7 +38,7 @@ export default class Pane extends WrappedElement {
     //console.debug(`Instantiating <${name}> Pane <${this.uuid}>.`);
     //let default_args = Pane.default_args;
 
-    this.tooltip_span_contents = '';
+    //this.tooltip_span_contents = '';
     this.header_span_contents = '';
 
     /*
@@ -140,6 +140,10 @@ export default class Pane extends WrappedElement {
     //self.header_text_span.tick(game_data);
   };
 
+  get tooltip_span_contents() {
+    let text = '';
+    return text;
+  };
   
   // If there is a name, attach an underscore to it, otherwise leave it blank.
   get name_plus_underscore() {

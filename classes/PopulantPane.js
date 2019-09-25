@@ -25,7 +25,7 @@ export default class PopulantPane extends DomTooltipMixin(Pane) {
 
     //this.tooltip_span_contents = 'testREMOVE';
     //this.tooltip_span_contents = 'Populant Test';
-    this.tooltip_span_contents = this._tooltip_span_contents;
+    //this.tooltip_span_contents = this._tooltip_span_contents;
 
 
     /*
@@ -50,6 +50,7 @@ export default class PopulantPane extends DomTooltipMixin(Pane) {
   };
   
   tick() {
+    console.debug(`Ticking <${this.class_name}> <${this.uuid}>.`);
     super.tick();
     this.element.classList.add('populant_pane');
     this.tooltip.tick(this.tooltip_span_contents);
@@ -61,7 +62,7 @@ export default class PopulantPane extends DomTooltipMixin(Pane) {
     return text;
   };
 
-  get _tooltip_span_contents() {
+  get tooltip_span_contents() {
     //let text = `name: ${this.actor.name}`;
     //console.warn(this.actor);
     //console.warn(this.actor.statistics);

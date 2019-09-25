@@ -11,7 +11,7 @@ export const DomTooltipMixin = Base => class extends Base {
     this.element.appendChild(this.tooltip.element);
     console.debug(`<${this.uuid}> tooltip set to <${this.tooltip}>.`);
 
-    this.tooltip_span_contents = '';
+    //this.tooltip_span_contents = '';
 
 
     //this.tick_listeners = DomTooltipMixin._updateTooltip(this.tooltip);
@@ -24,6 +24,11 @@ export const DomTooltipMixin = Base => class extends Base {
 
 
     console.debug('Finished executing DomTooltipMixin constructor.');
+  };
+
+  get tooltip_span_contents() {
+    let text = '';
+    return text;
   };
 
   /*

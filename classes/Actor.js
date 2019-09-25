@@ -140,6 +140,11 @@ export default class Actor extends Thing {
 
   }
 
+  tick() {
+    console.debug(`Ticking <${this.class_name}> <${this.uuid}>.`);
+    this.updateStatistic('hunger', -1);
+  };
+
 
   /*
   tickActivityEffects() {
@@ -237,6 +242,7 @@ export default class Actor extends Thing {
   };
 
   updateStatistic(statistic, delta) {
+    console.debug(`Adding <${delta}> to <${this.uuid}>'s <${statistic}> statistic.`);
     statistic = this.statistics[statistic]
     statistic['current'] += delta;
     if (statistic['current'] > statistic['max']) {
