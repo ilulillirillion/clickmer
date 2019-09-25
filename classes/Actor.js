@@ -1,4 +1,5 @@
 import Thing from '../classes/Thing.js';
+import ActorStatistic from '../classes/ActorStatistic.js';
 import IdleActivity from '../classes/IdleActivity.js';
 //import generateRandomName from '../functions/generateRandomName.js';
 
@@ -72,8 +73,16 @@ export default class Actor extends Thing {
     console.debug(`<${this.name}> set to <${this.name}>.`);
     */
 
+    let statistics = {
+      'health': new ActorStatistic(this),
+      'hunger': new ActorStatistic(this),
+      'energy': new ActorStatistic(this)
+    }; 
+    //this.new_statistics = new_statistics;
+    this.statistics = statistics;
+
     // Statistics.
-    this.statistics = args.statistics;
+    //this.statistics = args.statistics;
     console.debug(`<${this.uuid}> statistics set to <${this.statistics}>.`);
     /*
     this.statistics = args.statistics;
@@ -84,15 +93,18 @@ export default class Actor extends Thing {
     };
     */
 
-    //TODO: These should be listener lists...
     // Hunger listener.
+    /*
     let self = this;
     this.statistics.hunger['listener'] = function() {
+      console.log(`Running <${this.uuid}>'s hunger update listener`);
       if (self.statistics.hunger['current'] == 0) {
         self.die();
       }
     }
+    */
 
+    /*
     // Energy listener.
     this.statistics.energy['listener'] = function() {
       if (self.statistics.energy['current'] <= self.energy_halt_point ||
@@ -100,13 +112,16 @@ export default class Actor extends Thing {
         self.activity.name = 'sleep';
       };
     };
+    */
 
+    /*
     // Health listener.
     this.statistics.health['listener'] = function() {
       if (self.statistics.health['current'] == 0) {
         self.die();
       };
     };
+    */
 
 
     //if (this.id == null) { this.uuid = `actor_${uuidv4()}` };
@@ -140,9 +155,19 @@ export default class Actor extends Thing {
 
   }
 
+  
+
+  /*
+  set hunger(value) {
+    console.debug(`Setting <${this.class_name}> <${this.uuid}>'s hunger to <${value}>.`);
+  */
+    
+
   tick() {
     console.debug(`Ticking <${this.class_name}> <${this.uuid}>.`);
-    this.updateStatistic('hunger', -1);
+    //this.updateStatistic('hunger', -1);
+    //this.statistics.hunger.current -= 1;
+    this.statistics.hunger.add(-1);
   };
 
 
