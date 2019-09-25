@@ -11,15 +11,18 @@ export default class Actor extends Thing {
     'name': null,
     'statistics': {
       'energy': {
-        'max': 100,
+        'maximum': 100,
+        'minimum': 0,
         'current': 100
       },
       'health': {
-        'max': 100,
+        'maximum': 100,
+        'minimum': 0,
         'current': 100
       },
       'hunger': {
-        'max': 100,
+        'maximum': 100,
+        'minimum': 0,
         'current': 100
       }
     }
@@ -51,7 +54,7 @@ export default class Actor extends Thing {
 
     //this.statistics = args.statistics;
 
-    this.status = 'healthy';  
+    //this.status = 'healthy';  
 
     // Name. If a name is not explicitly given, generate a random one.
     let name = args.name;
@@ -74,6 +77,7 @@ export default class Actor extends Thing {
     console.debug(`<${this.name}> set to <${this.name}>.`);
     */
 
+    /*
     let statistics = {
       'health': new ActorStatistic(this),
       'hunger': new HungerActorStatistic(this),
@@ -81,9 +85,12 @@ export default class Actor extends Thing {
     }; 
     //this.new_statistics = new_statistics;
     this.statistics = statistics;
+    */
+
+    this.last_status = null;
 
     // Statistics.
-    //this.statistics = args.statistics;
+    this.statistics = args.statistics;
     console.debug(`<${this.uuid}> statistics set to <${this.statistics}>.`);
     /*
     this.statistics = args.statistics;
@@ -156,6 +163,36 @@ export default class Actor extends Thing {
 
   }
 
+
+  get status() {
+    console.debug(`Getting <${this.class_name}> <${this.uuid}>'s status.`);
+    //let old_status = this.status;
+    let old_status = this.last_status;
+    let status = 'healthy';
+    // Can't come back from the dead.
+    //console.warn(`status: <${status}>.`);
+    if (old_status == 'dead') {
+      console.debug(`Setting <${this.uuid}>'s status to dead because it was dead last time it was checked.`);
+      //this.statistics.health.current = 0;
+      //this.statistics.energy.current = 0;
+      //this.statistics.hunger.current = 0;
+      status = 'dead'
+      //console.warn(`status2: <${status}>.`);
+    };
+    if (this.statistics.hunger.current <= 0) {
+      console.debug(`Setting <${this.uuid}>'s status to dead because it's hunger is 0 or lower.`);
+      //if (old_status != 'dead') {
+      //  this.die();
+      //};
+      //this.die();
+      //return 'dead';
+      status = 'dead';
+      //console.warn(`status: <${status}>.`);
+    };
+    old_status = status;
+    //console.warn(`status: <${status}>.`);
+    return status;
+  };
   
 
   /*
@@ -168,7 +205,8 @@ export default class Actor extends Thing {
     console.debug(`Ticking <${this.class_name}> <${this.uuid}>.`);
     //this.updateStatistic('hunger', -1);
     //this.statistics.hunger.current -= 1;
-    this.statistics.hunger.add(-1);
+    //this.statistics.hunger.add(-1);
+    this.updateStatistic('hunger', -1);
     //return this.state;
   };
 
@@ -272,12 +310,18 @@ export default class Actor extends Thing {
     console.debug(`Adding <${delta}> to <${this.uuid}>'s <${statistic}> statistic.`);
     statistic = this.statistics[statistic]
     statistic['current'] += delta;
-    if (statistic['current'] > statistic['max']) {
-      statistic['current'] = statistic['max'];
+    if (statistic['current'] > statistic['maximum']) {
+      statistic['current'] = statistic['maximum'];
     }
+    else if (statistic['current'] < statistic['minimum']) {
+      statistic['current'] = statistic['minimum'];
+    };
+    /*
     if (statistic.hasOwnProperty('listener')) {
       statistic['listener']();
     };
+    */
+    //this.updateStatus
   }
 
   //generateElement(id_suffix='', expandable=true) {

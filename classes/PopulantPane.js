@@ -73,6 +73,17 @@ export default class PopulantPane extends DomTooltipMixin(Pane) {
         energy: ${this.actor.statistics.energy.current}/${this.actor.statistics.energy.max}<br>
         hunger: ${this.actor.statistics.hunger.current}/${this.actor.statistics.hunger.max}<br>`
     */
+    
+    let text = '';
+    text += `status: ${this.actor.status}<br>`;
+    if (this.actor.status != 'dead') {
+      text += `activity: ${this.actor.activity.populant_pane_string}<br>`;
+      text += `health: ${this.actor.statistics.health.current}/${this.actor.statistics.health.maximum}<br>`;
+      text += `energy: ${this.actor.statistics.energy.current}/${this.actor.statistics.energy.maximum}<br>`;
+      text += `hunger: ${this.actor.statistics.hunger.current}/${this.actor.statistics.hunger.maximum}<br>`;
+    };
+    return text;
+    /*
     let text = `
         status: ${this.actor.status}<br>
         activity: ${this.actor.activity.populant_pane_string}<br>
@@ -80,6 +91,7 @@ export default class PopulantPane extends DomTooltipMixin(Pane) {
         energy: ${this.actor.statistics.energy.current}/${this.actor.statistics.energy.maximum}<br>
         hunger: ${this.actor.statistics.hunger.current}/${this.actor.statistics.hunger.maximum}<br>`
     return text;
+    */
   };
 
   /*
