@@ -11,10 +11,13 @@ export default class ActorStatistic extends Thing {
     this._current = 100;
     this._maximum = 100;
 
+    //this.test = this['current'];
+    //console.warn(this.test);
+
   }
 
   add(value, selector='current') {
-    console.debug(`Adding <${value}> to <${this.actor.uuid}>'s <${selector}> <${this.uuid}>.`);
+    console.debug(`Adding <${value}> to <${this.actor.uuid}>'s <${selector}> <${this.uuid}> of <${this[selector]}>.`);
     let changed_value = this[selector];
     changed_value += value;
     this[selector] = changed_value;

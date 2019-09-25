@@ -1,5 +1,6 @@
 import Thing from '../classes/Thing.js';
 import ActorStatistic from '../classes/ActorStatistic.js';
+import HungerActorStatistic from '../classes/HungerActorStatistic.js';
 import IdleActivity from '../classes/IdleActivity.js';
 //import generateRandomName from '../functions/generateRandomName.js';
 
@@ -50,7 +51,7 @@ export default class Actor extends Thing {
 
     //this.statistics = args.statistics;
 
-      
+    this.status = 'healthy';  
 
     // Name. If a name is not explicitly given, generate a random one.
     let name = args.name;
@@ -75,7 +76,7 @@ export default class Actor extends Thing {
 
     let statistics = {
       'health': new ActorStatistic(this),
-      'hunger': new ActorStatistic(this),
+      'hunger': new HungerActorStatistic(this),
       'energy': new ActorStatistic(this)
     }; 
     //this.new_statistics = new_statistics;
@@ -168,6 +169,7 @@ export default class Actor extends Thing {
     //this.updateStatistic('hunger', -1);
     //this.statistics.hunger.current -= 1;
     this.statistics.hunger.add(-1);
+    //return this.state;
   };
 
 
@@ -451,8 +453,16 @@ export default class Actor extends Thing {
   }
 
   die() {
+    console.debug(`<${this.uuid}> has died.`);
+    //this.dead = true;
+    this.status = 'dead';
+  };
+
+  /*
+  die() {
     game_data.population.splice(game_data.population.findIndex(populant => populant.uuid == this.uuid), 1);
     document.getElementById(this.uuid).remove();
   }
+  */
 
 }
