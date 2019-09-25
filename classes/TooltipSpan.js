@@ -16,6 +16,11 @@ export default class TooltipSpan extends WrappedTextSpan {
   };
 
 
+  tick(text = this.span_contents) {
+    super.tick(text);
+    //super.tick('testtest');
+  };
+
   /*
   //TODO: restore this functionality;
   tick(overrides={}) {

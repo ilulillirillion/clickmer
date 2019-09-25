@@ -52,6 +52,7 @@ export default class PopulantPane extends DomTooltipMixin(Pane) {
   tick() {
     super.tick();
     this.element.classList.add('populant_pane');
+    this.tooltip.tick(this.tooltip_span_contents);
   };
 
   // Hide the getter so as not to interfere with sets.
