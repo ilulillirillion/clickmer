@@ -21,6 +21,7 @@ export default class PopulantPane extends DomTooltipMixin(Pane) {
 
     // Header text.
     this.header_span_contents = this._header_span_contents;
+    //this.header_span_contents = 'testtest';
 
     //this.tooltip_span_contents = 'testREMOVE';
     //this.tooltip_span_contents = 'Populant Test';
@@ -49,6 +50,7 @@ export default class PopulantPane extends DomTooltipMixin(Pane) {
   };
   
   tick() {
+    super.tick();
     this.element.classList.add('populant_pane');
   };
 

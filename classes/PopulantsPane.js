@@ -60,11 +60,10 @@ export default class PopulantsPane extends Pane {
     for (let populant of game_data.population) {
       let populant_pane = this.populant_panes.find(pane => pane.actor.uuid == populant.uuid);
       if (populant_pane === 'undefined' || populant_pane == null) {
-        //console.warn('wtf');
         populant_pane = new PopulantPane(populant);
         this.populant_panes.push(populant_pane);
         this.element.appendChild(populant_pane.element);
-        console.warn(populant_pane);
+        //console.warn(populant_pane);
       };
       populant_pane.tick()
     };
