@@ -1,5 +1,5 @@
 import Pane from '../classes/Pane.js';
-import PopulantsPane from '../classes/PopulantsPane.js';
+import ActivityPopulantsPane from '../classes/ActivityPopulantsPane.js';
 
 
 export default class ActivityPane extends Pane {
@@ -16,7 +16,7 @@ export default class ActivityPane extends Pane {
       self.element.classList.toggle('expanded');
     });
 
-    let populants_pane = new PopulantsPane();
+    let populants_pane = new ActivityPopulantsPane();
     this.element.appendChild(populants_pane.element);
     this.populants_pane = populants_pane; 
       
@@ -35,7 +35,7 @@ export default class ActivityPane extends Pane {
     //this.header_span_contents = text;
     this.header_span_contents = header_span_contents;
     this.element.classList.add('activity_pane');
-    this.populants_pane.tick(population);
-    this.populants_pane.tick();
+    this.populants_pane.tick({ population: population });
+    //this.populants_pane.tick();
   };
 };

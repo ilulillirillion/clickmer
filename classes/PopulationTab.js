@@ -37,7 +37,7 @@ export default class PopulationTab extends Tab {
     //this.super.tick();
     super.tick();
     //this.populants_pane.tick(game_data);
-    this.populants_pane.tick(game_data.population);
+    this.populants_pane.tick({ population: game_data.population });
   };
 
   /*

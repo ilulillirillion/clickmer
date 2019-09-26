@@ -56,13 +56,14 @@ export default class PopulantsPane extends Pane {
 
   };
 
-  tick(population = []) {
+  tick({ population = [] } = { population: [] }) {
     //population = [];
     console.debug(`Ticking <${this.class_name}> <${this.uuid}> with population <${population}> (variable type: <${typeof(population)}>) (array: <${Array.isArray(population)}>).`);
     for (let populant of population) {
       let populant_pane = this.populant_panes.find(pane => pane.actor.uuid == populant.uuid);
       if (populant_pane === 'undefined' || populant_pane == null) {
-        populant_pane = new PopulantPane(populant);
+        //populant_pane = new PopulantPane(populant);
+        populant_pane = this.createPopulantPane(populant);
         this.populant_panes.push(populant_pane);
         this.element.appendChild(populant_pane.element);
         //console.warn(populant_pane);
@@ -70,6 +71,13 @@ export default class PopulantsPane extends Pane {
       populant_pane.tick()
     };
   };
+
+  createPopulantPane(populant) {
+    console.debug(`<${this.uuid}> creating populant pane for <${populant.uuid}>.`);
+    let populant_pane = new PopulantPane(populant);
+    return populant_pane;
+  };
+    
 
   /*
   tick() {
