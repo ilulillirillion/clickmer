@@ -85,6 +85,14 @@ body {
   width: 400px;
 }
 
+.activity_pane .populant_pane {
+  display: none;
+}
+
+.activity_pane.expanded .populant_pane {
+  display: inline-block;
+}
+
 /*
 .activity_pane_expanded {
   height: 200px;
