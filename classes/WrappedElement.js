@@ -20,6 +20,8 @@ export default class WrappedElement extends Thing {
     };
     */
 
+    //this.name = 'element';
+
     // Tooltip
     if (this.element) {
       let tooltip = new TooltipSpan();
@@ -41,6 +43,10 @@ export default class WrappedElement extends Thing {
     element.classList.add('wrapped_element');
     console.debug(`Created DOM element <${element}> with id <${element.id}> and classes <${element.classList}>.`);
     return element;
+  };
+
+  tick() {
+    console.debug(`Ticking <${this.class_name}> <${this.uuid}>.`)
   };
 
   //tick(overrides={}) {

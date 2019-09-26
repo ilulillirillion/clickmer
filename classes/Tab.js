@@ -6,7 +6,7 @@ import Pane from '../classes/Pane.js';
 // DomMixin provides element_id.
 //export default class Tab extends DomMixin(Thing) {
 export default class Tab extends Pane {
-  constructor(name) {
+  constructor(name=null) {
     //let super_name = `${name}_tab`;
     //super({ 'name': super_name });
     console.debug(`Creating tab with name: <${name}>.`);
@@ -14,6 +14,9 @@ export default class Tab extends Pane {
 
     // Name
     this.name = name;
+    if (this.name == null) {
+      this.name = 'tab'
+    };
     console.debug(`Set tab name to <${this.name}>.`);
 
 

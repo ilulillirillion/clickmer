@@ -18,6 +18,8 @@ export default class Pane extends WrappedElement {
     super();
     //super(args);
 
+    //this.name = 'testname1';
+
     //let element = this.createDomElement();
     //super(element);
     //this.element = element;

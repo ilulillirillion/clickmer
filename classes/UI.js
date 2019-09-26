@@ -5,6 +5,7 @@ import NavigationPane from './NavigationPane.js';
 import ColonyTab from './ColonyTab.js';
 import PopulationTab from './PopulationTab.js';
 import ResearchTab from './ResearchTab.js';
+import DebugTab from '../classes/DebugTab.js';
 
 //export default class UI extends DomMixin(Thing) {
 export default class UI extends Pane {
@@ -114,6 +115,11 @@ export default class UI extends Pane {
   createTabs() {
     console.debug(`Building tabs for UI with uuid: <${this.uuid}>).`);
     let tabs = [];
+    // Debug Tab.
+    let debug_tab = new DebugTab();
+    tabs.push(debug_tab);
+    console.debug(
+      `Added debug tab (<${debug_tab.uuid}>) to UI (<${this.uuid}>).`);
     // Colony Tab
     let colony_tab = new ColonyTab();
     //this.addTab(colony_tab);
