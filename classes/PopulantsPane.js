@@ -56,8 +56,10 @@ export default class PopulantsPane extends Pane {
 
   };
 
-  tick(game_data) {
-    for (let populant of game_data.population) {
+  tick(population = []) {
+    //population = [];
+    console.debug(`Ticking <${this.class_name}> <${this.uuid}> with population <${population}> (variable type: <${typeof(population)}>) (array: <${Array.isArray(population)}>).`);
+    for (let populant of population) {
       let populant_pane = this.populant_panes.find(pane => pane.actor.uuid == populant.uuid);
       if (populant_pane === 'undefined' || populant_pane == null) {
         populant_pane = new PopulantPane(populant);

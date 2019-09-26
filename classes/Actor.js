@@ -502,11 +502,25 @@ export default class Actor extends Thing {
     this.status = 'dead';
   };
 
+  get doable_activities() {
+    let doable_activities = Actor.activities;
+    return doable_activities;
+  };
+
+  _study_environment() {
+    console.debug(`<${this.uuid}> is studying the environment.`);
+  };
+
+  
+
   /*
   die() {
     game_data.population.splice(game_data.population.findIndex(populant => populant.uuid == this.uuid), 1);
     document.getElementById(this.uuid).remove();
   }
   */
+  static activities = [
+    'study environment'
+  ];
 
-}
+};
