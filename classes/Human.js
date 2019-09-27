@@ -6,13 +6,15 @@ class Human extends Actor {
     super();
     /* https://medicalxpress.com/news/2015-12-humans-survive-food.html
     Humans can survive for about 50 days without food. */
-    this.statistics.hunger.current = 4320000;
-    this.statistics.hunger.max = 4320000;
+    //this.statistics.hunger.current = 4320000;
+    //this.statistics.hunger.max = 4320000;
+
+    this.sex = 'male';
   };
 
 
 
-
+/*
   _stalk_prey() {
     let subsequence_end_step = 480 // Takes 8 hours.
     this.activity.subsequence = 1; // No subsequencing
@@ -70,7 +72,7 @@ class Human extends Actor {
     };
   };
 
-
+*/
 
 
     /*
@@ -118,6 +120,8 @@ class Human extends Actor {
     //this.updateStatistic('hunger', 1);
     */
 
+/*
+
   sleep() {
     let step = this.activity_steps;
     console.debug(`${this.name} is sleeping.`);
@@ -129,5 +133,7 @@ class Human extends Actor {
       step += 1;
     };
   };
+
+*/
 
 };
