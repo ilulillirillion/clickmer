@@ -90,7 +90,8 @@ function addStyleString(str) {
 console.debug('Starting main.');
 
 import UI from './classes/UI.js'
-import Actor from '../classes/Actor.js';
+//import Actor from '../classes/Actor.js';
+import Human from '../classes/Human.js';
 
 
 import HuntPreyActivity from './classes/HuntPreyActivity.js';
@@ -164,8 +165,10 @@ game_data = loadSavedData(game_data);
 var activities = createActivities();
 
 game_data.population = [];
-let test_actor = new Actor();
-game_data.population.push(test_actor);
+//let test_actor = new Actor();
+//game_data.population.push(test_actor);
+let test_human = new Human();
+game_data.population.push(test_human);
 
 // Create the UI.
 var ui = new UI();
