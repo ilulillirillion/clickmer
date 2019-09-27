@@ -11,8 +11,14 @@ export default class ActivityPane extends Pane {
     this.header_span_contents = name;
 
     let self = this;
-    this.element.addEventListener('click', function() {
+    this.element.addEventListener('click', function(_event) {
       //self.element.classList.toggle('activity_pane_expanded');
+      console.debug(`<${self.uuid}> clicked with event <${_event}>.`);
+      let target_id = _event.target.getAttribute('id');
+      let this_element_id = self.element.getAttribute('id');
+      if (target_id != this_element_id) {
+        return;
+      };
       self.element.classList.toggle('expanded');
     });
 
@@ -23,6 +29,8 @@ export default class ActivityPane extends Pane {
       
 
   };
+
+  //_click() {
 
   tick({ 
       header_span_contents = this.header_span_contents, 
