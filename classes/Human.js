@@ -1,6 +1,6 @@
 import Actor from './actor.js';
 
-class Human extends Actor {
+export default class Human extends Actor {
 
   constructor() {
     super();
