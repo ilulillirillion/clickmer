@@ -13,7 +13,11 @@ export default class ActivityPopulantPane extends PopulantPane {
     let self = this;
     this.element.addEventListener('click', function(_event) {
       console.debug(`<${self.uuid}> clicked with event <${_event}>.`);
-      self.actor.activity = self.activity_name;
+      if (self.actor.activity == self.activity_name) {
+        self.actor.activity = 'idle';
+      } else {
+        self.actor.activity = self.activity_name;
+      };
     });
 
   };
