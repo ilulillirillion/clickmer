@@ -1,4 +1,6 @@
-import Actor from './actor.js';
+//import Actor from './actor.js';
+import Actor from '../classes/Actor.js';
+
 
 export default class Human extends Actor {
 
