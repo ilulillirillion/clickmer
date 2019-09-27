@@ -4,7 +4,7 @@ import ActivityPopulantPane from '../classes/ActivityPopulantPane.js';
 
 export default class ActivityPopulantsPane extends PopulantsPane {
   constructor(activity) {
-    console.debug('Constructing a new ActivityPopulantsPane');
+    console.debug(`Constructing a new ActivityPopulantsPane with activity <${activity}>.`);
     super();
     console.debug(`Constructing a <${this.class_name}> <${this.uuid}>.`);
 

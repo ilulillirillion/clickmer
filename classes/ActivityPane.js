@@ -10,6 +10,8 @@ export default class ActivityPane extends Pane {
 
     this.header_span_contents = name;
 
+    this.name = name;
+
     let self = this;
     this.element.addEventListener('click', function(_event) {
       //self.element.classList.toggle('activity_pane_expanded');
@@ -24,7 +26,7 @@ export default class ActivityPane extends Pane {
       self.element.classList.toggle('expanded');
     });
 
-    let populants_pane = new ActivityPopulantsPane();
+    let populants_pane = new ActivityPopulantsPane(this.name);
     this.element.appendChild(populants_pane.element);
     this.populants_pane = populants_pane; 
       

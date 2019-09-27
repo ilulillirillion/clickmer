@@ -135,7 +135,8 @@ export default class Actor extends Thing {
     //if (this.id == null) { this.uuid = `actor_${uuidv4()}` };
 
 
-    this.activity = new IdleActivity(this);    
+    //this.activity = new IdleActivity(this);
+    this.activity = 'idle';
 
 
     //this.activity = null;

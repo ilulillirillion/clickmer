@@ -108,6 +108,7 @@ export default class Pane extends WrappedElement {
     */
 
     this.header_text_span_contents = '';
+    this.header_span_contents = '';
 
     this.header_text_span = new HeaderTextSpan();
     this.element.appendChild(this.header_text_span.element);
@@ -138,8 +139,13 @@ export default class Pane extends WrappedElement {
     //if (this.header_span_contents) {
       //this.header_text_span.span_contents = self.header_span_contents;
     //};
+    this.header_span_contents = this._header_span_contents;
     this.header_text_span.tick(this.header_span_contents);
     //self.header_text_span.tick(game_data);
+  };
+
+  get _header_span_contents() {
+    return this.header_span_contents;
   };
 
   get tooltip_span_contents() {
