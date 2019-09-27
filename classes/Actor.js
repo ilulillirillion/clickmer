@@ -503,7 +503,116 @@ export default class Actor extends Thing {
   generateRandomName() {
     console.log('generating a random name');
     let names = ['bob', 'emily', 'jon', 'ashley', 'justin', 'sara', 'ed'];
-
+    if (this.sex == 'female') {
+      console.debug(`Assigning a female name to <${this.class_name}> <${this.uuid}> because they are female (<${this.sex}>.`);
+      names = [ 
+          // HP names
+          'hermoine',
+          'ginny',
+          'cho',
+          'fleur',
+          'minerva',
+          'bellatrix',
+          // Dragonball
+          'chi chi',
+          'bulma',
+          'videl',
+          // Zelda
+          'tetra',
+          'zelda',
+          'midna',
+          // Mario
+          'peach',
+          'daisy',
+          // Exile
+          'jenneke',
+          'adriana',
+          'erika',
+          // PD
+          'joanna',
+          'cassandra',
+          // Goldeneye
+          'natasha',
+          // LOTR
+          'galadriel',
+          // GOT
+          'catelyn',
+          'sansa',
+          'arya',
+          'cersei',
+          'missandei',
+          'daenerys',
+          'asha',
+          'brienne',
+          // Megaman
+          'roll',
+          // Donkey Kong
+          'dixie',
+          'candy',
+      ];
+    } else {
+      names = [ 
+        // HP names
+        'harry',
+        'ron',
+        'albus',
+        'severus',
+        'hagrid',
+        'tom',
+        // Dragonball
+        'goku',
+        'gohan',
+        'vegeta',
+        'krillin',
+        'picollo',
+        'frieza',
+        // Zelda
+        'link',
+        'gannon',
+        // Mario
+        'mario',
+        'luigi',
+        'wario',
+        'waluigi',
+        // Perfect Dark
+        'elvis',
+        'jonathan',
+        // Goldeneye
+        'james',
+        'alec',
+        // Lotr
+        'bilbo',
+        'frodo',
+        'gandalf',
+        'legolas',
+        'aragorn',
+        'sauron',
+        'gimli',
+        'saruman',
+        'elrond',
+        // GOT
+        'bran',
+        'jon',
+        'eddard',
+        'rob',
+        'robert',
+        'jaime',
+        'jorah',
+        'drogo',
+        'joffrey',
+        'loras',
+        'kevin',
+        'tyrion',
+        'tywin',
+        'varys',
+        'peter',
+        // Megaman
+        'rock',
+        // Donkey Kong
+        'diddy',
+        'donkey',
+      ];
+    };
     let random_index = Math.floor(Math.random() * names.length);
     return names[random_index];
 
