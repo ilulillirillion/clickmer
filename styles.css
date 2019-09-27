@@ -161,6 +161,10 @@ body {
   width: 80px;
 }
 
+.populant_pane.dead_populant_pane {
+  display: none;
+}
+
 .populant_pane_expanded {
   /*padding: 100px;*/
   height: 60px;

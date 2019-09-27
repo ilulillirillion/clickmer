@@ -164,6 +164,15 @@ export default class Actor extends Thing {
 
   }
 
+  get active() {
+    console.debug(`Getting <${this.class_name}> <${this.uuid}>'s active state.`);
+    let active = true;
+    if (this.status.health == 'dead') {
+      active = false;
+    };
+    console.debug(`Returning <${active}> for <${this.class_name}> <${this.uuid}>'s active state.`);
+    return active;
+  };
 
   get status() {
     console.debug(`Getting <${this.class_name}> <${this.uuid}>'s status.`);
@@ -192,10 +201,6 @@ export default class Actor extends Thing {
       //return 'dead';
       status.health = 'dead';
       //console.warn(`status: <${status}>.`);
-    };
-    status.active = true;
-    if (status.health != 'dead') {
-      status.active = false;
     };
     old_status = status;
     //console.warn(`status: <${status}>.`);
