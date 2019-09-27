@@ -45,6 +45,7 @@ body {
 }
 */
 
+
 .has_tooltip .tooltip_text {
   visibility: hidden;
   width: 120px;
@@ -153,12 +154,17 @@ body {
 }
 
 .populant_pane {
+  display: inline-block;
   position: relative;
   padding: 10px;
   padding-left: 10px;
   border: 1px solid black;
   height: 20px;
   width: 80px;
+}
+
+.activity_pane.expanded .dead_populant_pane {
+  display: none;
 }
 
 .populant_pane.dead_populant_pane {
