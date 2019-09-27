@@ -16,7 +16,9 @@ export default class ActivityPane extends Pane {
       console.debug(`<${self.uuid}> clicked with event <${_event}>.`);
       let target_id = _event.target.getAttribute('id');
       let this_element_id = self.element.getAttribute('id');
-      if (target_id != this_element_id) {
+      let this_header_element_id = self.header_text_span.element.getAttribute('id');
+      if (target_id != this_element_id && 
+          target_id != this_header_element_id) {
         return;
       };
       self.element.classList.toggle('expanded');
