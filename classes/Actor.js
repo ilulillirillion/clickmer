@@ -167,17 +167,20 @@ export default class Actor extends Thing {
 
   get status() {
     console.debug(`Getting <${this.class_name}> <${this.uuid}>'s status.`);
+
+    let status = {};
+
     //let old_status = this.status;
     let old_status = this.last_status;
-    let status = 'healthy';
+    status.health = 'healthy';
     // Can't come back from the dead.
     //console.warn(`status: <${status}>.`);
-    if (old_status == 'dead') {
+    if (old_status != null && old_status.health == 'dead') {
       console.debug(`Setting <${this.uuid}>'s status to dead because it was dead last time it was checked.`);
       //this.statistics.health.current = 0;
       //this.statistics.energy.current = 0;
       //this.statistics.hunger.current = 0;
-      status = 'dead'
+      status.health = 'dead'
       //console.warn(`status2: <${status}>.`);
     };
     if (this.statistics.hunger.current <= 0) {
@@ -187,8 +190,12 @@ export default class Actor extends Thing {
       //};
       //this.die();
       //return 'dead';
-      status = 'dead';
+      status.health = 'dead';
       //console.warn(`status: <${status}>.`);
+    };
+    status.active = true;
+    if (status.health != 'dead') {
+      status.active = false;
     };
     old_status = status;
     //console.warn(`status: <${status}>.`);

@@ -75,7 +75,7 @@ export default class PopulantPane extends DomTooltipMixin(Pane) {
     */
     
     let text = '';
-    text += `status: ${this.actor.status}<br>`;
+    text += `status: ${this.actor.status.health}<br>`;
     if (this.actor.status != 'dead') {
       //text += `activity: ${this.actor.activity.populant_pane_string}<br>`;
       text += `activity: ${this.actor.activity}<br>`;
