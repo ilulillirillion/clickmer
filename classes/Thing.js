@@ -13,6 +13,8 @@ export default class Thing {
     this.uuid = `${class_name}_${_uuid}`
     console.debug(`Set <${class_name}> uuid to <${this.uuid}>.`);
 
+    this.ticks_epoch = 0;
+
     this.name = 'thing';
     console.debug(`<${this.uuid}> name set to <${this.name}>.`);
 
@@ -22,6 +24,11 @@ export default class Thing {
 
   get log_name() {
     return `${this.class_name}_${this.uuid}`;
+  };
+
+  tick() {
+    console.debug(`Ticking <${this.uuid}>. (tick: <${this.ticks_epoch + 1}>)`);
+    this.ticks_epoch += 1;
   };
 
 };

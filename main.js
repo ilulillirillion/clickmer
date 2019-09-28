@@ -22,6 +22,7 @@ function loadSavedData(game_data) {
 function tick(game_data, ui) {
   console.debug('Ticking.');
   for (let populant of game_data.population) {
+    console.debug(`Game about to tick populant <${populant.uuid}>.`);
     populant.tick();
   };
   ui.tick(game_data);

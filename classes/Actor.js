@@ -23,12 +23,29 @@ export default class Actor extends Thing {
       }
     }
   };
-  constructor(args = Actor.default_args) {
+  //constructor(args = Actor.default_args) {
+  constructor(
+      { 
+        uuid = null, name = null,
+        statistics = {
+          energy: { maximum: 100, minimum: 0, current: 100 },
+          health: { maximum: 100, minimum: 0, current: 100 },
+          hunger: { maximum: 100, minimum: 0, current: 100 }
+        }
+      } =
+      {
+        uuid: null, name: null,
+        statistics: {
+          energy: { maximum: 100, minimum: 0, current: 100 },
+          health: { maximum: 100, minimum: 0, current: 100 },
+          hunger: { maximum: 100, minimum: 0, current: 100 }
+        }
+      }) {
     super();
     console.debug(`Instantiating Actor <${this.uuid}>.`);
 
     // Name. If a name is not explicitly given, generate a random one.
-    let name = args.name;
+    //let name = args.name;
     if (!name) {
       name = this.generateRandomName();
       console.debug(`Generated random name <${name}> for <${this.uuid}>.`);
@@ -39,7 +56,8 @@ export default class Actor extends Thing {
     this.last_status = null;
 
     // Statistics.
-    this.statistics = args.statistics;
+    //this.statistics = args.statistics;
+    this.statistics = statistics;
     console.debug(`<${this.uuid}> statistics set to <${this.statistics}>.`);
 
     //this.activity = new IdleActivity(this);
@@ -84,6 +102,7 @@ export default class Actor extends Thing {
 
   tick() {
     console.debug(`Ticking <${this.class_name}> <${this.uuid}>.`);
+    super.tick();
     this.updateStatistic('hunger', -1);
     
     let activity_method = `_${this.activity.replace(/ /g,'_')}`;
