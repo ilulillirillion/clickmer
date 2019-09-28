@@ -20,4 +20,8 @@ export default class Thing {
 
   };
 
+  get log_name() {
+    return `${this.class_name}_${this.uuid}`;
+  };
+
 };
