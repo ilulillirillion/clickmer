@@ -10,11 +10,9 @@ export default class WrappedUnorderedList extends WrappedElement {
     this.list_contents = [];
   };
 
-  //tick({list_contents = this.list_contents } = {list_contents: this.list_contents}) {
   tick(list_contents = this.list_contents) {
     console.debug(`Ticking <${this.class_name}> <${this.uuid}> with 'list_contents': <${list_contents}>.`);
     super.tick();
-    // Remove any list elements
     while( this.element.firstChild ){
       this.element.removeChild( this.element.firstChild );
     };

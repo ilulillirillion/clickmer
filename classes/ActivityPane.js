@@ -14,7 +14,6 @@ export default class ActivityPane extends Pane {
 
     let self = this;
     this.element.addEventListener('click', function(_event) {
-      //self.element.classList.toggle('activity_pane_expanded');
       console.debug(`<${self.uuid}> clicked with event <${_event}>.`);
       let target_id = _event.target.getAttribute('id');
       let this_element_id = self.element.getAttribute('id');
@@ -24,9 +23,6 @@ export default class ActivityPane extends Pane {
         console.debug(`<${this.uuid}> ignoring click because event target <${_event.target}> (<${this_element_id}>) does not seem to match element id <${this_element_id}>.`);
         return;
       };
-      //if (!_event.target.closest(this_element_id)) {
-      //  return;
-      //};
       self.element.classList.toggle('expanded');
     });
 
@@ -38,20 +34,15 @@ export default class ActivityPane extends Pane {
 
   };
 
-  //_click() {
-
   tick({ 
       header_span_contents = this.header_span_contents, 
       population = [] } = { 
           header_span_contents: this.header_span_contents, 
           population: [] }) {
-    //population = [];
     console.debug(`Ticking <${this.class_name}> <${this.uuid}> with 'header_span_contents' <${header_span_contents}> (<${typeof(header_span_contents)}>) and 'population' <${population}> (<${typeof(population)}>) (array: <${Array.isArray(population)}>).`);
     super.tick();
-    //this.header_span_contents = text;
     this.header_span_contents = header_span_contents;
     this.element.classList.add('activity_pane');
     this.populants_pane.tick({ population: population });
-    //this.populants_pane.tick();
   };
 };

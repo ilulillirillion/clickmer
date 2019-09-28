@@ -7,9 +7,7 @@ export default class ColonyTab extends Tab {
     super(name = 'colony');
     console.debug('Creating colony tab.');
 
-    //this.header_text_span_contents = 'Colony Tab';
     this.header_span_contents = 'Colony Tab';
-    //this.dom.header_text = this.createHeaderTextElement();
 
     this.activity_panes = {};
   };
@@ -18,12 +16,6 @@ export default class ColonyTab extends Tab {
     console.debug(`Ticking <${this.class_name}> <${this.uuid}>.`);
     super.tick();
 
-    // Remove old activity panes
-    /*
-    while(this.element.firstChild) {
-      this.element.removeChild(this.element.firstChild);
-    }
-    */
     let available_activities = [];
     for (let populant of game_data.population) {
       for (let activity of populant.doable_activities) {
@@ -38,24 +30,8 @@ export default class ColonyTab extends Tab {
         this.activity_panes[activity] = activity_pane;
       };
       activity_pane.tick({ population: game_data.population });
-      //activity_pane.tick({ population: [] });
     };
 
   };
-    
-      
 
-    
-      
-
-  /*
-  createHeaderTextElement(text=this.header_text) {
-    console.debug(`Creating header text element for <${this.uuid}>.`);
-    let header_text = document.createElement('text_span');
-    let header_text_id = `${this.uuid}_header_text`;
-    header_text.setAttribute('id', header_text_id);
-    header_text.innerHTML = text;
-  };
-  */
-    
 };

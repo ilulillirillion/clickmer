@@ -1,8 +1,4 @@
 import Thing from '../classes/Thing.js';
-import ActorStatistic from '../classes/ActorStatistic.js';
-import HungerActorStatistic from '../classes/HungerActorStatistic.js';
-import IdleActivity from '../classes/IdleActivity.js';
-//import generateRandomName from '../functions/generateRandomName.js';
 
 
 export default class Actor extends Thing {
@@ -27,142 +23,30 @@ export default class Actor extends Thing {
       }
     }
   };
-  /*
-  constructor(args={
-    'uuid': null,
-    'name': null,
-    'statistics': {
-      'energy': {
-        'max': 100,
-        'current': 100
-      },
-      'health': {
-        'max': 100,
-        'current': 100
-      },
-      'hunger': {
-        'max': 100,
-        'current': 100
-      }
-    }
-      }) {
-  */
   constructor(args = Actor.default_args) {
     super();
     console.debug(`Instantiating Actor <${this.uuid}>.`);
-    //let default_args = Actor.default_args;
-
-    //this.statistics = args.statistics;
-
-    //this.status = 'healthy';  
 
     // Name. If a name is not explicitly given, generate a random one.
     let name = args.name;
     if (!name) {
-      //console.debug(`Empty or invalid name <${name}> given for <${this.uuid}>, generating a random name.`);
       name = this.generateRandomName();
       console.debug(`Generated random name <${name}> for <${this.uuid}>.`);
     };
     this.name = name;
     console.debug(`<${this.uuid}> name set to <${this.name}>.`);
 
-    // If no name was specified, generate a random one
-    /*
-    this.name = args['name'];
-    if (this.name == null) { 
-      console.debug(`Generating random name for <${this.uuid}>.`);
-      let name = this.generateRandomName();
-      this.name = name;
-    };
-    console.debug(`<${this.name}> set to <${this.name}>.`);
-    */
-
-    /*
-    let statistics = {
-      'health': new ActorStatistic(this),
-      'hunger': new HungerActorStatistic(this),
-      'energy': new ActorStatistic(this)
-    }; 
-    //this.new_statistics = new_statistics;
-    this.statistics = statistics;
-    */
-
     this.last_status = null;
 
     // Statistics.
     this.statistics = args.statistics;
     console.debug(`<${this.uuid}> statistics set to <${this.statistics}>.`);
-    /*
-    this.statistics = args.statistics;
-    if (!this.statistics) {
-      let default_statistics = default_args.statistics;
-      console.debug(`Empty or invalid statistics <${this.statistics}> given for <${this.uuid}>, using default statistics <${default_statistics}> instead.`);
-      this.statistics = default_statistics;
-    };
-    */
-
-    // Hunger listener.
-    /*
-    let self = this;
-    this.statistics.hunger['listener'] = function() {
-      console.log(`Running <${this.uuid}>'s hunger update listener`);
-      if (self.statistics.hunger['current'] == 0) {
-        self.die();
-      }
-    }
-    */
-
-    /*
-    // Energy listener.
-    this.statistics.energy['listener'] = function() {
-      if (self.statistics.energy['current'] <= self.energy_halt_point ||
-          self.statistics.energy['current'] == 0) {
-        self.activity.name = 'sleep';
-      };
-    };
-    */
-
-    /*
-    // Health listener.
-    this.statistics.health['listener'] = function() {
-      if (self.statistics.health['current'] == 0) {
-        self.die();
-      };
-    };
-    */
-
-
-    //if (this.id == null) { this.uuid = `actor_${uuidv4()}` };
-
 
     //this.activity = new IdleActivity(this);
     this.activity = 'idle';
 
-
-    //this.activity = null;
-    //this.activity = 'idle';
-    //this.activity_steps = 0;
-
-    //let actor_element = this.generateElement();
-    //document.getElementById('population_tab').appendChild(actor_element);
-    //this.buildPopulantElement();
-    //let populant_pane = this.createPopulantPane();
-    //document.appendChild(populant_pane);
-    //this.updatePopulationPanes();
-
-    //this.dom.population_tab_populant_pane = 
-    //    createPopulationTabPopulantPaneElement();
-
-    //this.populant_panes = createPopulantPanes();
-
-    /*
-    let tick_listener = function() {
-      self.activity.tick()
-    };
-    */ 
-
-
   }
+
 
   get active() {
     console.debug(`Getting <${this.class_name}> <${this.uuid}>'s active state.`);
@@ -174,68 +58,32 @@ export default class Actor extends Thing {
     return active;
   };
 
+
   get status() {
     console.debug(`Getting <${this.class_name}> <${this.uuid}>'s status.`);
 
     let status = {};
 
-    //let old_status = this.status;
     let old_status = this.last_status;
     status.health = 'healthy';
     // Can't come back from the dead.
-    //console.warn(`status: <${status}>.`);
     if (old_status != null && old_status.health == 'dead') {
       console.debug(`Setting <${this.uuid}>'s status to dead because it was dead last time it was checked.`);
-      //this.statistics.health.current = 0;
-      //this.statistics.energy.current = 0;
-      //this.statistics.hunger.current = 0;
       status.health = 'dead'
-      //console.warn(`status2: <${status}>.`);
     };
     if (this.statistics.hunger.current <= 0) {
       console.debug(`Setting <${this.uuid}>'s status to dead because it's hunger is 0 or lower.`);
-      //if (old_status != 'dead') {
-      //  this.die();
-      //};
-      //this.die();
-      //return 'dead';
       status.health = 'dead';
-      //console.warn(`status: <${status}>.`);
     };
     old_status = status;
-    //console.warn(`status: <${status}>.`);
     return status;
   };
   
 
-  /*
-  set hunger(value) {
-    console.debug(`Setting <${this.class_name}> <${this.uuid}>'s hunger to <${value}>.`);
-  */
-    
-
   tick() {
     console.debug(`Ticking <${this.class_name}> <${this.uuid}>.`);
-    //this.updateStatistic('hunger', -1);
-    //this.statistics.hunger.current -= 1;
-    //this.statistics.hunger.add(-1);
     this.updateStatistic('hunger', -1);
-    //return this.state;
   };
-
-
-  /*
-  tickActivityEffects() {
-    if (this.activity != null) {
-      let activity = runtime_data.activities[this.activity.name];
-      let effects = activity.sequences[this.activity.sequence];
-      for (var i=0; i < effects.length; i++) {
-        let effect = effects[i];
-        effect(activity, this);
-      };
-    };
-  };
-  */
 
 
   createPopulationTabPopulantPaneElement() {
@@ -248,13 +96,9 @@ export default class Actor extends Thing {
 
   };
     
-    
-    
-
 
   createPopulantPane(id_suffix='') {
     console.debug(`Adding populant: <${this.name}> (<${this.uuid}>).`);
-
 
     let populant_element_pane = document.createElement('div');
     populant_element_pane.setAttribute('id', `${this.uuid}_populant_pane${id_suffix}`);
@@ -329,15 +173,8 @@ export default class Actor extends Thing {
     else if (statistic['current'] < statistic['minimum']) {
       statistic['current'] = statistic['minimum'];
     };
-    /*
-    if (statistic.hasOwnProperty('listener')) {
-      statistic['listener']();
-    };
-    */
-    //this.updateStatus
   }
 
-  //generateElement(id_suffix='', expandable=true) {
   createSimpleElement(id_suffix='') {
     /* Creates a new element to represent the octopus in population view. The
     element ID should be equal to the octopus's UUID, and the element
@@ -390,34 +227,12 @@ export default class Actor extends Thing {
     entity_element.classList.add('tooltip');
     entity_element.appendChild(entity_element_tooltip_text_span);
 
-    // onclick
-    /*
-    if (expandable) {
-      entity_element.classList.add('populant_pane');
-      entity_element.addEventListener('click', function(e) {
-        if (e.target.getAttribute('id') != entity_element_id &&
-            e.target.getAttribute('id') != entity_element_image_id &&
-            e.target.getAttribute('id') != entity_element_text_span_id) {
-          return;
-        };
-        entity_element.classList.toggle('populant_pane_expanded');
-        entity_element_text_span.classList.toggle('populant_pane_title_text_expanded');
-        //Game.updatePopulationTab();
-      });
-    };
-    */
-
-
-
-
     return entity_element
   }
 
 
 
   updatePopulationPanes() {
-    //let population_panes = document.getElementsByClassName(class_selector);
-    //let population_panes = document.querySelectorAll(`[class$="population_pane"]`);
     let population_panes = document.getElementsByClassName('population_pane');
     console.debug(`Updating population panes <${population_panes}> (length: <${population_panes.length}>).`);
     for (let i=0; i < population_panes.length; i++) {
@@ -427,11 +242,6 @@ export default class Actor extends Thing {
       if (populant_pane == null) {
         console.debug(`Creating populant pane for <${this.name}> on <${population_pane}>.`);
         let population_pane_id = population_pane.getAttribute('id');
-        //if (population_pane.classList.contains('simple_population_pane')) {
-        //  populant_pane = this.createSimpleElement(`_${population_pane_id}`);
-        //} else {
-        //  populant_pane = this.createPopulantPane(`_${population_pane_id}`);
-        //};
         populant_pane = this.createPopulantPane(`_${population_pane_id}`);
         population_pane.appendChild(populant_pane);
       }
@@ -439,7 +249,6 @@ export default class Actor extends Thing {
       let tooltip_id = tooltip.getAttribute('id');
       console.debug(`Updating tooltip <${tooltip}> with id <${tooltip_id}>.`);
 
-      //update(`${this.uuid}_tooltip_text`,
       update(tooltip_id,
           `
           name: ${this.name}<br>
@@ -460,7 +269,6 @@ export default class Actor extends Thing {
           `[id^="${this.uuid}"]`);
       if (populant_pane == null) {
         let population_pane_id = activity_population_pane.getAttribute('id');
-        //populant_pane = this.createPopulantPane(`_${population_pane_id}`);
         populant_pane = this.createSimpleElement(`_${population_pane_id}`);
 
         populant_pane.addEventListener('click', function() {
@@ -468,10 +276,8 @@ export default class Actor extends Thing {
           if (game_data.population[i].activity == null ||
               game_data.population[i].activity.name !=
                   activity_element_text_span.innerHTML) {
-            //game_data.population[i].activity = activity_element_text_span.innerHTML;
             let _activity = {
               'name': 'hunt_prey',
-              //'sequence': 1,
               'step': 1
             };
             game_data.population[i].activity = _activity;
@@ -479,9 +285,6 @@ export default class Actor extends Thing {
             game_data.population[i].activity = null;
           };
         });
-
-
-
         activity_population_pane.appendChild(populant_pane);
       };
       let tooltip = activity_population_pane.querySelector(
@@ -633,14 +436,6 @@ export default class Actor extends Thing {
     console.debug(`<${this.uuid}> is studying the environment.`);
   };
 
-  
-
-  /*
-  die() {
-    game_data.population.splice(game_data.population.findIndex(populant => populant.uuid == this.uuid), 1);
-    document.getElementById(this.uuid).remove();
-  }
-  */
   static activities = [
     'study environment'
   ];
