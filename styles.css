@@ -163,6 +163,11 @@ body {
   width: 80px;
 }
 
+.populant_pane.expanded {
+  height: 60px;
+  width: 240;
+}
+
 .activity_pane.expanded .dead_populant_pane {
   display: none;
 }
