@@ -16,6 +16,10 @@ export default class UI extends Pane {
 
     this.element.classList.add('ui');
 
+    this.flags = {
+      'spawn_populant': false
+    };
+
     this.tabs = this.createTabs();
     for (let tab of this.tabs) {
       this.element.appendChild(tab.element);
@@ -28,6 +32,11 @@ export default class UI extends Pane {
       for (let tab of self.tabs) {
         tab.hide();
       };
+    });
+
+    document.addEventListener('spawn_populant', function() {
+      console.debug(`<${self.uuid}> responding to spawn_populants event.`);
+      self.flags.spawn_populant = true;
     });
 
     document.body.append(this.element);

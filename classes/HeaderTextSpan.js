@@ -1,7 +1,7 @@
-import WrappedTextSpan from '../classes/WrappedTextSpan.js';
+import DynamicWrappedTextSpan from '../classes/DynamicWrappedTextSpan.js';
 
 
-export default class HeaderTextSpan extends WrappedTextSpan {
+export default class HeaderTextSpan extends DynamicWrappedTextSpan {
   constructor(master=null) {
     super();
     console.debug(`Super finished, continuing to instantiate <${this.class_name}> <${this.uuid}>.`);

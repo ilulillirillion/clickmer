@@ -25,6 +25,11 @@ function tick(game_data, ui) {
     populant.tick();
   };
   ui.tick(game_data);
+  if (ui.flags.spawn_populant === true) {
+    let new_populant = new Human();
+    game_data.population.push(new_populant);
+    ui.flags.spawn_populant = false;
+  };
 
 };
 

@@ -1,6 +1,6 @@
 import Pane from '../classes/Pane.js';
 import WrappedDiv from '../classes/WrappedDiv.js';
-import WrappedTextSpan from '../classes/WrappedTextSpan.js';
+import DynamicWrappedTextSpan from '../classes/DynamicWrappedTextSpan.js';
 
 
 export default class PopulantDetailsPane extends Pane {
@@ -33,7 +33,7 @@ export default class PopulantDetailsPane extends Pane {
     this.element.classList.add('populant_details_pane');
     this.details_div.element.innerHTML = '';
     for (const [skill_name, skill_details]  of Object.entries(this.populant.skills)) {
-      let text_span = new WrappedTextSpan();
+      let text_span = new DynamicWrappedTextSpan();
       let level = skill_details['level'];
       let progress = skill_details['progress'];
       let skill_text = `<p>${skill_name}: ${level} (${progress})</p><br>`;

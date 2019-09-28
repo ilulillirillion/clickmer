@@ -1,7 +1,7 @@
-import WrappedTextSpan from '../classes/WrappedTextSpan.js';
+import DynamicWrappedTextSpan from '../classes/DynamicWrappedTextSpan.js';
 
 
-export default class TooltipSpan extends WrappedTextSpan {
+export default class TooltipSpan extends DynamicWrappedTextSpan {
   constructor() {
     console.debug('Constructing a new TooltipSpan.');
     super();
