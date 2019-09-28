@@ -45,6 +45,8 @@ export default class Actor extends Thing {
     //this.activity = new IdleActivity(this);
     this.activity = 'idle';
 
+    this.skills = {};
+
   }
 
 
@@ -83,6 +85,10 @@ export default class Actor extends Thing {
   tick() {
     console.debug(`Ticking <${this.class_name}> <${this.uuid}>.`);
     this.updateStatistic('hunger', -1);
+    
+    let activity_method = `_${this.activity.replace(/ /g,'_')}`;
+    console.debug(`Calling <${this.uuid}>'s activity method <${activity_method}>.`);
+    this[activity_method]();
   };
 
 
@@ -254,8 +260,23 @@ export default class Actor extends Thing {
     return doable_activities;
   };
 
+  updateSkill(skill) {
+    if (!(skill in this.skills)) {
+      this.skills[skill] = { 'level': 0, 'progress': 1 };
+      console.debug(`<${this.uuid}> has discovered a new skill <${skill}>.`);
+    } else {
+      this.skills[skill].progress += 1;
+      console.debug(`<${this.uuid}> has progressed their <${skill}> skill to <${this.skills[skill].progress}> (level <${this.skills[skill].level}>).`);
+    };
+  };
+
+  _idle() {
+    console.debug(`<${this.uuid}> is idle.`);
+  };
+
   _study_environment() {
     console.debug(`<${this.uuid}> is studying the environment.`);
+    this.updateSkill('survivalism');
   };
 
   static activities = [
