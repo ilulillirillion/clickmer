@@ -82,11 +82,11 @@ body {
   z-index: 1;
 }
 
-.has_tooltip:hover .tooltip_text {
+.has_tooltip:not(.expanded):hover .tooltip_text {
   visibility: visible;
 }
 
-.has_tooltip:hover .tooltip_text:empty {
+.has_tooltip:not(.expanded):hover .tooltip_text:empty {
   visibility: hidden;
 }
 
