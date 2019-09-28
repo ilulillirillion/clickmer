@@ -22,6 +22,8 @@ export default class UI extends Pane {
     //this.buildTabs();
     this.buildNavigationPane();
 
+    this.element.classList.add('ui');
+
     this.tabs = this.createTabs();
     for (let tab of this.tabs) {
       //this.dom.root_pane.appendChild(tab.dom.main_tab_pane);

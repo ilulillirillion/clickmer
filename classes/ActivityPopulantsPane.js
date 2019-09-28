@@ -13,6 +13,8 @@ export default class ActivityPopulantsPane extends PopulantsPane {
 
     this.populant_panes = [];
 
+    this.element.classList.add('activity_populants_pane');
+
     this.activity = activity
 
   };

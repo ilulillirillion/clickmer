@@ -21,8 +21,12 @@ export default class ActivityPane extends Pane {
       let this_header_element_id = self.header_text_span.element.getAttribute('id');
       if (target_id != this_element_id && 
           target_id != this_header_element_id) {
+        console.debug(`<${this.uuid}> ignoring click because event target <${_event.target}> (<${this_element_id}>) does not seem to match element id <${this_element_id}>.`);
         return;
       };
+      //if (!_event.target.closest(this_element_id)) {
+      //  return;
+      //};
       self.element.classList.toggle('expanded');
     });
 

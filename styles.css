@@ -9,10 +9,32 @@
 }
 */
 
+html {
+  height: 100%;
+  width: 100%;
+  margin: 0%;
+  padding: 0%;
+}
+
 body {
   background-image: url('static/images/free_use_blue_ocean.jpg');
   background-repeat: no-repeat;
   background-size: cover;
+  margin: 0%;
+  padding: 0%;
+  height: 100%;
+  width: 100%;
+}
+
+.ui {
+  height: 100%;
+  width: 100%;
+  margin: 1%;
+}
+
+.tab {
+  height: 100%;
+  width: 100%;
 }
 
 
@@ -153,20 +175,40 @@ body {
   padding: 5px;
 }
 
+.populants_pane {
+  height: 100%;
+  width: 100%;
+}
+
 .populant_pane {
   display: inline-block;
   position: relative;
   padding: 10px;
   padding-left: 10px;
   border: 1px solid black;
-  height: 20px;
-  width: 80px;
+  height: 5%;
+  width: 7%;
 }
 
 .populant_pane.expanded {
-  height: 60px;
-  width: 240;
+  height: 40%;
+  width: 13%;
 }
+
+.populants_pane.activity_populants_pane {
+  height: 0%;
+  width: 0%;
+}
+
+.activity_pane.expanded .activity_populants_pane {
+  height: 100%;
+  width: 100%;
+}
+
+.populant_pane.activity_populant_pane {
+  height: 8%;
+  width: 11%;
+} 
 
 .activity_pane.expanded .dead_populant_pane {
   display: none;

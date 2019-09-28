@@ -19,6 +19,7 @@ export default class Tab extends Pane {
     };
     console.debug(`Set tab name to <${this.name}>.`);
 
+    this.element.classList.add('tab');
 
     //this.header_text_span_contents = 'A tab.';
     //console.debug(`<${this.uuid}> header text span contents set to <${this.header_text_span_contents}>.`);

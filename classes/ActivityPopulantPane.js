@@ -10,6 +10,8 @@ export default class ActivityPopulantPane extends PopulantPane {
     this.activity_name = activity_name;
     this.header_span_contents = this._header_span_contents;
 
+    this.element.classList.add('activity_populant_pane');
+
     let self = this;
     this.element.addEventListener('click', function(_event) {
       console.debug(`<${self.uuid}> clicked with event <${_event}>.`);

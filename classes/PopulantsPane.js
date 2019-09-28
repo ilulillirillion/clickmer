@@ -15,6 +15,8 @@ export default class PopulantsPane extends Pane {
     this.header_span_contents = 'populants pane';
     console.debug(`<${this.uuid}> header text span contents set to <${this.header_text_span_contents}>.`);
 
+    this.element.classList.add('populants_pane');
+
     // Tooltip text
     this.tooltip_text_contents = 'populants pane tooltip'
     console.debug(`<${this.uuid}> tooltip text contents set to <${this.tooltip_text_contents}>.`);
