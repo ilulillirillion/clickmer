@@ -1,4 +1,6 @@
 import Pane from '../classes/Pane.js';
+import WrappedDiv from '../classes/WrappedDiv.js';
+import WrappedTextSpan from '../classes/WrappedTextSpan.js';
 
 
 export default class PopulantDetailsPane extends Pane {
@@ -14,18 +16,31 @@ export default class PopulantDetailsPane extends Pane {
     // Header span contents.
     this.header_span_contents = '';
 
+    /*
+    let details_div = document.createElement('div');
+    this.element.appendChild(details_div);
+    this.details_div = details_div;
+    */
+    let details_div = new WrappedDiv();
+    this.element.appendChild(details_div.element);
+    this.details_div = details_div;
+
   };
 
   tick() {
     console.debug(`Ticking <${this.class_name}> <${this.uuid}>.`);
     super.tick();
     this.element.classList.add('populant_details_pane');
-    for (const [skill_name, skill_details]  of this.populant.skills) {
+    this.details_div.element.innerHTML = '';
+    for (const [skill_name, skill_details]  of Object.entries(this.populant.skills)) {
+      let text_span = new WrappedTextSpan();
       let level = skill_details['level'];
       let progress = skill_details['progress'];
-      let skill_text = `<p>{skill_name}: {level} ({progress})</p><br>`;
+      let skill_text = `<p>${skill_name}: ${level} (${progress})</p><br>`;
       console.debug(`Adding skill_text <${skill_text}> to <${this.uuid}>:<${this.populant.uuid}>'s details pane.`);
-      this.element.innerHTML += skill_text;
+      text_span.element.innerHTML = skill_text;
+      this.details_div.element.appendChild(text_span.element);
+      //this.details_div.element.innerHTML += skill_text;
     };
   };
 
