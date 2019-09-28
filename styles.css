@@ -195,6 +195,20 @@ body {
   width: 13%;
 }
 
+.populant_details_pane {
+  position: absolute;
+  bottom: 40%;
+  left: 10%;
+}
+
+.populant_pane .populant_details_pane {
+  display: none;
+}
+
+.populant_pane.expanded .populant_details_pane {
+  display: inline-block;
+}
+
 .populants_pane.activity_populants_pane {
   height: 0%;
   width: 0%;
