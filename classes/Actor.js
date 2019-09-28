@@ -287,6 +287,11 @@ export default class Actor extends Thing {
       this.skills[skill].progress += 1;
       console.debug(`<${this.uuid}> has progressed their <${skill}> skill to <${this.skills[skill].progress}> (level <${this.skills[skill].level}>).`);
     };
+    if (this.skills[skill].progress >= 10) {
+      this.skills[skill].level += 1;
+      this.skills[skill].progress -= 10;
+      console.debug(`<${this.uuid}>'s <${skill}> has progressed to level <${this.skills[skill].level}>.`)
+    };
   };
 
   _idle() {
