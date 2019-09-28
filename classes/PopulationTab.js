@@ -1,5 +1,5 @@
 import Tab from '../classes/Tab.js';
-import PopulantsPane from '../classes/PopulantsPane.js';
+import PopulationPopulantsPane from '../classes/PopulationPopulantsPane.js';
 
 
 export default class PopulationTab extends Tab {
@@ -12,7 +12,8 @@ export default class PopulationTab extends Tab {
     this.header_span_contents = 'Population Tab';
 
     // Populants Pane.
-    this.populants_pane = new PopulantsPane();
+    //this.populants_pane = new PopulantsPane();
+    this.populants_pane = new PopulationPopulantsPane();
     this.element.appendChild(this.populants_pane.element);
     console.debug(`<${this.uuid}> populants pane <${this.populants_pane}> created.`);
     //this.dom.population_tab_pane_populants_pane = this.populants_pane.dom.populants_pane;

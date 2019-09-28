@@ -1,5 +1,5 @@
 import PopulantsPane from '../classes/PopulantsPane.js';
-import ExpandablePopulantsPane from '../classesExpandablePopualntsPane.js';
+import ExpandablePopulantPane from '../classes/ExpandablePopulantPane.js';
 
 
 export default class PopulationPopulantsPane extends PopulantsPane {
@@ -13,7 +13,7 @@ export default class PopulationPopulantsPane extends PopulantsPane {
   createPopulantPane(populant) {
     console.debug(`<${this.uuid}> creating populant pane for <${populant.uuid}>.`);
     let populant_pane = new ExpandablePopulantPane(populant);
-    return popluant_pane;
+    return populant_pane;
   };
 
 };
