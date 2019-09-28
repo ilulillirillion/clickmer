@@ -23,7 +23,9 @@ function tick(game_data, ui) {
   console.debug('Ticking.');
   for (let populant of game_data.population) {
     console.debug(`Game about to tick populant <${populant.uuid}>.`);
-    populant.tick();
+    if (populant.active) {
+      populant.tick();
+    };
   };
   ui.tick(game_data);
   if (ui.flags.spawn_populant === true) {
