@@ -116,7 +116,18 @@ export default class Actor extends Thing {
     console.debug(`Calling <${this.uuid}>'s activity method <${activity_method}>.`);
     this[activity_method]();
     */
-    this.activity.tick({actor: this});
+    if (!this.sequence) {
+      if (!this.activity.sequence) {
+        this.activity.tick({actor: this});
+        return true;
+      } else {
+        this.sequence = this.activity.sequence;
+      };
+    };
+    let sequence_progression = this.sequence.tick[this.sequence.stage](this);
+    this.sequence.stage = sequence_progression.stage;
+    this.sequence.steps = sequence_progression.steps;
+    
   };
 
 
@@ -156,7 +167,18 @@ export default class Actor extends Thing {
     else if (statistic['current'] < statistic['minimum']) {
       statistic['current'] = statistic['minimum'];
     };
-  }
+  };
+
+  get sequence_progression() {
+    if (!this.sequence) {
+      return null;
+    };
+    let sequence_progression = {
+      'stage': this.sequence.stage,
+      'steps': this.sequence.steps
+    };
+    return sequence_progression;
+  };
 
 
   generateRandomName() {

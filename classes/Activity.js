@@ -39,5 +39,6 @@ export default class Activity {
     };
     return true;
   };
+  static sequence = null;
 
 };
