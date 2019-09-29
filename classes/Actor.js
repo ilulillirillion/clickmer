@@ -275,8 +275,24 @@ export default class Actor extends Thing {
   };
 
   get doable_activities() {
-    let doable_activities = Actor.activities;
-    return doable_activities;
+    //let doable_activities = Actor.activities;
+    let doable_activity_names = [];
+    for (let [activity_name, activity_data] of Object.entries(Actor.activities)) {
+      console.debug(`Checking if <${this.uuid}> can do <${activity_name}> based on <${activity_data.requirements}>.`);
+      let activity_requirements = activity_data.requirements;
+      let doable = true;
+      for (let [skill_name, required_level] of Object.entries(activity_requirements)) {
+        if ( !(skill_name in this.skills) || this.skills[skill_name].level < required_level ) {
+          console.debug(`<${this.uuid}> cannot do <${activity_name}> because they're <${skill_name}> (<${this.skills[skill_name]}>) does not meet <${required_level}>.`);
+          doable = false;
+        };
+      };
+      if (doable) {
+        doable_activity_names.push(activity_name)
+      };
+    };  
+    //return doable_activities;
+    return doable_activity_names;
   };
 
   updateSkill(skill_name) {
@@ -308,7 +324,12 @@ export default class Actor extends Thing {
     this.updateSkill('survivalism');
   };
 
-  static activities = [
+  static activities = {
+    'study environment': { 'requirements': {} },
+    'hunt prey': { 'requirements': { 'survivalism': 1 } }
+  };
+
+  static activities__old = [
     'study environment'
   ];
 
