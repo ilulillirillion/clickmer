@@ -324,6 +324,13 @@ export default class Actor extends Thing {
     this.updateSkill('survivalism');
   };
 
+  _hunt_prey() {
+    console.debug(`<${this.uuid}> is hunting prey.`);
+    this.updateSkill('survivalism');
+    this.updateSkill('hunting');
+    this.updateStatistic('hunger', 2);
+  };
+
   static activities = {
     'study environment': { 'requirements': {} },
     'hunt prey': { 'requirements': { 'survivalism': 1 } }
