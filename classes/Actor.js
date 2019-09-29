@@ -279,18 +279,23 @@ export default class Actor extends Thing {
     return doable_activities;
   };
 
-  updateSkill(skill) {
-    if (!(skill in this.skills)) {
-      this.skills[skill] = { 'level': 0, 'progress': 1 };
-      console.debug(`<${this.uuid}> has discovered a new skill <${skill}>.`);
+  updateSkill(skill_name) {
+    if (!(skill_name in this.skills)) {
+      var skill = { 'level': 0, 'experience': 0, 'level_up_experience': 10 };
+      this.skills[skill_name] = skill;
+      console.debug(`<${this.uuid}> has discovered a new skill <${skill_name}>.`);
     } else {
-      this.skills[skill].progress += 1;
-      console.debug(`<${this.uuid}> has progressed their <${skill}> skill to <${this.skills[skill].progress}> (level <${this.skills[skill].level}>).`);
+      var skill = this.skills[skill_name];
+      let experience_gain = 1;
+      skill.experience += experience_gain;
+      console.debug(`<${this.uuid}> has gained <${experience_gain}> <${skill_name}> point/s (<${skill.experience}>/<${skill.level_up_experience}>.`);
     };
-    if (this.skills[skill].progress >= 10) {
-      this.skills[skill].level += 1;
-      this.skills[skill].progress -= 10;
-      console.debug(`<${this.uuid}>'s <${skill}> has progressed to level <${this.skills[skill].level}>.`)
+    if (skill.experience >= skill.level_up_experience) {
+      //TODO: is there away around this float?
+      let new_level_up_experience = (skill.level_up_experience + (skill.level_up_experience * 0.10));
+      skill.level_up_experience += new_level_up_experience;
+      skill.level += 1;
+      console.debug(`<${this.uuid}>'s <${skill_name}> has progressed to level <${skill.level}>.`);
     };
   };
 

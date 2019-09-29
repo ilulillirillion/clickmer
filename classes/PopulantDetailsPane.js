@@ -35,8 +35,9 @@ export default class PopulantDetailsPane extends Pane {
     for (const [skill_name, skill_details]  of Object.entries(this.populant.skills)) {
       let text_span = new DynamicWrappedTextSpan();
       let level = skill_details['level'];
-      let progress = skill_details['progress'];
-      let skill_text = `<p>${skill_name}: ${level} (${progress})</p><br>`;
+      //let progress = skill_details['progress'];
+      let experience = skill_details['experience']
+      let skill_text = `<p>${skill_name}: ${level} (${experience})</p><br>`;
       console.debug(`Adding skill_text <${skill_text}> to <${this.uuid}>:<${this.populant.uuid}>'s details pane.`);
       text_span.element.innerHTML = skill_text;
       this.details_div.element.appendChild(text_span.element);
