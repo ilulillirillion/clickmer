@@ -1,4 +1,7 @@
 import Thing from '../classes/Thing.js';
+import IdleActivity from '../classes/IdleActivity.js';
+import StudyEnvironmentActivity from '../classes/StudyEnvironmentActivity.js';
+import HuntPreyActivity from '../classes/HuntPreyActivity.js';
 
 
 export default class Actor extends Thing {
@@ -61,7 +64,10 @@ export default class Actor extends Thing {
     console.debug(`<${this.uuid}> statistics set to <${this.statistics}>.`);
 
     //this.activity = new IdleActivity(this);
-    this.activity = 'idle';
+    //this.activity = 'idle';
+    //this.activity = Actor.IdleActivity();
+    //let idle_activity = Actor.activities.find(activity => activity.name === 'idle');
+    this.activity = Actor.getActivity('idle');
 
     this.skills = {};
 
@@ -105,9 +111,12 @@ export default class Actor extends Thing {
     super.tick();
     this.updateStatistic('hunger', -1);
     
+    /*
     let activity_method = `_${this.activity.replace(/ /g,'_')}`;
     console.debug(`Calling <${this.uuid}>'s activity method <${activity_method}>.`);
     this[activity_method]();
+    */
+    this.activity.tick({actor: this});
   };
 
 
@@ -337,6 +346,11 @@ export default class Actor extends Thing {
     };
   };
 
+  getActivity(name) {
+    let activity = Actor.getActivity(name);
+    return activity;
+  };
+
   _idle() {
     console.debug(`<${this.uuid}> is idle.`);
   };
@@ -353,7 +367,21 @@ export default class Actor extends Thing {
     this.updateStatistic('hunger', 2);
   };
 
+  static getActivity(name) {
+    console.debug(`Getting Actor activity by name <${name}>.`);
+    let activity = Actor.activities.find(activity => activity.name === name);
+    console.debug(`Returning Actor activity <${activity.name}>.`);
+    return activity;
+  };
+
   static activities = [
+    //new IdleActivity()
+    IdleActivity,
+    StudyEnvironmentActivity,
+    HuntPreyActivity
+  ];
+
+  static activities__old3 = [
     { 'name': 'study environment', 'requirements': {} },
     { 'name': 'hunt prey', 'requirements': { 'survivalism': 1 } }
   ];

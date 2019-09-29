@@ -63,6 +63,7 @@ function loopMain(game_data, ui) {
 
 function createActivities() {
   let activities = [];
+  //activities.push(new IdleActivity());
   return activities;
 };
   

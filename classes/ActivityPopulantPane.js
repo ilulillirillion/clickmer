@@ -16,9 +16,14 @@ export default class ActivityPopulantPane extends PopulantPane {
     this.element.addEventListener('click', function(_event) {
       console.debug(`<${self.uuid}> clicked with event <${_event}>.`);
       if (self.actor.activity == self.activity_name) {
-        self.actor.activity = 'idle';
+        //self.actor.activity = 'idle';
+        //let idle_activity = Actor.activities.find(activity => activity.name === 'idle');
+        //self.actor.activity = idle_activity;
+        self.actor.activity = actor.getActivity('idle');
       } else {
-        self.actor.activity = self.activity_name;
+        //let activity = Actor.activities.find(activity => activity.name === self.activity_name);
+        //self.actor.activity = activity;
+        self.actor.activity = actor.getActivity(activity_name);
       };
     });
 
@@ -26,10 +31,10 @@ export default class ActivityPopulantPane extends PopulantPane {
 
   get _header_span_contents() {
     let text = this.actor.name;
-    console.debug(`Checking if <${this.actor.class_name}> <${this.actor.uuid}>'s activity <${this.actor.activity}> matches <${this.class_name}> <${this.uuid}>'s activity name <${this.activity_name}>.`);
-    if (this.actor.activity == this.activity_name) {
+    console.debug(`Checking if <${this.actor.class_name}> <${this.actor.uuid}>'s activity <${this.actor.activity.name}> matches <${this.class_name}> <${this.uuid}>'s activity name <${this.activity_name}>.`);
+    if (this.actor.activity.name == this.activity_name) {
       //text = text.bold();
-      console.debug(`Returning header span contents <${text.bold()}> because <${this.actor.uuid}>'s activity <${this.actor.activity}> matches <${this.uuid}>'s activity name <${this.activity_name}>.`);
+     console.debug(`Returning header span contents <${text.bold()}> because <${this.actor.uuid}>'s activity <${this.actor.activity.name}> matches <${this.uuid}>'s activity name <${this.activity_name}>.`);
       return text.bold();
     };
     console.debug(`Returning header span contents <${text}>.`);
