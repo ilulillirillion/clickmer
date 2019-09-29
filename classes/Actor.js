@@ -274,9 +274,31 @@ export default class Actor extends Thing {
     this.status = 'dead';
   };
 
+
   get doable_activities() {
+    console.debug(`Getting <${this.uuid}>'s doable activities.`);
+    let doable_activities = [];
+    for (let activity of Actor.activities) {
+      console.debug(`Checking if <${this.uuid}> can do <${activity.name}> based on <${activity.requirements}>.`);
+      let doable = true;
+      for (let [skill_name, required_level] of Object.entries(activity.requirements)) {
+        if (  !(skill_name in this.skills) || 
+              this.skills[skill_name].level < required_level ) {
+          console.debug(`<${this.uuid}> cannot do <${activity.name}> because theyre <${skill_name}> skill does not meet requirement of <${required_level}> (<${this.skills[skill_name]}>).`);
+          doable = false;
+        };
+      };
+      if (doable) {
+        doable_activities.push(activity);
+      };
+    };
+    return doable_activities;
+  };
+
+
+  get doable_activities__old() {
     //let doable_activities = Actor.activities;
-    let doable_activity_names = [];
+    let doable_activities = [];
     for (let [activity_name, activity_data] of Object.entries(Actor.activities)) {
       console.debug(`Checking if <${this.uuid}> can do <${activity_name}> based on <${activity_data.requirements}>.`);
       let activity_requirements = activity_data.requirements;
@@ -288,11 +310,11 @@ export default class Actor extends Thing {
         };
       };
       if (doable) {
-        doable_activity_names.push(activity_name)
+        doable_activities.push(activity_name)
       };
     };  
     //return doable_activities;
-    return doable_activity_names;
+    return doable_activities;
   };
 
   updateSkill(skill_name) {
@@ -331,7 +353,12 @@ export default class Actor extends Thing {
     this.updateStatistic('hunger', 2);
   };
 
-  static activities = {
+  static activities = [
+    { 'name': 'study environment', 'requirements': {} },
+    { 'name': 'hunt prey', 'requirements': { 'survivalism': 1 } }
+  ];
+
+  static activities__old2 = {
     'study environment': { 'requirements': {} },
     'hunt prey': { 'requirements': { 'survivalism': 1 } }
   };
