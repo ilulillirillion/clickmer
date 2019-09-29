@@ -124,9 +124,12 @@ export default class Actor extends Thing {
         this.sequence = this.activity.sequence;
       };
     };
-    let sequence_progression = this.sequence.tick[this.sequence.stage](this);
-    this.sequence.stage = sequence_progression.stage;
-    this.sequence.steps = sequence_progression.steps;
+    //let sequence_progression = this.sequence.tick[this.sequence.stage](this);
+    //let sequence_progression = this.sequence.stages[this.sequence.stage].tick(this);
+    //this.sequence.stages[this.sequence.stage].tick(this);
+    //this.sequence.stage = sequence_progression.stage;
+    //this.sequence.steps = sequence_progression.steps;
+    this.sequence.tick(this);
     
   };
 
