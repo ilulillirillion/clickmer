@@ -363,7 +363,7 @@ export default class Actor extends Thing {
     };
     if (skill.experience >= skill.level_up_experience) {
       //TODO: is there away around this float?
-      let new_level_up_experience = (skill.level_up_experience + (skill.level_up_experience * 0.10));
+      let new_level_up_experience = Math.ceil((skill.level_up_experience + (skill.level_up_experience * 0.10)));
       skill.level_up_experience += new_level_up_experience;
       skill.level += 1;
       console.debug(`<${this.uuid}>'s <${skill_name}> has progressed to level <${skill.level}>.`);
