@@ -8,7 +8,8 @@ export default class LocatePreySequenceStage extends SequenceStage {
     console.debug(`<${actor.uuid}> is locating prey.`);
     //let sequence_delta = { 'stage_delta': 0, 'steps_delta': 0 };
     
-    actor.updateSkill('tracking');
+    actor.updateSkill('tracking', 1);
+    actor.updateSkill('hunting', 1);
     
     let diceroll = Math.random();
     if (diceroll >= 0.9) {

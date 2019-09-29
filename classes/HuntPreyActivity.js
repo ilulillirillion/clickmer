@@ -8,10 +8,10 @@ export default class HuntPreyActivity extends Actvity {
   static tick({ actor = null } = { actor: null }) {
     console.debug(`Ticking HuntPreyActivity with actor <${actor}>.`);
     if (super.tick({ actor: actor })) {
-      console.debug(`<${actor.uuid}> is hunting prey.`);
-      actor.updateSkill('hunting');
-      actor.updateSkill('survivalism');
-      actor.updateStatistic('hunger', 2);
+      //console.debug(`<${actor.uuid}> is hunting prey.`);
+      //actor.updateSkill('hunting');
+      //actor.updateSkill('survivalism');
+      //actor.updateStatistic('hunger', 2);
     };
   };
   static get sequence() {

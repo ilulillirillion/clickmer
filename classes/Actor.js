@@ -351,16 +351,15 @@ export default class Actor extends Thing {
     return doable_activities;
   };
 
-  updateSkill(skill_name) {
+  updateSkill(skill_name, experience_delta) {
     if (!(skill_name in this.skills)) {
-      var skill = { 'level': 0, 'experience': 0, 'level_up_experience': 10 };
+      var skill = { 'level': 0, 'experience': experience_delta, 'level_up_experience': 10 };
       this.skills[skill_name] = skill;
       console.debug(`<${this.uuid}> has discovered a new skill <${skill_name}>.`);
     } else {
       var skill = this.skills[skill_name];
-      let experience_gain = 1;
-      skill.experience += experience_gain;
-      console.debug(`<${this.uuid}> has gained <${experience_gain}> <${skill_name}> point/s (<${skill.experience}>/<${skill.level_up_experience}>.`);
+      skill.experience += experience_delta;
+      console.debug(`<${this.uuid}> has gained <${experience_delta}> <${skill_name}> point/s (<${skill.experience}>/<${skill.level_up_experience}>.`);
     };
     if (skill.experience >= skill.level_up_experience) {
       //TODO: is there away around this float?

@@ -11,7 +11,7 @@ export default class FightPreySequenceStage extends SequenceStage {
     //let sequence_delta = { 'stage_delta': 0, 'steps_delta': 0 };
    
     actor.updateStatistic('health', -1);
-    actor.updateSkill('fighting');
+    actor.updateSkill('fighting', 2);
     sequence_progress.steps += 1;
 
     if (sequence_progress.steps >= 5) {
