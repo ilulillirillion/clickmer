@@ -184,7 +184,8 @@ body {
 
 .populant_pane {
   display: inline-block;
-  position: absolute;
+  /*position: absolute;*/
+  position: relative;
   padding: 10px;
   padding-left: 10px;
   border: 1px solid black;
