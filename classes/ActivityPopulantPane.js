@@ -38,12 +38,14 @@ export default class ActivityPopulantPane extends DomFillBarMixin(PopulantPane) 
   tick() {
     super.tick();
     let fill = 0;
-    if (this.actor.sequence) {
-      //fill = this.fillbar.getFill(this.actor.sequence.steps, this.actor.sequence.estimated_steps);
-      //fill = this.fillbar.getFill(this.actor.sequence.effective_steps_progress, this.actor.sequence.remaining_steps_estimate);
-      let fill_bar_values = this.actor.sequence.fill_bar_values;
-      fill = this.fillbar.getFill(fill_bar_values[0], fill_bar_values[1]);
-      console.debug(`Got fill percentage <${fill}> for <${this.uuid}>.`);
+    if (this.actor.activity.name == this.activity_name) {
+      if (this.actor.sequence) {
+        //fill = this.fillbar.getFill(this.actor.sequence.steps, this.actor.sequence.estimated_steps);
+        //fill = this.fillbar.getFill(this.actor.sequence.effective_steps_progress, this.actor.sequence.remaining_steps_estimate);
+        let fill_bar_values = this.actor.sequence.fill_bar_values;
+        fill = this.fillbar.getFill(fill_bar_values[0], fill_bar_values[1]);
+        console.debug(`Got fill percentage <${fill}> for <${this.uuid}>.`);
+      };
     };
     this.fillbar.tick(fill);
   };
