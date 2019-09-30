@@ -2,6 +2,7 @@ import SequenceStage from '../classes/SequenceStage.js';
 
 
 export default class EatPreySequenceStage extends SequenceStage {
+  static estimated_steps = 5;
   static tick({ sequence_progress, actor } = {}) {
     super.tick({ sequence_progress: sequence_progress, actor: actor });
     

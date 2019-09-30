@@ -27,4 +27,5 @@ export default class HuntPreySequence extends Sequence {
     // Super will handle basic setting.
     super({stages: stages, stage: stage, steps: steps});
   };
+
 };

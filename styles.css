@@ -205,6 +205,16 @@ body {
   left: 5%;
 }
 
+.activity_populant_pane .fill {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  height: 100%;
+  width: 50%;
+  background-color: gray;
+  opacity: 0.5;
+}
+
 .populant_pane .populant_details_pane {
   display: none;
 }

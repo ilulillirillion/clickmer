@@ -130,6 +130,8 @@ export default class Actor extends Thing {
     //this.sequence.stage = sequence_progression.stage;
     //this.sequence.steps = sequence_progression.steps;
     this.sequence.tick(this);
+    //let fill = this.fillbar.getFill(this.sequence.steps, this.sequence.estimated_steps);
+    //this.fillbar.tick(fill);
     
   };
 
