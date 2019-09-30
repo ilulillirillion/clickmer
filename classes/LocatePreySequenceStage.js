@@ -14,7 +14,7 @@ export default class LocatePreySequenceStage extends SequenceStage {
     sequence_progress.steps += 1;
     
     let diceroll = Math.random();
-    if (diceroll >= 0.95) {
+    if (diceroll >= 0.9) {
       console.debug(`<${actor.uuid}> has located prey.`);
       //sequence_delta.stage_delta += 1;
       sequence_progress.steps = 0;
