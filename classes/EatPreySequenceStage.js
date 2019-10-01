@@ -8,7 +8,8 @@ export default class EatPreySequenceStage extends SequenceStage {
     
     console.debug(`<${actor.uuid}> is eating prey.`);
 
-    actor.updateStatistic('hunger', 6);
+    //actor.updateStatistic('hunger', 6);
+    actor.statistics.hunger.update(6);
     sequence_progress.steps += 1;
 
     if (sequence_progress.steps >= 5) {

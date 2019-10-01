@@ -2,6 +2,7 @@ import Thing from '../classes/Thing.js';
 import IdleActivity from '../classes/IdleActivity.js';
 import StudyEnvironmentActivity from '../classes/StudyEnvironmentActivity.js';
 import HuntPreyActivity from '../classes/HuntPreyActivity.js';
+import ActorStatistics from '../classes/ActorStatistics.js';
 
 
 export default class Actor extends Thing {
@@ -9,7 +10,7 @@ export default class Actor extends Thing {
     'uuid': null,
     'name': null,
     'statistics': {
-      'energy': {
+      'stamina': {
         'maximum': 100,
         'minimum': 0,
         'current': 100
@@ -30,19 +31,9 @@ export default class Actor extends Thing {
   constructor(
       { 
         uuid = null, name = null,
-        statistics = {
-          energy: { maximum: 100, minimum: 0, current: 100 },
-          health: { maximum: 100, minimum: 0, current: 100 },
-          hunger: { maximum: 100, minimum: 0, current: 100 }
-        }
       } =
       {
         uuid: null, name: null,
-        statistics: {
-          energy: { maximum: 100, minimum: 0, current: 100 },
-          health: { maximum: 100, minimum: 0, current: 100 },
-          hunger: { maximum: 100, minimum: 0, current: 100 }
-        }
       }) {
     super();
     console.debug(`Instantiating Actor <${this.uuid}>.`);
@@ -58,9 +49,28 @@ export default class Actor extends Thing {
 
     this.last_status = null;
 
+    //this.characteristics = characteristics;
+
     // Statistics.
-    //this.statistics = args.statistics;
+    let statistics = new ActorStatistics(this);
     this.statistics = statistics;
+    this.statistics.fill();
+
+    //this.statistics = args.statistics;
+    //this.statistics = statistics;
+    /*
+    for (let [statistic_name, statistic] of Object.entries(statistics)) {
+      console.debug(`<${this.uuid}> doing constructor pass of statistic <${statistic_name}> (<${statistic}>).`)
+      if (statistic.current === '_max') {
+        let maximum = this.getStatistic(statistic_name, 'maximum');
+        console.debug(`<${this.uuid}> constructor pass reassining statistic current <${statistic.current}> to maximum <${maximum}>.`);
+        //statistic.current == this.getStatistic(statistic_name, 'maximum');
+        statistic.current = maximum;
+        console.debug(`<${this.uuid}> constructor pass set <${statistic_name}> current to <${statistic.current}>.`);
+      };
+    };
+    */
+        
     console.debug(`<${this.uuid}> statistics set to <${this.statistics}>.`);
 
     //this.activity = new IdleActivity(this);
@@ -109,7 +119,8 @@ export default class Actor extends Thing {
   tick() {
     console.debug(`Ticking <${this.class_name}> <${this.uuid}>.`);
     super.tick();
-    this.updateStatistic('hunger', -1);
+    //this.updateStatistic('hunger', -1);
+    this.statistics.hunger.update(-1);
     
     /*
     let activity_method = `_${this.activity.replace(/ /g,'_')}`;
@@ -183,6 +194,33 @@ export default class Actor extends Thing {
       'steps': this.sequence.steps
     };
     return sequence_progression;
+  };
+
+  getStatistic(statistic_name, state=null) {
+    console.debug(`'getStatistic' getting <${statistic_name}> (state: <${state}>).`);
+    if (state) {
+
+      var statistic = this.statistics[statistic_name][state];
+      console.debug(`<${this.uuid}> 'getStatistic' found statistic <${statistic}> (type: <${typeof(statistic)}>.)`);
+
+      if (typeof(statistic) === 'string') {
+        let getter_name = `_${state}_${statistic_name}`;
+        console.debug(`<${this.uuid}> 'getStatistic' using instance getter <${getter_name}> because <${statistic}> is string-typed (<${typeof(statistic)}>).`);
+        //statistic = this[`_${statistic_name}`];
+        statistic = this[getter_name];
+      };
+
+    } else {
+      var statistic = {};
+      let current = this.getStatistic(statistic_name, 'current');
+      statistic.current = current;
+      let minimum = this.getStatistic(statistic_name, 'minimum');
+      statistic.minimum = minimum;
+      let maximum = this.getStatistic(statistic_name, 'maximum');
+      statistic.maximum = maximum;
+    };
+    console.debug(`'getStatistic' returning <${statistic}> (type: <${typeof(statistic)}>).`);
+    return statistic;
   };
 
 
@@ -331,6 +369,30 @@ export default class Actor extends Thing {
     return doable_activities;
   };
 
+  getDerivedStatistic(statistic_name) {
+    let derived_statistic = this[statistic_name];
+    return derived_statistic;
+  };
+
+  get _maximum_health() {
+    let vitality = this.characteristics.vitality;
+    let maximum_health = vitality * 100;
+    console.debug(`<${this.uuid}> 'get _maximum_health' returning maximum health points: <${maximum_health}>.`);
+    return maximum_health;
+  };
+
+  get _maximum_stamina() {
+    let vitality = this.characteristics.vitality;
+    let max_stamina = vitality * 20;
+    console.debug(`<${this.uuid}> 'get _max_stamina' returning max stamina: <${max_stamina}>.`);
+    return max_stamina;
+  };
+
+  get _maximum_hunger() {
+    let vitality = this.characteristics.vitality;
+    let max_hunger = vitality * 100;
+    return max_hunger;
+  };
 
   get doable_activities__old() {
     //let doable_activities = Actor.activities;
