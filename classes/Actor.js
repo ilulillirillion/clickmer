@@ -7,28 +7,6 @@ import ActorSkills from '../classes/ActorSkills.js';
 
 
 export default class Actor extends Thing {
-  static default_args = {
-    'uuid': null,
-    'name': null,
-    'statistics': {
-      'stamina': {
-        'maximum': 100,
-        'minimum': 0,
-        'current': 100
-      },
-      'health': {
-        'maximum': 100,
-        'minimum': 0,
-        'current': 100
-      },
-      'hunger': {
-        'maximum': 100,
-        'minimum': 0,
-        'current': 100
-      }
-    }
-  };
-  //constructor(args = Actor.default_args) {
   constructor(
       { 
         uuid = null, name = null,
@@ -40,7 +18,6 @@ export default class Actor extends Thing {
     console.debug(`Instantiating Actor <${this.uuid}>.`);
 
     // Name. If a name is not explicitly given, generate a random one.
-    //let name = args.name;
     if (!name) {
       name = this.generateRandomName();
       console.debug(`Generated random name <${name}> for <${this.uuid}>.`);
@@ -50,37 +27,15 @@ export default class Actor extends Thing {
 
     this.last_status = null;
 
-    //this.characteristics = characteristics;
-
     // Statistics.
     let statistics = new ActorStatistics(this);
     this.statistics = statistics;
     this.statistics.fill();
 
-    //this.statistics = args.statistics;
-    //this.statistics = statistics;
-    /*
-    for (let [statistic_name, statistic] of Object.entries(statistics)) {
-      console.debug(`<${this.uuid}> doing constructor pass of statistic <${statistic_name}> (<${statistic}>).`)
-      if (statistic.current === '_max') {
-        let maximum = this.getStatistic(statistic_name, 'maximum');
-        console.debug(`<${this.uuid}> constructor pass reassining statistic current <${statistic.current}> to maximum <${maximum}>.`);
-        //statistic.current == this.getStatistic(statistic_name, 'maximum');
-        statistic.current = maximum;
-        console.debug(`<${this.uuid}> constructor pass set <${statistic_name}> current to <${statistic.current}>.`);
-      };
-    };
-    */
-        
     console.debug(`<${this.uuid}> statistics set to <${this.statistics}>.`);
 
-    //this.activity = new IdleActivity(this);
-    //this.activity = 'idle';
-    //this.activity = Actor.IdleActivity();
-    //let idle_activity = Actor.activities.find(activity => activity.name === 'idle');
     this.activity = Actor.getActivity('idle');
 
-    //this.skills = {};
     let skills = new ActorSkills();
     this.skills = skills;
 
@@ -122,14 +77,8 @@ export default class Actor extends Thing {
   tick() {
     console.debug(`Ticking <${this.class_name}> <${this.uuid}>.`);
     super.tick();
-    //this.updateStatistic('hunger', -1);
     this.statistics.hunger.update(-1);
     
-    /*
-    let activity_method = `_${this.activity.replace(/ /g,'_')}`;
-    console.debug(`Calling <${this.uuid}>'s activity method <${activity_method}>.`);
-    this[activity_method]();
-    */
     if (!this.sequence) {
       if (!this.activity.sequence) {
         this.activity.tick({actor: this});
@@ -138,55 +87,10 @@ export default class Actor extends Thing {
         this.sequence = this.activity.sequence;
       };
     };
-    //let sequence_progression = this.sequence.tick[this.sequence.stage](this);
-    //let sequence_progression = this.sequence.stages[this.sequence.stage].tick(this);
-    //this.sequence.stages[this.sequence.stage].tick(this);
-    //this.sequence.stage = sequence_progression.stage;
-    //this.sequence.steps = sequence_progression.steps;
     this.sequence.tick(this);
-    //let fill = this.fillbar.getFill(this.sequence.steps, this.sequence.estimated_steps);
-    //this.fillbar.tick(fill);
     
   };
 
-
-  /*
-  updateActivityProgressBar() {
-    if (this.activity == null) {
-      console.debug(
-          `Not updating ${this.name}'s activity progress bar because ` +
-          `their activity is null.`);
-      return;
-    };
-    // A return step function will be built in after activity refactor, for
-    // now testing with hardcoded value.
-    let total_steps = 100;
-    // This should map to total step, but waiting for activity refactor.
-    let steps = this.activity.subsequence_step;
-    console.debug(`Activity progress bar total steps: <${total_steps}> ` +
-                  `(<${this.name}>'s steps: <${steps}>).`);
-    let completion_percentage =
-        Math.round((steps / total_steps) * 100);
-    console.debug('Activity progress bar completion percentage: ' +
-                  `<${completion_percentage}>.`);
-    let activity_progress_bar_fill = document.getElementById(
-        `${this.uuid}_activity_progress_bar_fill_population_pane_population_tab`);
-    activity_progress_bar_fill.style.width = `${completion_percentage}%`;
-
-  };
-  */
-
-  updateStatistic(statistic, delta) {
-    console.debug(`Adding <${delta}> to <${this.uuid}>'s <${statistic}> statistic.`);
-    statistic = this.statistics[statistic]
-    statistic['current'] += delta;
-    if (statistic['current'] > statistic['maximum']) {
-      statistic['current'] = statistic['maximum'];
-    }
-    else if (statistic['current'] < statistic['minimum']) {
-      statistic['current'] = statistic['minimum'];
-    };
-  };
 
   get sequence_progression() {
     if (!this.sequence) {
@@ -198,34 +102,6 @@ export default class Actor extends Thing {
     };
     return sequence_progression;
   };
-
-  getStatistic(statistic_name, state=null) {
-    console.debug(`'getStatistic' getting <${statistic_name}> (state: <${state}>).`);
-    if (state) {
-
-      var statistic = this.statistics[statistic_name][state];
-      console.debug(`<${this.uuid}> 'getStatistic' found statistic <${statistic}> (type: <${typeof(statistic)}>.)`);
-
-      if (typeof(statistic) === 'string') {
-        let getter_name = `_${state}_${statistic_name}`;
-        console.debug(`<${this.uuid}> 'getStatistic' using instance getter <${getter_name}> because <${statistic}> is string-typed (<${typeof(statistic)}>).`);
-        //statistic = this[`_${statistic_name}`];
-        statistic = this[getter_name];
-      };
-
-    } else {
-      var statistic = {};
-      let current = this.getStatistic(statistic_name, 'current');
-      statistic.current = current;
-      let minimum = this.getStatistic(statistic_name, 'minimum');
-      statistic.minimum = minimum;
-      let maximum = this.getStatistic(statistic_name, 'maximum');
-      statistic.maximum = maximum;
-    };
-    console.debug(`'getStatistic' returning <${statistic}> (type: <${typeof(statistic)}>).`);
-    return statistic;
-  };
-
 
   generateRandomName() {
     console.log('generating a random name');
@@ -372,90 +248,10 @@ export default class Actor extends Thing {
     return doable_activities;
   };
 
-  getDerivedStatistic(statistic_name) {
-    let derived_statistic = this[statistic_name];
-    return derived_statistic;
-  };
-
-  get _maximum_health() {
-    let vitality = this.characteristics.vitality;
-    let maximum_health = vitality * 100;
-    console.debug(`<${this.uuid}> 'get _maximum_health' returning maximum health points: <${maximum_health}>.`);
-    return maximum_health;
-  };
-
-  get _maximum_stamina() {
-    let vitality = this.characteristics.vitality;
-    let max_stamina = vitality * 20;
-    console.debug(`<${this.uuid}> 'get _max_stamina' returning max stamina: <${max_stamina}>.`);
-    return max_stamina;
-  };
-
-  get _maximum_hunger() {
-    let vitality = this.characteristics.vitality;
-    let max_hunger = vitality * 100;
-    return max_hunger;
-  };
-
-  get doable_activities__old() {
-    //let doable_activities = Actor.activities;
-    let doable_activities = [];
-    for (let [activity_name, activity_data] of Object.entries(Actor.activities)) {
-      console.debug(`Checking if <${this.uuid}> can do <${activity_name}> based on <${activity_data.requirements}>.`);
-      let activity_requirements = activity_data.requirements;
-      let doable = true;
-      for (let [skill_name, required_level] of Object.entries(activity_requirements)) {
-        if ( !(skill_name in this.skills) || this.skills[skill_name].level < required_level ) {
-          console.debug(`<${this.uuid}> cannot do <${activity_name}> because they're <${skill_name}> (<${this.skills[skill_name]}>) does not meet <${required_level}>.`);
-          doable = false;
-        };
-      };
-      if (doable) {
-        doable_activities.push(activity_name)
-      };
-    };  
-    //return doable_activities;
-    return doable_activities;
-  };
-
-  updateSkill(skill_name, experience_delta) {
-    if (!(skill_name in this.skills)) {
-      var skill = { 'level': 0, 'experience': experience_delta, 'level_up_experience': 10 };
-      this.skills[skill_name] = skill;
-      console.debug(`<${this.uuid}> has discovered a new skill <${skill_name}>.`);
-    } else {
-      var skill = this.skills[skill_name];
-      skill.experience += experience_delta;
-      console.debug(`<${this.uuid}> has gained <${experience_delta}> <${skill_name}> point/s (<${skill.experience}>/<${skill.level_up_experience}>.`);
-    };
-    if (skill.experience >= skill.level_up_experience) {
-      //TODO: is there away around this float?
-      let new_level_up_experience = Math.ceil((skill.level_up_experience + (skill.level_up_experience * 0.10)));
-      skill.level_up_experience += new_level_up_experience;
-      skill.level += 1;
-      console.debug(`<${this.uuid}>'s <${skill_name}> has progressed to level <${skill.level}>.`);
-    };
-  };
 
   getActivity(name) {
     let activity = Actor.getActivity(name);
     return activity;
-  };
-
-  _idle() {
-    console.debug(`<${this.uuid}> is idle.`);
-  };
-
-  _study_environment() {
-    console.debug(`<${this.uuid}> is studying the environment.`);
-    this.updateSkill('survivalism');
-  };
-
-  _hunt_prey() {
-    console.debug(`<${this.uuid}> is hunting prey.`);
-    this.updateSkill('survivalism');
-    this.updateSkill('hunting');
-    this.updateStatistic('hunger', 2);
   };
 
   static getActivity(name) {
@@ -470,20 +266,6 @@ export default class Actor extends Thing {
     IdleActivity,
     StudyEnvironmentActivity,
     HuntPreyActivity
-  ];
-
-  static activities__old3 = [
-    { 'name': 'study environment', 'requirements': {} },
-    { 'name': 'hunt prey', 'requirements': { 'survivalism': 1 } }
-  ];
-
-  static activities__old2 = {
-    'study environment': { 'requirements': {} },
-    'hunt prey': { 'requirements': { 'survivalism': 1 } }
-  };
-
-  static activities__old = [
-    'study environment'
   ];
 
 };
