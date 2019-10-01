@@ -27,11 +27,13 @@ export const ActorSkillMixin = Base => class extends Base {
   }
 
   get level() {
-    return this._level;
+    return this.current;
+    //return this._level;
   };
 
   set level(level) {
-    this._level = level;
+    //this._level = level;
+    this.current = level;
   };
 
 };
