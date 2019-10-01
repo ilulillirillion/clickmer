@@ -1,10 +1,15 @@
 import { ActorSkillMixin } from '../mixins/ActorSkillMixin.js';
-import Thing from '../classes/Thing.js';
-//import ActorStatistic from '../classes/ActorStatistic.js';
+//import Thing from '../classes/Thing.js';
+import ActorStatistic from '../classes/ActorStatistic.js';
 
 
 //export default class ActorSkill extends ActorStatistic {
-export default class ActorSkill extends ActorSkillMixin(Thing) {
+//export default class ActorSkill extends ActorSkillMixin(Thing) {
+export default class ActorSkill extends ActorSkillMixin(ActorStatistic) {
+  constructor({ name = 'skill', actor }) {
+    super({ name: name, actor: actor });
+    this.maximum = 100;
+  };
   /*
   constructor({ name = 'skill' } = { name: 'skill' }) {
     super({ name: name });

@@ -14,6 +14,7 @@ export default class FightPreySequenceStage extends SequenceStage {
     //actor.updateStatistic('health_points', -1);
     //actor.statistics.health.update(-1);
     actor.statistics.health.current -= 1;
+    actor.characteristics.vitality.experience += 1;
     //actor.updateSkill('fighting', 2);
     //actor.statistics.fighting.update(2);
     actor.skills.fighting.experience += 2;

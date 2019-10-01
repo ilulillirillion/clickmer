@@ -10,7 +10,7 @@ export default class HealthActorStatistic extends ActorStatistic {
     //this.current = this.maximum;
   };
   get maximum() {
-    console.info(this.actor.characteristics);
+    //console.info(this.actor.characteristics);
     let vitality = this.actor.characteristics.vitality.current;
     let maximum = vitality * 100;
     return maximum;
