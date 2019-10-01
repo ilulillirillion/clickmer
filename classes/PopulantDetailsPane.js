@@ -33,7 +33,24 @@ export default class PopulantDetailsPane extends Pane {
     super.tick();
     this.element.classList.add('populant_details_pane');
     this.details_div.element.innerHTML = '';
-    for (const [skill_name, skill_details]  of Object.entries(this.populant.skills)) {
+    //for (const [skill_name, skill_details]  of Object.entries(this.populant.skills)) {
+    for (let skill of this.populant.skills.all) {
+
+      let text_span = new DynamicWrappedTextSpan();
+      //let level = 0;
+      let level = skill.level;
+      let name = skill.name;
+      //let experience = skill.experience;
+      let experience = skill.experience;
+      let level_up_experience = skill.experience_to_next_level;
+
+      //let skill_text = 'skill_text<br>';
+      let skill_text = `<p>${name}: ${level} (${experience}/${level_up_experience})</p><br>`;
+      text_span.element.innerHTML = skill_text;
+      text_span.element.classList.add('populant_details_span');
+      this.details_div.element.appendChild(text_span.element);
+
+      /*
       let text_span = new DynamicWrappedTextSpan();
       let level = skill_details['level'];
       //let progress = skill_details['progress'];
@@ -46,6 +63,7 @@ export default class PopulantDetailsPane extends Pane {
       text_span.element.classList.add('populant_details_span');
       this.details_div.element.appendChild(text_span.element);
       //this.details_div.element.innerHTML += skill_text;
+      */
     };
   };
 

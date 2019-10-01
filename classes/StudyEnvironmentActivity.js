@@ -8,7 +8,8 @@ export default class StudyEnvironmentActivity extends Activity {
     console.debug(`Ticking StudyEnvironmentActivity with actor <${actor}>.`);
     if (super.tick({ actor: actor })) {
       console.debug(`<${actor.uuid}> is studying the environment.`);
-      actor.updateSkill('survivalism', 1);
+      //actor.updateSkill('survivalism', 1);
+      actor.skills.survivalism.experience += 1;
     };
   };
 };

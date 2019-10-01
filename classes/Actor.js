@@ -3,6 +3,7 @@ import IdleActivity from '../classes/IdleActivity.js';
 import StudyEnvironmentActivity from '../classes/StudyEnvironmentActivity.js';
 import HuntPreyActivity from '../classes/HuntPreyActivity.js';
 import ActorStatistics from '../classes/ActorStatistics.js';
+import ActorSkills from '../classes/ActorSkills.js';
 
 
 export default class Actor extends Thing {
@@ -79,7 +80,9 @@ export default class Actor extends Thing {
     //let idle_activity = Actor.activities.find(activity => activity.name === 'idle');
     this.activity = Actor.getActivity('idle');
 
-    this.skills = {};
+    //this.skills = {};
+    let skills = new ActorSkills();
+    this.skills = skills;
 
   }
 

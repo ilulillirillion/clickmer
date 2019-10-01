@@ -1,8 +1,9 @@
 import uuidv6 from '../functions/uuidv6.js';
 
 export default class Thing {
-  constructor() {
-    console.debug('Instantiating an object.');
+  constructor({ name = 'thing' } = { name: 'thing' }) {
+    //console.debug('Instantiating an object.');
+    console.debug(`Constructing a Thing with name <${name}>.`);
 
     let class_name = this.constructor.name.toLowerCase();
     this.class_name = class_name;
@@ -15,7 +16,7 @@ export default class Thing {
 
     this.ticks_epoch = 0;
 
-    this.name = 'thing';
+    this.name = name;
     console.debug(`<${this.uuid}> name set to <${this.name}>.`);
 
     this.tick_listeners = [];
