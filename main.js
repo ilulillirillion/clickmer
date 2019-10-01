@@ -21,12 +21,19 @@ function loadSavedData(game_data) {
 
 function tick(game_data, ui) {
   console.debug('Ticking.');
+
+  // Tick the world.
+  game_data.world.tick();
+
+  // Tick population
   for (let populant of game_data.population) {
     console.debug(`Game about to tick populant <${populant.uuid}>.`);
     if (populant.active) {
       populant.tick();
     };
   };
+
+  // Tick the UI
   ui.tick(game_data);
   if (ui.flags.spawn_populant === true) {
     let new_populant = new Human();
@@ -74,6 +81,7 @@ function createActivities() {
 console.debug('Starting main.');
 
 import UI from './classes/UI.js'
+import World from '../classes/World.js';
 import Human from '../classes/Human.js';
 
 
@@ -85,6 +93,11 @@ game_data = loadSavedData(game_data);
 
 var activities = createActivities();
 
+// World
+let world = new World();
+game_data.world = world;
+
+// Population
 game_data.population = [];
 let test_human = new Human();
 game_data.population.push(test_human);
