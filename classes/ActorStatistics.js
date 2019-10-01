@@ -9,8 +9,8 @@ export default class ActorStatistics extends Thing {
   constructor(actor) {
     super();
 
-    let vitality = new VitalityActorStatistic({ name: 'vitality', actor: actor });
-    this.vitality = vitality;
+    //let vitality = new VitalityActorStatistic({ name: 'vitality', actor: actor });
+    //this.vitality = vitality;
 
     let health = new HealthActorStatistic({ name: 'health', actor: actor });
     this.health = health;

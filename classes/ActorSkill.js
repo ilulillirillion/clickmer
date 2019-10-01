@@ -1,7 +1,11 @@
+import { ActorSkillMixin } from '../mixins/ActorSkillMixin.js';
 import Thing from '../classes/Thing.js';
+//import ActorStatistic from '../classes/ActorStatistic.js';
 
 
-export default class ActorSkill extends Thing {
+//export default class ActorSkill extends ActorStatistic {
+export default class ActorSkill extends ActorSkillMixin(Thing) {
+  /*
   constructor({ name = 'skill' } = { name: 'skill' }) {
     super({ name: name });
 
@@ -35,15 +39,7 @@ export default class ActorSkill extends Thing {
 
   set level(level) {
     this._level = level;
-    //let experience_to_next_level = Math.ceil((this.experience_to_next_level + (this.experience_to_next_level * 0.10)));
-    //this.experience_to_next_level = experience_to_next_level;
   };
-
-  /*
-  calculateExperienceRequirement(level) {
-    let base = 10;
-    if 
   */
-    
 
 };

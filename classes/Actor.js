@@ -2,6 +2,7 @@ import Thing from '../classes/Thing.js';
 import IdleActivity from '../classes/IdleActivity.js';
 import StudyEnvironmentActivity from '../classes/StudyEnvironmentActivity.js';
 import HuntPreyActivity from '../classes/HuntPreyActivity.js';
+import ActorCharacteristics from '../classes/ActorCharacteristics.js';
 import ActorStatistics from '../classes/ActorStatistics.js';
 import ActorSkills from '../classes/ActorSkills.js';
 
@@ -26,6 +27,8 @@ export default class Actor extends Thing {
     console.debug(`<${this.uuid}> name set to <${this.name}>.`);
 
     this.last_status = null;
+
+    this.characteristics = new ActorCharacteristics();
 
     // Statistics.
     let statistics = new ActorStatistics(this);
@@ -77,7 +80,8 @@ export default class Actor extends Thing {
   tick() {
     console.debug(`Ticking <${this.class_name}> <${this.uuid}>.`);
     super.tick();
-    this.statistics.hunger.update(-1);
+    //this.statistics.hunger.update(-1);
+    this.statistics.hunger.current -= 1;
     
     if (!this.sequence) {
       if (!this.activity.sequence) {

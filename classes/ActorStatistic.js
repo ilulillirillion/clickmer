@@ -13,7 +13,7 @@ export default class ActorStatistic extends Thing {
     //this.maximum = 0;
     //this.minimum = 0;
     // These may not have setters, use best effort.
-    try { this.current = 0 } catch(error) {};
+    try { this._current = 0 } catch(error) {};
     try { this.maximum = 0 } catch(error) {};
     try { this.minimum = 0 } catch(error) {};
 
@@ -26,6 +26,18 @@ export default class ActorStatistic extends Thing {
     this.current = this.maximum;
   };
 
+  get current() {
+    return this._current;
+  };
+
+  set current(current) {
+    if (current > this.maximum) { current = this.maximum };
+    if (current < this.minimum) { current = this.minimum };
+    this._current = current
+  };
+ 
+
+  /*
   update(delta, state='current') {
     let current_value = this[state];
     let new_value = current_value += delta;
@@ -35,4 +47,5 @@ export default class ActorStatistic extends Thing {
     };
     this[state] = new_value;
   };
+  */
 };
