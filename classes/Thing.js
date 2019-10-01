@@ -1,7 +1,11 @@
 import uuidv6 from '../functions/uuidv6.js';
+import { ProxyMixin } from '../mixins/ProxyMixin.js';
 
-export default class Thing {
+
+//export default class ProxyMixin(Thing) {
+export default class Thing extends ProxyMixin(Object) {
   constructor({ name = 'thing' } = { name: 'thing' }) {
+    super();
     //console.debug('Instantiating an object.');
     console.debug(`Constructing a Thing with name <${name}>.`);
 
