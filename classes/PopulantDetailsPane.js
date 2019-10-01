@@ -34,7 +34,7 @@ export default class PopulantDetailsPane extends Pane {
     this.element.classList.add('populant_details_pane');
     this.details_div.element.innerHTML = '';
     //for (const [skill_name, skill_details]  of Object.entries(this.populant.skills)) {
-    for (let skill of this.populant.skills.all) {
+    for (let skill of this.populant.characteristics.all.concat(this.populant.skills.all)) {
 
       let text_span = new DynamicWrappedTextSpan();
       //let level = 0;
