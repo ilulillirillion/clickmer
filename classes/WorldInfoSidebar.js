@@ -38,6 +38,11 @@ export default class WorldInfoSidebar extends Sidebar {
 
     //this.time_span.tick();
     //this.time_span.tick('testtest');
+    //this.time_span.tick(`Time: ${this.world.calendar.time}`);
+    //console.warn(this.world.calendar);
+    //this.time_span.tick(`Time: ${this.world.calendar.minutes}`);
+    //this.time_span.tick(`Time: ${this.world.calendar.minutes} minutes`);
+    //this.time_span.tick(`Time: ${this.world.calendar.weeks} - ${this.world.calendar.days} - ${this.world.calendar.hours} hours - ${this.world.calendar.minutes} minutes`);
     this.time_span.tick(`Time: ${this.world.calendar.time}`);
     
   };
