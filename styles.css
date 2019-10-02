@@ -35,7 +35,17 @@ body {
 
 .tab {
   height: 100%;
-  width: 100%;
+  width: 80%;
+  left: 0%;
+}
+
+
+.sidebar {
+  position: absolute;
+  height: 100%;
+  width: 20%;
+  right: 0%;
+  border: 1px solid black;
 }
 
 

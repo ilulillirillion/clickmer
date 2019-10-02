@@ -1,4 +1,5 @@
 import Pane from '../classes/Pane.js';
+import WorldInfoSidebar from '../classes/WorldInfoSidebar.js';
 import NavigationPane from './NavigationPane.js';
 import ColonyTab from './ColonyTab.js';
 import PopulationTab from './PopulationTab.js';
@@ -6,7 +7,7 @@ import ResearchTab from './ResearchTab.js';
 import DebugTab from '../classes/DebugTab.js';
 
 export default class UI extends Pane {
-  constructor() {
+  constructor(game_data) {
     super();
     console.debug(`Instantiating a new UI with uuid: <${this.uuid}>.`);
 
@@ -19,6 +20,10 @@ export default class UI extends Pane {
     this.flags = {
       'spawn_populant': false
     };
+
+    let sidebar = new WorldInfoSidebar(game_data.world);
+    this.element.appendChild(sidebar.element);
+    this.sidebar = sidebar;
 
     this.tabs = this.createTabs();
     for (let tab of this.tabs) {
@@ -44,6 +49,9 @@ export default class UI extends Pane {
     
   tick(game_data) {
     console.debug(`Ticking <${this.uuid}>.`);
+
+    this.sidebar.tick();
+
     this.navigation_pane.tabs = this.tabs;
     this.navigation_pane.tick(game_data, this.tabs);
     for (let tab of this.tabs) {

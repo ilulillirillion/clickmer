@@ -103,7 +103,7 @@ let test_human = new Human();
 game_data.population.push(test_human);
 
 // Create the UI.
-var ui = new UI();
+var ui = new UI(game_data);
 
 // Start the main loop;
 loopMain(game_data, ui);
