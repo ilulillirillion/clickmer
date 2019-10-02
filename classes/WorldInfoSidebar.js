@@ -22,6 +22,10 @@ export default class WorldInfoSidebar extends Sidebar {
     };
     */
 
+    let day_span = new DynamicWrappedTextSpan();
+    this.element.append(day_span.element);
+    this.day_span = day_span;
+
     let time_span = new DynamicWrappedTextSpan();
     this.element.append(time_span.element);
     this.time_span = time_span;
@@ -43,6 +47,7 @@ export default class WorldInfoSidebar extends Sidebar {
     //this.time_span.tick(`Time: ${this.world.calendar.minutes}`);
     //this.time_span.tick(`Time: ${this.world.calendar.minutes} minutes`);
     //this.time_span.tick(`Time: ${this.world.calendar.weeks} - ${this.world.calendar.days} - ${this.world.calendar.hours} hours - ${this.world.calendar.minutes} minutes`);
+    this.day_span.tick(`Day: ${this.world.calendar.days_epoch}<br>`);
     this.time_span.tick(`Time: ${this.world.calendar.time}`);
     
   };

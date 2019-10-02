@@ -28,7 +28,8 @@ export default class Calendar extends Thing {
       }
     }
     */
-    this[this.tick_unit] += 1;
+    //this[this.tick_unit] += 1;
+    //this[this.tick_unit] += 60;
     console.debug(`<${this.uuid}> time: <${this.time}>.`);
   };
 
@@ -53,12 +54,12 @@ export default class Calendar extends Thing {
   }; 
 
   get days_epoch() {
-    let days = Math.floor(this.hours / 24);
+    let days = Math.floor(this.hours_epoch / 24);
     return days;
   };
 
   get hours_epoch() {
-    let hours = Math.floor(this.minutes / 60);
+    let hours = Math.floor(this.minutes_epoch / 60);
     return hours;
   };
 
