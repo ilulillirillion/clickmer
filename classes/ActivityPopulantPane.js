@@ -21,10 +21,12 @@ export default class ActivityPopulantPane extends DomFillBarMixin(PopulantPane) 
         //self.actor.activity = 'idle';
         //let idle_activity = Actor.activities.find(activity => activity.name === 'idle');
         //self.actor.activity = idle_activity;
+        self.actor.sequence = null;
         self.actor.activity = actor.getActivity('idle');
       } else {
         //let activity = Actor.activities.find(activity => activity.name === self.activity_name);
         //self.actor.activity = activity;
+        self.actor.sequence = null;
         self.actor.activity = actor.getActivity(activity_name);
       };
     });
