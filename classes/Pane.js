@@ -24,6 +24,7 @@ export default class Pane extends WrappedElement {
   };
 
   tick(game_data) {
+    super.tick();
     this.header_span_contents = this._header_span_contents;
     this.header_text_span.tick(this.header_span_contents);
   };

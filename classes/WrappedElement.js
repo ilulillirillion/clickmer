@@ -28,7 +28,7 @@ export default class WrappedElement extends Thing {
   };
 
   tick() {
-    console.debug(`Ticking <${this.class_name}> <${this.uuid}>.`)
+    super.tick();
   };
 
 };

@@ -1,5 +1,6 @@
 import Pane from '../classes/Pane.js';
 import WorldInfoSidebar from '../classes/WorldInfoSidebar.js';
+import MessageLog from '../classes/MessageLog.js';
 import NavigationPane from './NavigationPane.js';
 import ColonyTab from './ColonyTab.js';
 import PopulationTab from './PopulationTab.js';
@@ -25,6 +26,10 @@ export default class UI extends Pane {
     this.element.appendChild(sidebar.element);
     this.sidebar = sidebar;
 
+    let message_log = new MessageLog();
+    this.element.append(message_log.element);
+    this.message_log = message_log;
+
     this.tabs = this.createTabs();
     for (let tab of this.tabs) {
       this.element.appendChild(tab.element);
@@ -48,7 +53,10 @@ export default class UI extends Pane {
   };
     
   tick(game_data) {
+    super.tick();
     console.debug(`Ticking <${this.uuid}>.`);
+
+    this.message_log.write(`Tick: ${this.ticks_epoch}`);
 
     this.sidebar.tick();
 

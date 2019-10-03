@@ -6,7 +6,7 @@ export const ProxyMixin = Base => class extends Base {
       get(target, name) {
         let value = target[name];
         if (typeof(name) !== 'symbol') {
-          console.debug(`Getting <${target.uuid}>'s <${name}> value (<${value}>).`);
+          //console.debug(`Getting <${target.uuid}>'s <${name}> value (<${value}>).`);
         };
         return value;
       },

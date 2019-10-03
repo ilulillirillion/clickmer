@@ -291,3 +291,12 @@ body {
   height: 100%;
   background-color: grey;
 }
+
+.message_log {
+  position: absolute;
+  right: 20%;
+  height: 100%;
+  width: 20%;
+  overflow: auto;
+  border: 1px solid black;
+}
