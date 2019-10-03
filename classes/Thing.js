@@ -36,4 +36,8 @@ export default class Thing extends ProxyMixin(Object) {
     this.ticks_epoch += 1;
   };
 
+  write(message) {
+    game_data.message_log.write(message);
+  };
+
 };

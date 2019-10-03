@@ -29,7 +29,7 @@ export default class Actor extends Thing {
 
     this.last_status = null;
 
-    this.characteristics = new ActorCharacteristics();
+    this.characteristics = new ActorCharacteristics({ actor: this });
 
     // Statistics.
     let statistics = new ActorStatistics(this);
@@ -40,10 +40,10 @@ export default class Actor extends Thing {
 
     this.activity = Actor.getActivity('rest');
 
-    let skills = new ActorSkills();
+    let skills = new ActorSkills({ actor: this });
     this.skills = skills;
 
-    game_data.message_log.write(`${this.name} has joined the colony!`);
+    this.write(`${this.name} has joined the colony!`);
 
   }
 
@@ -230,6 +230,7 @@ export default class Actor extends Thing {
 
   die() {
     console.debug(`<${this.uuid}> has died.`);
+    this.write(`${this.name} has died!`);
     //this.dead = true;
     this.status = 'dead';
   };
@@ -254,6 +255,8 @@ export default class Actor extends Thing {
     };
     return doable_activities;
   };
+
+  //levelUp(skill_or_attribute) {
 
 
   getActivity(name) {

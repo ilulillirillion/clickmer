@@ -8,6 +8,7 @@ export default class ActorStatistic extends Thing {
 
     this.name = name;
 
+    console.warn(`testd1 <${name}> <${actor}>.`);
     this.actor = actor;
 
     //this.maximum = 0;
@@ -37,6 +38,11 @@ export default class ActorStatistic extends Thing {
     if (current < this.minimum) { current = this.minimum };
     this._current = current
     console.debug(`Set current to <${this.current}> (<${this._current}>).`);
+  };
+
+  levelUp() {
+    this.write(`${this.actor}'s ${this.name} has leveled up!`);
+    this.current += 1;
   };
  
 

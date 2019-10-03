@@ -9,12 +9,13 @@ export default class ActorSkills extends Thing {
     'survivalism',
     'tracking'
   ];
-  constructor() {
+  constructor({ actor = actor }) {
+    console.warn(`testd12 ${actor}`);
     super();
 
     this.all = [];
     for (let skill_name of ActorSkills.skills) {
-      let skill = new ActorSkill({ name: skill_name });
+      let skill = new ActorSkill({ name: skill_name, actor: actor });
       this[skill_name] = skill;
       this.all.push(skill);
     };

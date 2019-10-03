@@ -7,6 +7,7 @@ import ActorStatistic from '../classes/ActorStatistic.js';
 //export default class ActorSkill extends ActorSkillMixin(Thing) {
 export default class ActorSkill extends ActorSkillMixin(ActorStatistic) {
   constructor({ name = 'skill', actor }) {
+    console.warn(`Testd13 ${actor}`);
     super({ name: name, actor: actor });
     this.maximum = 100;
   };
