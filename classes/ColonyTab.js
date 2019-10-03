@@ -12,7 +12,7 @@ export default class ColonyTab extends Tab {
     this.activity_panes = {};
   };
 
-  tick(game_data) {
+  tick() {
     console.debug(`Ticking <${this.class_name}> <${this.uuid}>.`);
     super.tick();
 

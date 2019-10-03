@@ -23,7 +23,9 @@ export default class PopulantsPane extends Pane {
 
   };
 
-  tick({ population = [] } = { population: [] }) {
+  //tick({ population = [] } = { population: [] }) {
+  tick() {
+    let population = game_data.population;
     //population = [];
     console.debug(`Ticking <${this.class_name}> <${this.uuid}> with population <${population}> (variable type: <${typeof(population)}>) (array: <${Array.isArray(population)}>).`);
     for (let populant of population) {

@@ -1,3 +1,6 @@
+import MessageLog from '../classes/MessageLog.js';
+
+
 function buildUI() {
   console.debug(`Building UI for game <${this.uuid}>.`);
   ui = new UI();
@@ -19,7 +22,7 @@ function loadSavedData(game_data) {
 };
 
 
-function tick(game_data, ui) {
+function tick(ui) {
   console.debug('Ticking.');
 
   // Tick the world.
@@ -34,7 +37,7 @@ function tick(game_data, ui) {
   };
 
   // Tick the UI
-  ui.tick(game_data);
+  ui.tick();
   if (ui.flags.spawn_populant === true) {
     let new_populant = new Human();
     game_data.population.push(new_populant);
@@ -50,7 +53,8 @@ function saveGame() {
 };
 
 
-function loopMain(game_data, ui) {
+//function loopMain(game_data, ui) {
+function loopMain(ui) {
   console.debug('Starting main loop.');
 
   /* Temporarily disabled
@@ -63,8 +67,8 @@ function loopMain(game_data, ui) {
 
 
   setInterval(function() {
-    tick(game_data, ui);
-  }, 1000, game_data, ui);
+    tick(ui);
+  }, 1000, ui);
 };
 
 
@@ -86,12 +90,14 @@ import Human from '../classes/Human.js';
 
 
 // Create game data.
-var game_data = createGameData();
+window.game_data = createGameData();
 
 // Load saved data.
 game_data = loadSavedData(game_data);
 
-var activities = createActivities();
+game_data.activities = createActivities();
+
+game_data.message_log = new MessageLog();
 
 // World
 let world = new World();
@@ -103,7 +109,7 @@ let test_human = new Human();
 game_data.population.push(test_human);
 
 // Create the UI.
-var ui = new UI(game_data);
+var ui = new UI();
 
 // Start the main loop;
-loopMain(game_data, ui);
+loopMain(ui);

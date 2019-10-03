@@ -8,7 +8,7 @@ import ResearchTab from './ResearchTab.js';
 import DebugTab from '../classes/DebugTab.js';
 
 export default class UI extends Pane {
-  constructor(game_data) {
+  constructor() {
     super();
     console.debug(`Instantiating a new UI with uuid: <${this.uuid}>.`);
 
@@ -52,7 +52,7 @@ export default class UI extends Pane {
     document.body.append(this.element);
   };
     
-  tick(game_data) {
+  tick() {
     super.tick();
     console.debug(`Ticking <${this.uuid}>.`);
 
@@ -61,9 +61,9 @@ export default class UI extends Pane {
     this.sidebar.tick();
 
     this.navigation_pane.tabs = this.tabs;
-    this.navigation_pane.tick(game_data, this.tabs);
+    this.navigation_pane.tick(this.tabs);
     for (let tab of this.tabs) {
-      tab.tick(game_data)
+      tab.tick()
     };
   }; 
 

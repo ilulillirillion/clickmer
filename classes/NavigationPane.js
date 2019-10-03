@@ -20,7 +20,7 @@ export default class NavigationPane extends Pane {
 
   };
 
-  tick(game_data, tabs) {
+  tick(tabs) {
     console.debug(`_ticking <${this.uuid}>.`);
     for (let tab of tabs) {
       console.debug(`Handling navigation button tick actions for <${tab.uuid}>.`);
@@ -31,7 +31,7 @@ export default class NavigationPane extends Pane {
         this.tab_navigation_buttons.push(navigation_button);
         this.element.appendChild(navigation_button.element);
       };
-      navigation_button.tick(game_data);
+      navigation_button.tick();
     };
   };
 
