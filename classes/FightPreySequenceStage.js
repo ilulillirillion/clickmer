@@ -9,6 +9,18 @@ export default class FightPreySequenceStage extends SequenceStage {
 
     console.debug(`<${actor.uuid}> is fighting prey.`);    
 
+    console.warn(sequence_progress);
+    let prey = sequence_progress.temporary_objects.prey;
+    actor.attack(prey);
+    if (prey.status.health == 'dead') {
+      //delete sequence_progress.temporary_objects.prey;
+      sequence_progress.temporary_objects = {};
+      sequence_progress.steps = 0;
+      sequence_progress.stage += 1;
+    };
+
+
+    /*
     //let sequence_delta = { 'stage_delta': 0, 'steps_delta': 0 };
    
     //actor.updateStatistic('health_points', -1);
@@ -25,6 +37,7 @@ export default class FightPreySequenceStage extends SequenceStage {
       sequence_progress.steps = 0;
       sequence_progress.stage += 1;
     };
+    */
 
     return sequence_progress;
 

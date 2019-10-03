@@ -20,6 +20,8 @@ export default class Sequence extends Thing {
     this.stages = stages || {};
     console.debug(`Set <${this.uuid}>'s stages to <${this.stages}>.`);
 
+    this.temporary_objects = {};
+
   };
 
   get estimated_steps() {
@@ -75,13 +77,21 @@ export default class Sequence extends Thing {
       
 
   get sequence_progress() {
-    let sequence_progress = { 'stage': this.stage, 'steps': this.steps };
+    let sequence_progress = { 'stage': this.stage, 'steps': this.steps,
+                              'temporary_objects': this.temporary_objects };
     return sequence_progress;
   };
 
-  set sequence_progress({ stage, steps } = {}) {
+  set sequence_progress({ stage, steps, temporary_objects = {} } = {}) {
+    /*
+    if (this.stage != stage) {
+      this.transitionStage(this.stage, stage);
+    }
+    */
+    console.warn(temporary_objects);
     this.stage = stage;
     this.steps = steps;
+    this.temporary_objects = temporary_objects;
   };
 
   get effective_steps_progress() {

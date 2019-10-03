@@ -6,7 +6,7 @@ export default class HungerActorStatistic extends ActorStatistic {
     console.debug(`Getting <${this.uuid}>'s maximum.`);
     //let vitality = this.actor.statistics.vitality.current;
     let vitality = this.actor.characteristics.vitality.current;
-    let maximum = vitality * 100;
+    let maximum = vitality * 10;
     console.debug(`Returning <${this.uuid}>'s maximum <${maximum}> from vitality <${vitality}>.`);
     return maximum;
   };

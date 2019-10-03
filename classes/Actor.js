@@ -1,8 +1,8 @@
 import Thing from '../classes/Thing.js';
 //import IdleActivity from '../classes/IdleActivity.js';
-import RestActivity from '../classes/RestActivity.js';
-import StudyEnvironmentActivity from '../classes/StudyEnvironmentActivity.js';
-import HuntPreyActivity from '../classes/HuntPreyActivity.js';
+//import RestActivity from '../classes/RestActivity.js';
+//import StudyEnvironmentActivity from '../classes/StudyEnvironmentActivity.js';
+//import HuntPreyActivity from '../classes/HuntPreyActivity.js';
 import ActorCharacteristics from '../classes/ActorCharacteristics.js';
 import ActorStatistics from '../classes/ActorStatistics.js';
 import ActorSkills from '../classes/ActorSkills.js';
@@ -69,6 +69,9 @@ export default class Actor extends Thing {
     // Can't come back from the dead.
     if (old_status != null && old_status.health == 'dead') {
       status.health = 'dead'
+    };
+    if (this.statistics.health.current <= 0) {
+      status.health = 'dead';
     };
     if (this.statistics.hunger.current <= 0) {
       status.health = 'dead';
@@ -242,7 +245,8 @@ export default class Actor extends Thing {
 
   get doable_activities() {
     let doable_activities = [];
-    for (let activity of Actor.activities) {
+    //for (let activity of Actor.activities) {
+    for (let activity of game_data.activities) {
       let doable = true;
       for (let [skill_name, required_level] of Object.entries(activity.requirements)) {
         if (  !(skill_name in this.skills) || 
@@ -262,15 +266,21 @@ export default class Actor extends Thing {
     return activity;
   };
 
+  attack(other) {
+    other.statistics.health.current -= 1;
+    this.statistics.health.current -= 1;
+  };
+
   static getActivity(name) {
-    let activity = Actor.activities.find(activity => activity.name === name);
+    //let activity = Actor.activities.find(activity => activity.name === name);
+    let activity = game_data.activities.find(activity => activity.name === name);
     return activity;
   };
 
-  static activities = [
-    RestActivity,
-    StudyEnvironmentActivity,
-    HuntPreyActivity
-  ];
+  //static activities = [
+  //  RestActivity,
+  //  StudyEnvironmentActivity,
+  //  HuntPreyActivity
+  //];
 
 };

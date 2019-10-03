@@ -28,4 +28,5 @@ export default class HuntPreySequence extends Sequence {
     super({stages: stages, stage: stage, steps: steps});
   };
 
+
 };

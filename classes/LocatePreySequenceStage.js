@@ -1,4 +1,5 @@
 import SequenceStage from '../classes/SequenceStage.js';
+import Rabbit from '../classes/Rabbit.js';
 
 
 export default class LocatePreySequenceStage extends SequenceStage {
@@ -18,6 +19,8 @@ export default class LocatePreySequenceStage extends SequenceStage {
     let diceroll = Math.random();
     if (diceroll >= 0.9) {
       console.debug(`<${actor.uuid}> has located prey.`);
+      let prey = new Rabbit();
+      sequence_progress.temporary_objects.prey = prey;
       //sequence_delta.stage_delta += 1;
       sequence_progress.steps = 0;
       sequence_progress.stage += 1;

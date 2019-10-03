@@ -1,4 +1,7 @@
 import MessageLog from '../classes/MessageLog.js';
+import RestActivity from '../classes/RestActivity.js';
+import StudyEnvironmentActivity from '../classes/StudyEnvironmentActivity.js';
+import HuntPreyActivity from '../classes/HuntPreyActivity.js';
 
 
 function buildUI() {
@@ -73,7 +76,11 @@ function loopMain(ui) {
 
 
 function createActivities() {
-  let activities = [];
+  let activities = [
+    RestActivity,
+    StudyEnvironmentActivity,
+    HuntPreyActivity
+  ];
   //activities.push(new IdleActivity());
   return activities;
 };
@@ -85,9 +92,9 @@ function createActivities() {
 console.debug('Starting main.');
 
 import UI from './classes/UI.js'
-import World from '../classes/World.js';
-import Human from '../classes/Human.js';
-//import Rabbit from '../classes/Rabbit.js';
+import World from './classes/World.js';
+import Human from './classes/Human.js';
+import Rabbit from './classes/Rabbit.js';
 
 
 // Create game data.
