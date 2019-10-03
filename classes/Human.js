@@ -9,9 +9,15 @@ export default class Human extends Actor {
     };
     super({ characteristics: characteristics });
 
-    this.sex = this.randomlyDetermineSex();
+    //this.sex = this.randomlyDetermineSex();
   };
 
+  tick() {
+    super.tick();
+    console.warn(`teste1 <${this.sex}>.`);
+  };
+
+  /*
   randomlyDetermineSex() {
     console.debug(`Determining random sex for <${this.class_name}> <${this.uuid}>.`);
     let sexes = [ 'male', 'female' ];
@@ -21,5 +27,6 @@ export default class Human extends Actor {
     console.debug(`Returning random sex <${sex}> for <${this.uuid}>.`);
     return sex;
   };
+  */
 
 };

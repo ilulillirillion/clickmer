@@ -18,6 +18,9 @@ export default class Actor extends Thing {
       }) {
     super();
 
+    // Sex assignment.
+    this.sex = this.randomlyDetermineSex();
+
     // Name. If a name is not explicitly given, generate a random one.
     if (!name) {
       name = this.generateRandomName();
@@ -45,6 +48,7 @@ export default class Actor extends Thing {
 
     // Write that a new populant has appeared.
     this.write(`${this.name} has joined the colony!`);
+
 
   }
 
@@ -101,6 +105,18 @@ export default class Actor extends Thing {
     };
     return sequence_progression;
   };
+
+
+  randomlyDetermineSex() {
+    console.debug(`Determining random sex for <${this.class_name}> <${this.uuid}>.`);
+    let sexes = [ 'male', 'female' ];
+    let random_index = Math.floor(Math.random() * sexes.length);
+    console.debug(`Determing <${this.uuid}>'s sex from sexes: <${sexes}> with random index <${random_index}>.`);
+    let sex = sexes[random_index];
+    console.debug(`Returning random sex <${sex}> for <${this.uuid}>.`);
+    return sex;
+  };
+
 
   generateRandomName() {
     let names = ['bob', 'emily', 'jon', 'ashley', 'justin', 'sara', 'ed'];
