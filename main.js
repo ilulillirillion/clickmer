@@ -87,6 +87,7 @@ console.debug('Starting main.');
 import UI from './classes/UI.js'
 import World from '../classes/World.js';
 import Human from '../classes/Human.js';
+//import Rabbit from '../classes/Rabbit.js';
 
 
 // Create game data.
@@ -105,8 +106,9 @@ game_data.world = world;
 
 // Population
 game_data.population = [];
-let test_human = new Human();
-game_data.population.push(test_human);
+let test_populant = new Human();
+//let test_populant = new Rabbit();
+game_data.population.push(test_populant);
 
 // Create the UI.
 var ui = new UI();

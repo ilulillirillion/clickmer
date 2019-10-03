@@ -12,11 +12,6 @@ export default class Human extends Actor {
     //this.sex = this.randomlyDetermineSex();
   };
 
-  tick() {
-    super.tick();
-    console.warn(`teste1 <${this.sex}>.`);
-  };
-
   /*
   randomlyDetermineSex() {
     console.debug(`Determining random sex for <${this.class_name}> <${this.uuid}>.`);

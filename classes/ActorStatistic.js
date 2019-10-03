@@ -8,7 +8,6 @@ export default class ActorStatistic extends Thing {
 
     this.name = name;
 
-    console.warn(`testd1 <${name}> <${actor}>.`);
     this.actor = actor;
 
     //this.maximum = 0;

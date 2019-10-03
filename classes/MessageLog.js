@@ -20,7 +20,6 @@ export default class MessageLog extends Pane {
   };
 
   write(message) {
-    console.warn(`Writing ${message}`);
     let message_span = new WrappedTextSpan(`${message}<br>`);
     this.messages_div.element.appendChild(message_span.element);
     this.messages.push(message_span);

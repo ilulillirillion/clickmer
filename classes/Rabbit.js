@@ -1,4 +1,4 @@
-import Actor from '../classes/Actor.js;
+import Actor from '../classes/Actor.js';
 
 
 export default class Rabbit extends Actor {
@@ -9,3 +9,4 @@ export default class Rabbit extends Actor {
     };
     super({ characteristics: characteristics });
   };
+};

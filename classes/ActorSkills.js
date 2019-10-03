@@ -10,7 +10,6 @@ export default class ActorSkills extends Thing {
     'tracking'
   ];
   constructor({ actor = actor }) {
-    console.warn(`testd12 ${actor}`);
     super();
 
     this.all = [];
