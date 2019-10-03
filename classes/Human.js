@@ -4,7 +4,10 @@ import Actor from '../classes/Actor.js';
 export default class Human extends Actor {
 
   constructor() {
-    super();
+    let characteristics = {
+      'vitality': 10
+    };
+    super({ characteristics: characteristics });
 
     this.sex = this.randomlyDetermineSex();
   };

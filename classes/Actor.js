@@ -11,10 +11,10 @@ import ActorSkills from '../classes/ActorSkills.js';
 export default class Actor extends Thing {
   constructor(
       { 
-        uuid = null, name = null,
+        uuid = null, name = null, characteristics = {}
       } =
       {
-        uuid: null, name: null,
+        uuid: null,  name: null,  characteristics:  {}
       }) {
     super();
 
@@ -28,7 +28,8 @@ export default class Actor extends Thing {
     this.last_status = null;
 
     // Characterstics assignemnt.
-    this.characteristics = new ActorCharacteristics({ actor: this });
+    this.characteristics = new ActorCharacteristics(
+        { actor: this, characteristics: characteristics });
 
     // Statistics assignment.
     let statistics = new ActorStatistics(this);
@@ -48,7 +49,6 @@ export default class Actor extends Thing {
   }
 
   get active() {
-    """ Check whether or not the actor is active or 'in play'. """
     let active = true;
     if (this.status.health == 'dead') {
       active = false;
