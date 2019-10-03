@@ -1,5 +1,6 @@
 import Thing from '../classes/Thing.js';
-import IdleActivity from '../classes/IdleActivity.js';
+//import IdleActivity from '../classes/IdleActivity.js';
+import RestActivity from '../classes/RestActivity.js';
 import StudyEnvironmentActivity from '../classes/StudyEnvironmentActivity.js';
 import HuntPreyActivity from '../classes/HuntPreyActivity.js';
 import ActorCharacteristics from '../classes/ActorCharacteristics.js';
@@ -37,7 +38,7 @@ export default class Actor extends Thing {
 
     console.debug(`<${this.uuid}> statistics set to <${this.statistics}>.`);
 
-    this.activity = Actor.getActivity('idle');
+    this.activity = Actor.getActivity('rest');
 
     let skills = new ActorSkills();
     this.skills = skills;
@@ -267,7 +268,8 @@ export default class Actor extends Thing {
 
   static activities = [
     //new IdleActivity()
-    IdleActivity,
+    //IdleActivity,
+    RestActivity,
     StudyEnvironmentActivity,
     HuntPreyActivity
   ];
