@@ -26,9 +26,9 @@ export default class UI extends Pane {
     this.element.appendChild(sidebar.element);
     this.sidebar = sidebar;
 
-    let message_log = new MessageLog();
-    this.element.append(message_log.element);
-    this.message_log = message_log;
+    //let message_log = new MessageLog();
+    this.element.append(game_data.message_log.element);
+    //this.message_log = message_log;
 
     this.tabs = this.createTabs();
     for (let tab of this.tabs) {
@@ -56,7 +56,7 @@ export default class UI extends Pane {
     super.tick();
     console.debug(`Ticking <${this.uuid}>.`);
 
-    this.message_log.write(`Tick: ${this.ticks_epoch}`);
+    //this.message_log.write(`Tick: ${this.ticks_epoch}`);
 
     this.sidebar.tick();
 

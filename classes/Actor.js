@@ -43,6 +43,8 @@ export default class Actor extends Thing {
     let skills = new ActorSkills();
     this.skills = skills;
 
+    game_data.message_log.write(`${this.name} has joined the colony!`);
+
   }
 
 
@@ -83,7 +85,7 @@ export default class Actor extends Thing {
     super.tick();
     //this.statistics.hunger.update(-1);
     this.statistics.hunger.current -= 1;
-    
+
     if (!this.sequence) {
       if (!this.activity.sequence) {
         this.activity.tick({actor: this});
