@@ -8,6 +8,22 @@ export default class EatPreySequenceStage extends SequenceStage {
     
     console.debug(`<${actor.uuid}> is eating prey.`);
 
+    let prey = sequence_progress.temporary_objects.prey;
+    if (prey.statistics.hunger.current >= 6) {
+      actor.statistics.hunger.current += 6;
+      prey.statistics.hunger.current -= 6;
+    } else {
+      actor.statistics.hunger.current += prey.statistics.hunger.current;
+      prey.statistics.hunger.current = 0;
+      sequence_progress.temporary_objects = {};
+      sequence_progress.steps = 0;
+      sequence_progress.stage = 1;
+    };
+    return sequence_progress;
+    
+
+
+    /*
     //actor.updateStatistic('hunger', 6);
     //actor.statistics.hunger.update(6);
     actor.statistics.hunger.current += 6;
@@ -20,6 +36,7 @@ export default class EatPreySequenceStage extends SequenceStage {
     };
 
     return sequence_progress;
+    */
 
   };
 };

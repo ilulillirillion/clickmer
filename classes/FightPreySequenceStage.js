@@ -14,7 +14,7 @@ export default class FightPreySequenceStage extends SequenceStage {
     actor.attack(prey);
     if (prey.status.health == 'dead') {
       //delete sequence_progress.temporary_objects.prey;
-      sequence_progress.temporary_objects = {};
+      //sequence_progress.temporary_objects = {};
       sequence_progress.steps = 0;
       sequence_progress.stage += 1;
     };
