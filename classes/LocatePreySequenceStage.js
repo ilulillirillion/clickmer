@@ -20,6 +20,7 @@ export default class LocatePreySequenceStage extends SequenceStage {
     if (diceroll >= 0.9) {
       console.debug(`<${actor.uuid}> has located prey.`);
       let prey = new Rabbit();
+      //let prey = new Bear();
       sequence_progress.temporary_objects.prey = prey;
       //sequence_delta.stage_delta += 1;
       sequence_progress.steps = 0;
