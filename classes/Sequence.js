@@ -88,7 +88,6 @@ export default class Sequence extends Thing {
       this.transitionStage(this.stage, stage);
     }
     */
-    console.warn(temporary_objects);
     this.stage = stage;
     this.steps = steps;
     this.temporary_objects = temporary_objects;

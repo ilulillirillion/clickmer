@@ -9,7 +9,6 @@ export default class FightPreySequenceStage extends SequenceStage {
 
     console.debug(`<${actor.uuid}> is fighting prey.`);    
 
-    console.warn(sequence_progress);
     let prey = sequence_progress.temporary_objects.prey;
     actor.attack(prey);
     if (prey.status.health == 'dead') {
