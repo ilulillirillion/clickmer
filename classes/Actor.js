@@ -267,8 +267,8 @@ export default class Actor extends Thing {
   };
 
   attack(other) {
-    other.statistics.health.current -= 1;
-    this.statistics.health.current -= 1;
+    other.statistics.health.current -= this.characteristics.strength.current;
+    this.statistics.health.current -= other.characteristics.strength.current;
   };
 
   static getActivity(name) {

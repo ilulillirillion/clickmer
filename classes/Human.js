@@ -5,7 +5,7 @@ export default class Human extends Actor {
 
   constructor() {
     let characteristics = {
-      'vitality': 10
+      'vitality': 10, 'strength': 10
     };
     super({ characteristics: characteristics });
 

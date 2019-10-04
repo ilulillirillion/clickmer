@@ -9,7 +9,7 @@ export default class ActorCharacteristics extends Thing {
   ];
   */
 
-  static characteristics = { 'vitality': 1 };
+  static characteristics = { 'vitality': 1, 'strength': 1 };
     
 
   constructor(
