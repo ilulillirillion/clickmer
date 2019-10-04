@@ -116,6 +116,7 @@ game_data.population = [];
 let test_populant = new Human();
 //let test_populant = new Rabbit();
 game_data.population.push(test_populant);
+game_data.message_log.write(`${test_populant.name} has joined the colony!`);
 
 // Create the UI.
 var ui = new UI();

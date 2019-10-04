@@ -46,8 +46,6 @@ export default class Actor extends Thing {
     let skills = new ActorSkills({ actor: this });
     this.skills = skills;
 
-    // Write that a new populant has appeared.
-    this.write(`${this.name} has joined the colony!`);
 
 
   }
@@ -268,7 +266,10 @@ export default class Actor extends Thing {
 
   attack(other) {
     other.statistics.health.current -= this.characteristics.strength.current;
+    other.characteristics.vitality.experience += 1;
+    this.characteristics.strength.experience += 1;
     this.statistics.health.current -= other.characteristics.strength.current;
+    this.characteristics.vitality.experience += 1;
   };
 
   static getActivity(name) {
