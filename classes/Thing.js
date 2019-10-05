@@ -46,6 +46,7 @@ export default class Thing extends ProxyMixin(Object) {
    */
   tick() {
     console.debug(`Ticking <${this.uuid}>`, this);
+    this.ticks_epoch += 1;
   };
 
 

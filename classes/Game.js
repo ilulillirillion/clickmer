@@ -27,12 +27,18 @@ export default class Game extends ReactorMixin(Thing) {
   };
 
   tick() {
+    let tick_start_time = Date.now();
+    super.tick();
     /*
     for (let actor of Object.values(this.population)) {
       actor.tick();
     };
     */
     this.world.tick();
+
+    let tick_end_time = Date.now()
+    let time_delta = tick_end_time - tick_start_time;
+    console.info(`<${this.uuid}> took <${time_delta}> milliseconds to tick.`);
   };
 
   test() {
