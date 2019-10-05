@@ -21,13 +21,27 @@ export default class Game extends ReactorMixin(Thing) {
 
     this.message_log = message_log;
 
+    this.population = [];
+
+  };
+
+  tick() {
+    for (let actor of Object.values(this.population)) {
+      actor.tick();
+    };
   };
 
   test() {
     console.info(`<${this.uuid}> is running test.`);
     let test_actor = new Actor();
     console.info(`<${this.uuid}> generated a test actor:`, test_actor);
+    this.population.push(test_actor);
     test_actor.write('test message');
+    let self = this;
+    setInterval(function() {
+      //this.tick();
+      self.tick();
+    }, 1000);
   };
 
 };

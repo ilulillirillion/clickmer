@@ -50,10 +50,12 @@ export default class Actor extends Thing {
 
     let self = this;
     
+    /*
     let skills = {};
     skills.test = new SkillComponent(
       { owner: this, name: 'skill' });
     this.skills = skills;
+    */
 
     let characteristics = {};
     //characteristics.vitality = new this.ActorCharacteristic(
@@ -95,10 +97,14 @@ export default class Actor extends Thing {
     this.statistics = statistics;
     this.fill_statistics();
 
+    this.task = new TaskComponent(
+        { owner: this, name: 'idle', simple_present_name: 'idling' });
+
   };
 
   tick() {
     super.tick();
+    this.task.tick();
     //this.statistics.hunger.current -= 1;
   }; 
 
