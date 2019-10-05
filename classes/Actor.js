@@ -1,4 +1,6 @@
 import Thing from '../classes/Thing.js';
+import ActorStatistic from '../classes/ActorStatistic.js';
+import ActorSkill from '../classes/ActorSkill.js';
 
 
 export default class Actor extends Thing {
@@ -21,13 +23,47 @@ export default class Actor extends Thing {
       this.sex = 'male';
     };
 
-    //this.ActorStatistic = ActorStatistic;
-    //this.ActorStatistic.prototype.owner = this;
+    this.ActorStatistic = ActorStatistic;
+    this.ActorStatistic.prototype.owner = this;
+    this.ActorSkill = ActorSkill;
+    this.ActorSkill.prototype.owner = this;
+    //this.ActorCharacteristic = ActorCharacteristic;
+    //this.ActorCharacteristic.prototype.owner = this;
+
+    let self = this;
+    
+    let characteristics = {};
+    characteristics.vitality = new this.ActorSkill(
+        { name: 'vitality', current: 10 });
+    this.characteristics = characteristics;
 
     let statistics = {};
-    this.statistics.health = new ActorStatistic({ name: 'health' });
-    this.statistics.hunger = new ActorStatistic({ name: 'hunger' });
-    this.statistics.stamina = new ActorStatistic({ name: 'stamina' });
+    statistics.health = new this.ActorStatistic({ name: 'health' });
+    Object.defineProperty(statistics.health, 'maximum', {
+      get: function() {
+        let vitality = self.characteristics.vitality.current;
+        let maximum = vitality * 10;
+        return maximum;
+      }
+    });
+    statistics.hunger = new this.ActorStatistic({ name: 'hunger' });
+    Object.defineProperty(statistics.hunger, 'maximum', {
+      get: function() {
+        let vitality = self.characteristics.vitality.current;
+        let maximum = vitality * 10;
+        return maximum;
+      }
+    });
+    statistics.stamina = new this.ActorStatistic({ name: 'stamina' });
+    Object.defineProperty(statistics.stamina, 'maximum', {
+      get: function() {
+        let vitality = self.characteristics.vitality.current;
+        let maximum = vitality * 10;
+        return maximum;
+      }
+    });
+    this.statistics = statistics;
+    this.fill_statistics();
 
 
     //this.statistics.health = new this.ActorStatistic({ name: 'health' });
@@ -41,6 +77,11 @@ export default class Actor extends Thing {
     //this.statistics.hunger.current -= 1;
   }; 
 
-  
+  fill_statistics() {
+    //this.statistics.forEach(function (statistic) {
+    for (let statistic of Object.values(this.statistics)) {
+      statistic.fill();
+    };
+  }; 
 
 };

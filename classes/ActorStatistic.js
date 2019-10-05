@@ -1,16 +1,19 @@
-import Thing form '../classes/Thing.js';
+import Thing from '../classes/Thing.js';
 
 
 export default class ActorStatistic extends Thing {
 
-  constructor({ name = 'statistic' } = { name: 'statistic' }) {
+  constructor({ name = 'statistic', current = 0, maximum = 0, minimum = 0 } = 
+              { name: 'statistic', current: 0, maximum: 0, minimum: 0 }) {
     super();    
     
     this.name = name;
 
-    this._current = 0;
-    try { this.maximum = 0 } catch(error) {};
-    try { this.minimum = 0 } catch(error) {};
+    this._current = current;
+    this.maximum = maximum;
+    this.minimum = minimum;
+    //try { this.maximum = 0 } catch(error) {};
+    //try { this.minimum = 0 } catch(error) {};
 
   };
 
@@ -26,6 +29,10 @@ export default class ActorStatistic extends Thing {
 
   levelUp() {
     this.current += 1;
+  };
+
+  fill() {
+    this.current = this.maximum;
   };
 
 };

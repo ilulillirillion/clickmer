@@ -21,7 +21,8 @@ export default ProxyMixin = Base => class extends Base {
        * Used only for debugging.
        */
       set(target, name, value) {
-        console.debug(`Setting <${target.uuid}>'s <${name}> to <${value}>.`);
+        console.debug(`Setting <${target.uuid}>'s <${name}> to <${value}>.`,
+            target, name, value);
         target[name] = value;
         return true;
       }
