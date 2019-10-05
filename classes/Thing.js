@@ -9,15 +9,20 @@ import dedent from '../template_tags/dedent.js';
  */
 export default class Thing extends ProxyMixin(Object) {
   constructor(
-      { uuid = null, name = 'thing', ticks_epoch = 0, message_log = null } = 
-      { uuid:  null, name:  'thing', ticks_epoch:  0, message_log:  null }) {
+      { uuid = null, name = 'thing', message_log = null } = 
+      { uuid:  null, name:  'thing', message_log:  null }) {
     super();
+
+
+    this.class_name = this.constructor.name.toLowerCase();
+
 
     // UUID.
     this.uuid = uuid;
     if (!this.uuid) {
       this.uuid = this.uuid = this.createUUID();
     };
+
 
     this.name = name;     // Name.
     this.ticks_epoch = 0; // Ticks epoch.
@@ -52,5 +57,10 @@ export default class Thing extends ProxyMixin(Object) {
   };
 
 
+  createUUID() {
+    let uuid = `${this.class_name}_${uuidv6()}`;
+    return uuid;
+  };
+    
+
 };
-Thing.prototype.createUUID = uuidv6;
