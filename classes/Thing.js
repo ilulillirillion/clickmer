@@ -27,6 +27,7 @@ export default class Thing extends ProxyMixin(Object) {
     this.name = name;     // Name.
     this.ticks_epoch = 0; // Ticks epoch.
 
+    /*
     // Message log.
     this.message_log = message_log;
     if (!this.message_log) {
@@ -35,6 +36,7 @@ export default class Thing extends ProxyMixin(Object) {
           (<${this.message_log}>).`
       );
     };
+    */
 
   };
 
@@ -51,10 +53,13 @@ export default class Thing extends ProxyMixin(Object) {
    * Will write a message to message log so long as message log exists.
    */
   write(message) {
-    if (this.message_log) {
-      message_log.write(message);
-    };
+    message_log.write(message)
   };
+
+    //if (this.message_log) {
+    //  message_log.write(message);
+    //};
+  //};
 
 
   createUUID() {

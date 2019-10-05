@@ -3,7 +3,9 @@ import Actor from '../classes/Actor.js';
 
 
 let game = new Game();
+game.test();
 
+/*
 window.dispatchEvent = function(event_name) {
   game.dispatchEvent(event_name);
 };
@@ -16,3 +18,4 @@ game.dispatchEvent('test event');
 
 
 let actor = new Actor();
+*/
