@@ -1,6 +1,8 @@
 import Thing from '../classes/Thing.js';
 import ActorStatistic from '../classes/ActorStatistic.js';
 import ActorSkill from '../classes/ActorSkill.js';
+import ActorCharacteristic from '../classes/ActorCharacteristic.js';
+import available_names from '../objects/names.js';
 
 
 export default class Actor extends Thing {
@@ -13,8 +15,8 @@ export default class Actor extends Thing {
 
     this.name = name;
     if (!this.name || this.name === 'actor') {
-      //this.name = this.generateRandomName();
-      this.name = 'test';
+      this.name = this.createRandomName();
+      //this.name = 'test';
     };
 
     this.sex = sex;
@@ -27,13 +29,13 @@ export default class Actor extends Thing {
     this.ActorStatistic.prototype.owner = this;
     this.ActorSkill = ActorSkill;
     this.ActorSkill.prototype.owner = this;
-    //this.ActorCharacteristic = ActorCharacteristic;
-    //this.ActorCharacteristic.prototype.owner = this;
+    this.ActorCharacteristic = ActorCharacteristic;
+    this.ActorCharacteristic.prototype.owner = this;
 
     let self = this;
     
     let characteristics = {};
-    characteristics.vitality = new this.ActorSkill(
+    characteristics.vitality = new this.ActorCharacteristic(
         { name: 'vitality', current: 10 });
     this.characteristics = characteristics;
 
@@ -65,11 +67,6 @@ export default class Actor extends Thing {
     this.statistics = statistics;
     this.fill_statistics();
 
-
-    //this.statistics.health = new this.ActorStatistic({ name: 'health' });
-    //this.statistics.hunger = new this.ActorStatistic({ name: 'hunger' });
-    //this.statistics.stamina = new this.ActorStatistic({ name: 'stamina' });
-
   };
 
   tick() {
@@ -78,10 +75,18 @@ export default class Actor extends Thing {
   }; 
 
   fill_statistics() {
-    //this.statistics.forEach(function (statistic) {
     for (let statistic of Object.values(this.statistics)) {
       statistic.fill();
     };
   }; 
+
+  createRandomName() {
+    let names = available_names.male_names;
+    if (this.sex == 'female') {
+      names = availbale_names.female_names;
+    };
+    let random_index = Math.floor(Math.random() * names.length);
+    return names[random_index];
+  };
 
 };

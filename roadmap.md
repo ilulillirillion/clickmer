@@ -1,3 +1,10 @@
+- Add classgroups, to avoid redundant imports. For example, instead of import ActorStatistic, ActorSkill, and ActorCharacteristics, roll them up somehow into one object because they inter-import each other already.
+
+
+----
+
+
+
 primary attributes:
   vitality
     - increases in health statistic
