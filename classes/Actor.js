@@ -1,7 +1,8 @@
 import Thing from '../classes/Thing.js';
-import ActorStatistic from '../classes/ActorStatistic.js';
-import ActorSkill from '../classes/ActorSkill.js';
-import ActorCharacteristic from '../classes/ActorCharacteristic.js';
+import StatisticComponent from '../classes/StatisticComponent.js';
+import SkillComponent from '../classes/SkillComponent.js';
+import CharacteristicComponent from '../classes/CharacteristicComponent.js';
+import TaskComponent from '../classes/TaskComponent.js';
 import available_names from '../objects/names.js';
 
 
@@ -25,22 +26,45 @@ export default class Actor extends Thing {
       this.name = this.getRandomName();
     };
 
+    /*
+    let ActorStatistic = ActorStatistic;
+    let ActorStatistic.prototype.owner = this;
+    let ActorSkill = ActorSkill;
+    let ActorSkill.prototype.owner = this;
+    let ActorCharacteristic = ActorCharacteristic;
+    let ActorCharacteristic.prototype.owner = this;
+    let ActorTask = ActorTask;
+    let ActorTask.prototype.owner = this;
+    */
+
+    /*
     this.ActorStatistic = ActorStatistic;
     this.ActorStatistic.prototype.owner = this;
     this.ActorSkill = ActorSkill;
     this.ActorSkill.prototype.owner = this;
     this.ActorCharacteristic = ActorCharacteristic;
     this.ActorCharacteristic.prototype.owner = this;
+    this.ActorTask = ActorTask;
+    this.ActorTask.prototype.owner = this;
+    */
 
     let self = this;
     
+    let skills = {};
+    skills.test = new SkillComponent(
+      { owner: this, name: 'skill' });
+    this.skills = skills;
+
     let characteristics = {};
-    characteristics.vitality = new this.ActorCharacteristic(
-        { name: 'vitality', current: 10 });
+    //characteristics.vitality = new this.ActorCharacteristic(
+    characteristics.vitality = new CharacteristicComponent(
+        { owner: this, name: 'vitality', current: 10 });
     this.characteristics = characteristics;
 
     let statistics = {};
-    statistics.health = new this.ActorStatistic({ name: 'health' });
+    //statistics.health = new this.ActorStatistic({ name: 'health' });
+    statistics.health = new StatisticComponent(
+        { owner: this, name: 'health' });
     Object.defineProperty(statistics.health, 'maximum', {
       get: function() {
         let vitality = self.characteristics.vitality.current;
@@ -48,7 +72,9 @@ export default class Actor extends Thing {
         return maximum;
       }
     });
-    statistics.hunger = new this.ActorStatistic({ name: 'hunger' });
+    //statistics.hunger = new this.ActorStatistic({ name: 'hunger' });
+    statistics.hunger = new StatisticComponent(
+        { owner: this, name: 'hunger' });
     Object.defineProperty(statistics.hunger, 'maximum', {
       get: function() {
         let vitality = self.characteristics.vitality.current;
@@ -56,7 +82,9 @@ export default class Actor extends Thing {
         return maximum;
       }
     });
-    statistics.stamina = new this.ActorStatistic({ name: 'stamina' });
+    //statistics.stamina = new this.ActorStatistic({ name: 'stamina' });
+    statistics.stamina = new StatisticComponent(
+        { owner: this, name: 'stamina' });
     Object.defineProperty(statistics.stamina, 'maximum', {
       get: function() {
         let vitality = self.characteristics.vitality.current;

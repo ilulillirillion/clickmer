@@ -1,19 +1,19 @@
-import Thing from '../classes/Thing.js';
+import Component from '../classes/Component.js';
 
 
-export default class ActorStatistic extends Thing {
+export default class StatisticComponent extends Component {
 
-  constructor({ name = 'statistic', current = 0, maximum = 0, minimum = 0 } = 
-              { name: 'statistic', current: 0, maximum: 0, minimum: 0 }) {
-    super();    
+  constructor({ owner = null, uuid = null, name = 'statistic', 
+                current = 0, maximum = 0, minimum = 0 } = 
+              { owner: null, uuid: null, name: 'statistic', 
+                current: 0, maximum: 0, minimum: 0 }) {
+    super({ owner, uuid, name });    
     
     this.name = name;
 
     this._current = current;
     this.maximum = maximum;
     this.minimum = minimum;
-    //try { this.maximum = 0 } catch(error) {};
-    //try { this.minimum = 0 } catch(error) {};
 
   };
 

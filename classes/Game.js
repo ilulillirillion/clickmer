@@ -26,6 +26,7 @@ export default class Game extends ReactorMixin(Thing) {
   test() {
     console.info(`<${this.uuid}> is running test.`);
     let test_actor = new Actor();
+    console.info(`<${this.uuid}> generated a test actor:`, test_actor);
     test_actor.write('test message');
   };
 
