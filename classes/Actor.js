@@ -7,22 +7,22 @@ import available_names from '../objects/names.js';
 
 export default class Actor extends Thing {
 
+  static sexes = [ 'male', 'female' ];
+
   constructor(
       { uuid = null, name = 'actor', message_log = null, sex = null } =
       { uuid:  null, name:  'actor', message_log:  null, sex:  null }) {
 
     super({ uuid: uuid, name: name, message_log: message_log });
 
-    this.name = name;
-    if (!this.name || this.name === 'actor') {
-      this.name = this.createRandomName();
-      //this.name = 'test';
-    };
-
     this.sex = sex;
     if (!this.sex) {
-      //this.sex = this.getRandomSex();
-      this.sex = 'male';
+      this.sex = this.getRandomSex();
+    };
+
+    this.name = name;
+    if (!this.name || this.name === 'actor') {
+      this.name = this.getRandomName();
     };
 
     this.ActorStatistic = ActorStatistic;
@@ -80,13 +80,21 @@ export default class Actor extends Thing {
     };
   }; 
 
-  createRandomName() {
+  getRandomName() {
     let names = available_names.male_names;
     if (this.sex == 'female') {
-      names = availbale_names.female_names;
+      names = available_names.female_names;
     };
     let random_index = Math.floor(Math.random() * names.length);
     return names[random_index];
   };
+
+  getRandomSex() {
+    let sexes = Actor.sexes;
+    let random_index = Math.floor(Math.random() * sexes.length);
+    let sex = sexes[random_index];
+    return sex;
+  };
+
 
 };
