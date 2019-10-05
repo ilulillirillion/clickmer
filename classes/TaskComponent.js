@@ -26,6 +26,6 @@ export default class ActorTask extends Component {
   };
 
   tick() {
-    console.info(`<${this.owner}> is doing <${this.simple_present_name}>.`);
+    console.info(`<${this.owner.uuid}> is <${this.simple_present_name}>.`);
   };
 };
