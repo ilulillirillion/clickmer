@@ -1,43 +1,56 @@
+import ProxyMixin from '../mixins/ProxyMixin.js';
 import uuidv6 from '../functions/uuidv6.js';
-import { ProxyMixin } from '../mixins/ProxyMixin.js';
+import dedent from '../template_tags/dedent.js';
 
 
-//export default class ProxyMixin(Thing) {
+/**
+ * Thing class is used to set UUID, name, and ticks epoch.
+ * Also enables convenient logging, and facilitates ProxyMixin wrapper.
+ */
 export default class Thing extends ProxyMixin(Object) {
-  constructor({ name = 'thing' } = { name: 'thing' }) {
+  constructor(
+      { uuid = null, name = 'thing', ticks_epoch = 0, message_log = null } = 
+      { uuid:  null, name:  'thing', ticks_epoch:  0, message_log:  null }) {
     super();
-    //console.debug('Instantiating an object.');
-    console.debug(`Constructing a Thing with name <${name}>.`);
 
-    let class_name = this.constructor.name.toLowerCase();
-    this.class_name = class_name;
-    console.debug(`Instantiating a <${class_name}>.`);
+    // UUID.
+    this.uuid = uuid;
+    if (!this.uuid) {
+      this.uuid = this.uuid = this.createUUID();
+    };
 
-    let _uuid = uuidv6();
-    console.debug(`Generated _uuid for <${class_name}>: <${_uuid}>.`);
-    this.uuid = `${class_name}_${_uuid}`
-    console.debug(`Set <${class_name}> uuid to <${this.uuid}>.`);
+    this.name = name;     // Name.
+    this.ticks_epoch = 0; // Ticks epoch.
 
-    this.ticks_epoch = 0;
-
-    this.name = name;
-    console.debug(`<${this.uuid}> name set to <${this.name}>.`);
-
-    this.tick_listeners = [];
+    // Message log.
+    this.message_log = message_log;
+    if (!this.message_log) {
+      console.warn(dedent`
+          <${this.uuid}> does not have a message_log 
+          (<${this.message_log}>).`
+      );
+    };
 
   };
 
-  get log_name() {
-    return `${this.class_name}_${this.uuid}`;
-  };
 
+  /**
+   * The only reason to tick Thing directly is convenient logging.
+   */
   tick() {
-    console.debug(`Ticking <${this.uuid}>. (tick: <${this.ticks_epoch + 1}>)`);
-    this.ticks_epoch += 1;
+    console.debug(`Ticking <${this.uuid}>`, this);
   };
 
+
+  /**
+   * Will write a message to message log so long as message log exists.
+   */
   write(message) {
-    game_data.message_log.write(message);
+    if (this.message_log) {
+      message_log.write(message);
+    };
   };
+
 
 };
+Thing.prototype.createUUID = uuidv6;
