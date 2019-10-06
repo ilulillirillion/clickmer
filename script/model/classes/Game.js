@@ -36,7 +36,7 @@ export default class Game extends ReactorMixin(Thing) {
     };
     */
     this.world.tick();
-    this.colony.tick();
+    //this.colony.tick();
 
     let tick_end_time = Date.now()
     let time_delta = tick_end_time - tick_start_time;
@@ -52,7 +52,8 @@ export default class Game extends ReactorMixin(Thing) {
 
     let test_colony = new Colony();
     console.info(`<${this.uuid}> generated a test colony:`, test_colony);
-    this.colony = test_colony;
+    //this.colony = test_colony;
+    this.world.places.push(test_colony);
 
     //let test_actor = new Actor();
     //console.info(`<${this.uuid}> generated a test actor:`, test_actor);

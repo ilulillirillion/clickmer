@@ -43,9 +43,17 @@ export default class Place extends Thing {
 
   };
 
-  spawn({ class_name = 'Actor', constructor_parameters = {}} =
+  createDynamicPopulant({ class_name = 'Actor', constructor_parameters = {}} =
         { class_name: 'Actor', constructor_parameters: {}}) {
     let populant = new Populant({ class_name: 'Actor', constructor_parameters });
+    //this.population.push(populant);
+    return populant;
+  };
+
+  spawn({ class_name = 'Actor', constructor_parameters = {}} =
+        { class_name: 'Actor', constructor_parameters: {}}) {
+    let populant = this.createDynamicPopulant(
+        { class_name, constructor_parameters });
     this.population.push(populant);
     return populant;
   };
