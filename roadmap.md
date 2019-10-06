@@ -2,6 +2,11 @@
 
 - Add a decorator to time functions for performance metrics.
 
+- Add tick per second graphic
+
+- Adopt MVC model
+  - code switch for model which will allow it to run locally
+
 ----
 
 

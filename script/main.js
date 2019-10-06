@@ -1,5 +1,6 @@
-import Game from '../classes/Game.js';
-import Actor from '../classes/Actor.js';
+//import Game from '../classes/Game.js';
+//import Actor from '../classes/Actor.js';
+import Game from './model/classes/Game.js';
 
 
 let game = new Game();
