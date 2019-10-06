@@ -1,5 +1,6 @@
 import Thing from '../classes/Thing.js';
 import Populant from '../classes/Populant.js';
+import Map from '../classes/Map.js';
 
 
 /**
@@ -7,11 +8,14 @@ import Populant from '../classes/Populant.js';
  * characteristic is the ability to spawn and hold populants.
  */
 export default class Place extends Thing {
-  constructor({ uuid = null, name = 'world' } =
-              { uuid: null, name: 'world' }) {
+  constructor({ uuid = null, name = 'world',
+                width = 10, height = 10 } =
+              { uuid: null, name: 'world',
+                width: 10, height: 10 }) {
     super({ uuid, name });
 
     this.population = [];
+    this.map = new Map({ width, height });
 
   };
 
