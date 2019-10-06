@@ -14,7 +14,7 @@ export default class Colony extends Place {
 
   randomlyCreatePixie({ chance }) {
     //let effective_chance = chance / this.population.length
-    if (chance >=  0.19) {
+    if (chance >=  0.99) {
       /*
       let pixie = new Actor();
       this.populants.push(pixie);
