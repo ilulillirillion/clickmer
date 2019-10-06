@@ -86,8 +86,9 @@ export default class World extends Thing {
       random_index = Math.floor(Math.random() * places.length);
     };
     */
-    random_index = Math.floor(Math.random() * places.length);
-    let place = places[random_index];
+    //random_index = Math.floor(Math.random() * places.length);
+    let random_index = Math.floor(Math.random() * this.places.length);
+    let place = this.places[random_index];
     return place;
   };
 
