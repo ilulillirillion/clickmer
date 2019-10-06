@@ -8,6 +8,10 @@ export default class Structure extends Thing {
 
   };
 
+  affectLocalPlace(place) {
+    console.info(`${place.uuid} is being affected by ${this.uuid}`);
+  }
+
   affectLocalActor(actor) {
     console.info(`${actor.uuid} is being affected by ${this.uuid}`);
   };

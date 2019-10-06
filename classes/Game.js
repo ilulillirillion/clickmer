@@ -2,6 +2,7 @@ import ReactorMixin from '../mixins/ReactorMixin.js';
 import Thing from '../classes/Thing.js';
 import MessageLog from '../classes/MessageLog.js';
 import World from '../classes/World.js';
+import Colony from '../classes/Colony.js';
 import Actor from '../classes/Actor.js';
 
 
@@ -35,6 +36,7 @@ export default class Game extends ReactorMixin(Thing) {
     };
     */
     this.world.tick();
+    this.colony.tick();
 
     let tick_end_time = Date.now()
     let time_delta = tick_end_time - tick_start_time;
@@ -47,6 +49,10 @@ export default class Game extends ReactorMixin(Thing) {
     let test_world = new World();
     console.info(`<${this.uuid}> generated a test world:`,  test_world);
     this.world = test_world;
+
+    let test_colony = new Colony();
+    console.info(`<${this.uuid}> generated a test colony:`, test_colony);
+    this.colony = test_colony;
 
     //let test_actor = new Actor();
     //console.info(`<${this.uuid}> generated a test actor:`, test_actor);

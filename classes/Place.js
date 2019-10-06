@@ -20,9 +20,9 @@ export default class Place extends Thing {
     this.contents = [];
 
     let structures = [];
-    //let test_structure = new Structure();
-    //structures.push(test_structure);
-    //this.structures = structures;
+    let test_structure = new Structure();
+    structures.push(test_structure);
+    this.structures = structures;
     
 
   };
@@ -35,6 +35,7 @@ export default class Place extends Thing {
     };
 
     for (let structure of this.structures) {
+      structure.affectLocalPlace(this);
       for (let populant of this.population) {
         structure.affectLocalActor(populant);
       };
