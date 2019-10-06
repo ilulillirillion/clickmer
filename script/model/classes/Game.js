@@ -25,8 +25,6 @@ export default class Game extends ReactorMixin(Thing) {
 
     this.population = [];
 
-    console.warn(PerformanceTimer);
-
   };
   
   tick() {
