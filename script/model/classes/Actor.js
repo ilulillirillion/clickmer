@@ -1,11 +1,12 @@
 import Thing from '../classes/Thing.js';
+import ThingTypeMixin from '../mixins/ThingTypeMixin.js';
 import ActorStatistic from '../classes/ActorStatistic.js';
 import ActorProficiency from '../classes/ActorProficiency.js';
 import ActorTask from '../classes/ActorTask.js';
 import available_names from '../objects/names.js';
 
 
-export default class Actor extends Thing {
+export default class Actor extends ThingTypeMixin(Thing) {
 
   static sexes = [ 'male', 'female' ];
 
@@ -13,7 +14,8 @@ export default class Actor extends Thing {
       { uuid = null, name = 'actor', message_log = null, sex = null } =
       { uuid:  null, name:  'actor', message_log:  null, sex:  null }) {
 
-    super({ uuid: uuid, name: name, message_log: message_log });
+    super({ thing_type: 'actor', uuid: uuid, name: name, 
+            message_log: message_log });
 
     this.sex = sex;
     if (!this.sex) {
