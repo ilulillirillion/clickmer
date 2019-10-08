@@ -45,6 +45,8 @@ export default class Game extends ReactorMixin(Thing) {
     this.world.tick();
     //this.colony.tick();
 
+    this.player.tick();
+
     let tick_end_time = Date.now()
     let time_delta = tick_end_time - tick_start_time;
     console.info(`<${this.uuid}> took <${time_delta}> milliseconds to tick.`);
@@ -52,6 +54,7 @@ export default class Game extends ReactorMixin(Thing) {
 
   test() {
     console.info(`<${this.uuid}> is running test.`);
+    
 
     let test_world = new World();
     console.info(`<${this.uuid}> generated a test world:`,  test_world);

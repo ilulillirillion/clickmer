@@ -10,8 +10,11 @@ export default class Player extends Thing {
     this.colony_location = 0;
 
     this.colony = new Colony();
-    console.warn(this.colony);
 
+  };
+
+  tick() {
+    console.info(`Player colony`, this.colony);
   };
 
 };

@@ -16,6 +16,7 @@ export default class Thing extends ProxyMixin(Object) {
 
     this.class_name = this.constructor.name.toLowerCase();
 
+    this.thing_type = 'thing';
 
     // UUID.
     this.uuid = uuid;

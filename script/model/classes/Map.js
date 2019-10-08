@@ -35,9 +35,17 @@ export default class Map extends Thing {
       for (let y = 0; y < Object.keys(this.tiles[0]).length; y++) {
         //console.warn(x, y);
         let tile = this.tiles[x][y];
-        contents.push.apply(tile.contents);
+        if (tile.contents.length >= 1) {
+          //console.warn('adding tile contents', tile, this);
+        };
+        //contents.push.apply(contents, tile.contents);
+        for (let content of tile.contents) {
+          //console.warn('test98', content);
+          contents.push(content);
+        };
       };
     };
+    //console.warn('blah', contents);
     return contents;
   };
 
@@ -49,10 +57,17 @@ export default class Map extends Thing {
     };
     */
     let population = [];
-    for (let content in this.contents) {
-      if (content.thing_type === 'actor') {
+    //console.warn('test13', this.contents);
+    for (let content of this.contents) {
+    //for (let content in Object.values(this.contents)) {
+      //console.warn(content.thing_type, content);
+      //console.warn('test12', content, content[0], this.contents);
+      //console.warn('test11', this.contents, this.contents[0], this.contents[1]);
+      //if (content.thing_type == 'actor') {
+      if (content.class_name == 'actor') {
         population.push(content);
       };
+      //population.push(content);
     };
     return population;
   };
