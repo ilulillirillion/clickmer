@@ -17,7 +17,7 @@ export default class Pixie extends Actor {
     super({ uuid, name, sex });
     this.characteristics.vitality.current = 1;
 
-    this.fill_statistics();
+    //this.fill_statistics();
   };
 
 };
