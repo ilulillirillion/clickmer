@@ -1,4 +1,5 @@
 import Thing from '../classes/Thing.js';
+import Colony from '../classes/Colony.js';
 
 
 export default class Player extends Thing {
@@ -7,6 +8,9 @@ export default class Player extends Thing {
     super({ uuid, name });
 
     this.colony_location = 0;
+
+    this.colony = new Colony();
+    console.warn(this.colony);
 
   };
 

@@ -102,6 +102,26 @@ export default class Map extends Thing {
     return tile;
   }; 
 
+
+  getRandomCoordinates() {
+    let coordinates = {};
+    coordinates.x = Math.floor(Math.random() * Object.keys(this.tiles).length);
+    coordinates.y = Math.floor(Math.random() * Object.keys(this.tiles[0]).length);
+    return coordinates;
+  };
+    
+
+  randomlyOverwriteTile(tile) {
+    /*
+    let random_tile = this.getRandomTile();
+    random_tile = tile;
+    */
+    let random_coordinates = this.getRandomCoordinates();
+    this.tiles[random_coordinates.x][random_coordinates.y] = tile;
+    console.debug(`Overwrote <${this.uuid}> tile at <${random_coordinates.x}>,<${random_coordinates.y}> to <${this.tiles[random_coordinates.x][random_coordinates.y]}>`, this.tiles);
+  };
+    
+
   get flattened_tiles() {
     let tiles = [];
     for (let x = 0; x < Object.keys(this.tiles).length; x++) {

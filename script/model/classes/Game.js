@@ -4,6 +4,7 @@ import MessageLog from '../classes/MessageLog.js';
 import World from '../classes/World.js';
 import Colony from '../classes/Colony.js';
 import Actor from '../classes/Actor.js';
+import Player from '../classes/Player.js';
 
 
 /**
@@ -25,6 +26,12 @@ export default class Game extends ReactorMixin(Thing) {
 
     this.population = [];
 
+  };
+
+  buildPlayer() {
+    let player = new Player();
+    this.player = player;
+    this.world.randomlyOverwriteTile(this.player.colony);
   };
   
   tick() {
@@ -50,11 +57,15 @@ export default class Game extends ReactorMixin(Thing) {
     console.info(`<${this.uuid}> generated a test world:`,  test_world);
     this.world = test_world;
 
+    /*
     let test_colony = new Colony();
     console.info(`<${this.uuid}> generated a test colony:`, test_colony);
     //this.colony = test_colony;
     //this.world.places.push(test_colony);
     this.world.addContent(test_colony);
+    */
+
+    this.buildPlayer();
 
     //let test_actor = new Actor();
     //console.info(`<${this.uuid}> generated a test actor:`, test_actor);

@@ -23,4 +23,12 @@ export default class WorldMap extends Map {
     return tile;
   };
 
+  /*
+  createTiles() {
+    let tiles = super.createTiles();
+    let random_tile = this.getRandomTile();
+    random_tile = new Colony();
+  };
+  */
+
 };
