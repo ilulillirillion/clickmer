@@ -24,6 +24,9 @@ export default class Place extends Map {
     //this.structures = structures;
 
     //this.contents = [];
+
+    this.innate_effects = [];
+    
     
 
   };
@@ -52,6 +55,11 @@ export default class Place extends Map {
 
   tick() {
 
+    // Tick places own innate effects
+    for (let effect of this.innate_effects) {
+      effect();
+    }; 
+
     //for (let populant of Object.values(this.population)) {
     for (let populant of this.population) {
       populant.tick();
@@ -68,15 +76,17 @@ export default class Place extends Map {
 
   createDynamicPopulant({ class_name = 'Actor', constructor_parameters = {}} =
         { class_name: 'Actor', constructor_parameters: {}}) {
-    let populant = new Populant({ class_name: 'Actor', constructor_parameters });
+    let populant = new Populant({ class_name: class_name, constructor_parameters });
     //this.population.push(populant);
     return populant;
   };
 
   spawn({ class_name = 'Actor', constructor_parameters = {}} =
         { class_name: 'Actor', constructor_parameters: {}}) {
+    console.warn('Creating class_name with parameters', class_name, constructor_parameters);
     let populant = this.createDynamicPopulant(
         { class_name, constructor_parameters });
+    console.warn('Created populant', populant);
     //this.population.push(populant);
     this.addContent(populant);
     return populant;

@@ -1,8 +1,12 @@
 import Actor from '../classes/Actor.js';
+import Human from '../classes/Human.js';
+import Pixie from '../classes/Pixie.js';
 
 
 const valid_populants = {
-  'Actor': Actor
+  Actor,
+  Human,
+  Pixie
 };
 
 class Populant {

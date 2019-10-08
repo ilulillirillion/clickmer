@@ -10,9 +10,33 @@ export default class Actor extends ThingTypeMixin(Thing) {
 
   static sexes = [ 'male', 'female' ];
 
+  /*
+      { uuid = null, name = 'actor', sex = null,
+        characteristics = [
+          { name: 'vitality' }
+        ],
+        statistics = [
+          { name: 'health',
+            maximum: function() {
+              let vitality = this.
+      } } =
+  */
+
+  /*
   constructor(
-      { uuid = null, name = 'actor', message_log = null, sex = null } =
-      { uuid:  null, name:  'actor', message_log:  null, sex:  null }) {
+      { uuid = null, name = 'actor', sex = null,
+        characteristics = [
+          { name: 'vitality' }
+        ] } =
+      { uuid:  null, name:  'actor', sex:  null,
+        characteristics: [
+          { name: 'vitality' }
+        ] }) {
+  */
+
+  constructor(
+      { uuid = null, name = 'actor', sex = null } =
+      { uuid:  null, name:  'actor', sex:  null }) {
 
     super({ thing_type: 'actor', uuid: uuid, name: name, 
             message_log: message_log });
