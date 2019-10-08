@@ -3,6 +3,13 @@
 import Game from './model/classes/Game.js';
 
 
+var app = angular.module('Clickmer', []);
+app.controller('Controller', function($scope) {
+  $scope.test2='test2';
+  $scope.game = new Game();
+});
+
+
 let game = new Game();
 game.test();
 

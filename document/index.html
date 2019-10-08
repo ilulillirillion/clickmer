@@ -8,8 +8,14 @@
     <link rel='stylesheet' href='../style/styles.css'/>
     <link rel='icon' href='../static/favicon.ico' type='image/x-icon'/>
   </head>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
   <body>
     <p>Hello, this is being heavily re-written. The last commit with a working UI seems to be 202 or earlier. Hope to have a new UI soon, or maybe use branches next time, whoops. If you'd like to see what's going on at this stage, your best bet is to utilize the console logs.</p>
+    <div ng-app="Clickmer" ng-controller="Controller">
+      <p>Test1 {{ game_data.uuid }}</p>
+      <p>Test2 {{ test2 }}</p>
+      <p>Test3 {{ game }}</p>
+    </div>
   <script type='module' src='../script/main.js' charset='utf-8' type='text/javascript'></script>
   </body>
 </html>
