@@ -10,7 +10,15 @@
   </head>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
   <body>
-    <p>Hello, this is being heavily re-written. The last commit with a working UI seems to be 202 or earlier. Hope to have a new UI soon, or maybe use branches next time, whoops. If you'd like to see what's going on at this stage, your best bet is to utilize the console logs.</p>
+    <div ng-app="Clickmer" ng-controller="Controller" class="debug_div">
+      <pre>Game UUID: {{ game.uuid }}</pre>
+      <pre>     ticks_epoch {{ game.ticks_epoch }}</pre>
+      <pre>     message log UUID: {{ game.message_log.uuid }}</pre>
+      <pre>     population: {{ game.population }}</pre>
+      <pre>     world UUID: {{ game.world.uuid }}</pre>
+      <pre>           calendar UUID: {{ game.world.calenda.uuid }}</pre>
+      <pre>     player UUID: {{ game.player.uuid }}</pre>
+    </div>
   <script type='module' src='../script/main.js' charset='utf-8' type='text/javascript'></script>
   </body>
 </html>
