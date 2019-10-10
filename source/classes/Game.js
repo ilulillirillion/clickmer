@@ -12,18 +12,27 @@ const Player = require('../classes/Player.js');
 //export default class Game extends ReactorMixin(Thing) {
 class Game extends Thing {
 
-  constructor() {
+  constructor({ io, uuid = null, name = null } =
+              { io, uuid: null, name: null }) {
 
     //let message_log = new MessageLog();
     //window.message_log = message_log;
 
-    super();
+    super({ uuid, name });
+
+    this.io = io;
 
     //this.message_log = message_log;
 
     this.population = [];
 
     this.world = new World();
+
+    this.players = [];
+    let self = this;
+    setInterval(function() {
+      io.sockets.emit('state', self.players);
+    }, 1000);
 
     
 

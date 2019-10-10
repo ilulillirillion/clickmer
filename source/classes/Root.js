@@ -3,42 +3,28 @@
 
 const Thing = require('../classes/Thing.js');
 const Game = require('../classes/Game.js');
+const logger = require('../classes/Logger.js');
 
 
 class Root extends Thing {
 //class Root {
 
-  constructor() {
-    super();
+  /*
+  constructor({ uuid = null, name = null, app, server, io } =
+              { uuid: null, name: null, app, server, io }) {
+              //{ uuid: null, name: null }) {
+    super({ uuid, name });
+  */
+  constructor({ uuid = null, name = null } =
+              { uuid: null, name: null }) {
+              //{ uuid: null, name: null }) {
+    super({ uuid, name });
 
     /*
-    this.imports = {
-      express: require('express'),
-      http: require('http'),
-      path: require('path'),
-      socketIO: require('socket.io')
-    };
+    this.app = app;
+    this.server = server;
+    this.io = io;
 
-    let self = this;
-    this.app = this.imports.express();
-    this.app.set('port', 5000);
-    this.app.use('/view', this.imports.express.static(__dirname + '/view'));
-    this.app.get('/', function(request, response) {
-      response.sendFile(self.imports.path.join(__dirname, '../../client/view/index.html'));
-    });
-
-    this.server = this.imports.http.Server(this.app);
-    this.server.listen(5000, function() {
-      //console.info('Starting server on port 5000');
-    });
-    */
-
-    const socketIO = require('socket.io');
-    
-
-    //TODO: a lot of this io code could go into the game class.
-    //this.io = this.imports.socketIO(this.server);
-    this.io = socketIO(server);
     this.io.on('connection', function(socket) {});
 
     this.players = {};
@@ -46,6 +32,7 @@ class Root extends Thing {
     this.io.on('connection', function(socket) {
       
       socket.on('new_player', function() {
+        logger.info('new player connected');
         players[socket.id] = {
           x: 300,
           y: 300
@@ -53,12 +40,16 @@ class Root extends Thing {
       });
 
     });
+    */
 
     this.game = new Game();
 
+    logger.info(io);
+
+    this.players = [];
     let self = this;
     setInterval(function() {
-      self.io.sockets.emit('state', self.test_players);
+      io.sockets.emit('state', self.players);
       self.game.tick();
     //}, 1000 / 60);
     }, 1000);
