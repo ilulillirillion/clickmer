@@ -16,7 +16,8 @@ logger.info('Clickmer started');
 var app = express();
 app.set('port', 5000);
 // Serve client files in the client directory
-app.use(express.static(path.join(__dirname, './client/view')));
+//app.use(express.static(path.join(__dirname, './client/view')));
+app.use(express.static(path.join(__dirname, './client/')));
 app.get('/', function(request, response) {
   response.sendFile(path.join(__dirname, 'client/view/index.html'));
   //response.sendFile(path.join(__dirname, 'client/view/main.js'));
@@ -36,3 +37,10 @@ var io = socketIO(server);
 
 const Game = require('./source/classes/Game.js');
 var game = new Game({ io: io });
+
+/*
+setInterval(function() {
+  io.sockets.emit('state', game.players);
+  //self.game.tick();
+}, 1000 / 60);
+*/

@@ -7,9 +7,9 @@ class Player extends Thing {
               { uuid: null, name: 'player' }) {
     super({ uuid, name });
 
-    this.colony_location = 0;
+    //this.colony_location = 0;
 
-    this.colony = new Colony();
+    //this.colony = new Colony();
 
   };
 

@@ -1,3 +1,4 @@
+const logger = require('../misc/winston_logger.js');
 const ProxyMixin = require('../mixins/ProxyMixin.js');
 const uuidv6 = require('../functions/uuidv6.js');
 const dedent = require('../template_tags/dedent.js');
@@ -27,6 +28,8 @@ class Thing extends ProxyMixin(Object) {
 
     this.name = name;     // Name.
     this.ticks_epoch = 0; // Ticks epoch.
+
+    logger.debug(`Constructed <${this.uuid}>.`);
 
   };
 

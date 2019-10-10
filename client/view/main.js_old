@@ -1,0 +1,31 @@
+// vim: set ft=javascript:
+
+
+const PlayerView = require('../classes/PlayerView.js');
+
+
+console.log('test');
+
+//class View {};
+
+//class PlayerView extends View {};
+
+//var player_view = new PlayerView();
+
+let player_view;
+
+var app = angular.module('Clickmer', []);
+app.controller('Controller', function($scope) {
+  $scope.player_view = player_view;
+};
+
+var socket = io();
+player_view = socket.emit('new_player', function(player) {
+  player_view = new PlayerView(player);
+  return player_view;
+});
+  
+
+socket.on('state', function(players) {
+  //player_view.update(players);
+};

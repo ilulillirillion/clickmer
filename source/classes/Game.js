@@ -29,15 +29,24 @@ class Game extends Thing {
 
     this.world = new World();
 
-    this.players = [];
+    this.players = {};
     let self = this;
     setInterval(function() {
       io.sockets.emit('state', self.players);
     }, 1000);
 
     this.io.on('connection', function(socket) {
-      socket.on('new_player', function() {
-        logger.info('new player connected')
+      logger.debug('Got new connection.');
+      socket.on('new_player', function(data, callback) {
+        logger.debug('Got new_player event');
+        let player = new Player({ socket_id: socket.id });
+        self.players[socket.id] = player;
+        callback(player);
+        //callback(player);
+        //callback('success');
+        //socket.emit('player_state', player, function(response) {
+        //  logger.debug(`test response ${response}.`);
+        //});
       });
     });
 
