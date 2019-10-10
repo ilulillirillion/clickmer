@@ -1,3 +1,4 @@
+const logger = require('../misc/winston_logger.js');
 const Thing = require('../classes/Thing.js');
 const MessageLog = require('../classes/MessageLog.js');
 const World = require('../classes/World.js');
@@ -34,7 +35,12 @@ class Game extends Thing {
       io.sockets.emit('state', self.players);
     }, 1000);
 
-    
+    this.io.on('connection', function(socket) {
+      socket.on('new_player', function() {
+        logger.info('new player connected')
+      });
+    });
+
 
   };
 

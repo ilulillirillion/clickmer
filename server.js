@@ -2,7 +2,8 @@
 
 
 //const winston = require('winston');
-const logger = require('./source/classes/Logger.js');
+//const logger = require('./source/classes/Logger.js');
+const logger = require('./source/misc/winston_logger.js');
 const express = require('express');
 const http = require('http');
 const path = require('path');
