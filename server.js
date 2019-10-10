@@ -1,10 +1,15 @@
 // vim: set ft=javascript
 
 
+//const winston = require('winston');
+const logger = require('./source/classes/Logger.js');
 const express = require('express');
 const http = require('http');
 const path = require('path');
 const socketIO = require('socket.io');
+
+//winston.log('info', 'Clickmer started');
+logger.info('Clickmer started');
 
 // Instantiate an app from express and assign a port.
 app = express();

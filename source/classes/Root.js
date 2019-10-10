@@ -29,7 +29,7 @@ class Root extends Thing {
 
     this.server = this.imports.http.Server(this.app);
     this.server.listen(5000, function() {
-      console.info('Starting server on port 5000');
+      //console.info('Starting server on port 5000');
     });
     */
 

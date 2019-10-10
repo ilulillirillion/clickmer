@@ -14,7 +14,7 @@ class Player extends Thing {
   };
 
   tick() {
-    console.info(`Player colony`, this.colony);
+    //console.info(`Player colony`, this.colony);
   };
 
 };

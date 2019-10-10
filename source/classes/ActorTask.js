@@ -37,7 +37,7 @@ class ActorTask extends Thing {
 
   apply_tick_effects( { participant = { uuid: 'dummy' }} = 
                       { participant:  { uuid: 'dummy' }} ) {
-    console.info(`${participant.uuid} is ${this.getSimplePresentName()}`);
+    //console.info(`${participant.uuid} is ${this.getSimplePresentName()}`);
   };
 };
 

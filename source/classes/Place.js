@@ -47,10 +47,10 @@ class Place extends Map {
 
   spawn({ class_name = 'Actor', constructor_parameters = {}} =
         { class_name: 'Actor', constructor_parameters: {}}) {
-    console.warn('Creating class_name with parameters', class_name, constructor_parameters);
+    //console.warn('Creating class_name with parameters', class_name, constructor_parameters);
     let populant = this.createDynamicPopulant(
         { class_name, constructor_parameters });
-    console.warn('Created populant', populant);
+    //console.warn('Created populant', populant);
     this.addContent(populant);
     return populant;
   };

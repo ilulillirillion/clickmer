@@ -11,7 +11,7 @@ class MessageLog extends Thing {
   };
 
   write(message) {
-    console.info(`New Message:`, message);
+    //console.info(`New Message:`, message);
     this.messages.push(message);
   };
 

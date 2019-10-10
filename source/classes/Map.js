@@ -83,7 +83,7 @@ class Map extends Thing {
   randomlyOverwriteTile(tile) {
     let random_coordinates = this.getRandomCoordinates();
     this.tiles[random_coordinates.x][random_coordinates.y] = tile;
-    console.debug(`Overwrote <${this.uuid}> tile at <${random_coordinates.x}>,<${random_coordinates.y}> to <${this.tiles[random_coordinates.x][random_coordinates.y]}>`, this.tiles);
+    //console.debug(`Overwrote <${this.uuid}> tile at <${random_coordinates.x}>,<${random_coordinates.y}> to <${this.tiles[random_coordinates.x][random_coordinates.y]}>`, this.tiles);
   };
     
 

@@ -22,7 +22,7 @@ class Calendar extends Thing {
 
   tick() {
     super.tick();
-    console.info(`<${this.uuid}> time: <${this.time}>.`, this);
+    //console.info(`<${this.uuid}> time: <${this.time}>.`, this);
   };
 
 };

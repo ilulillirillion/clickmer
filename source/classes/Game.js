@@ -44,22 +44,22 @@ class Game extends Thing {
 
     let tick_end_time = Date.now()
     let time_delta = tick_end_time - tick_start_time;
-    console.info(`<${this.uuid}> took <${time_delta}> milliseconds to tick.`);
+    //console.info(`<${this.uuid}> took <${time_delta}> milliseconds to tick.`);
   };
 
   test() {
-    console.info(`<${this.uuid}> is running test.`);
+    //console.info(`<${this.uuid}> is running test.`);
     
 
     let test_world = new World();
-    console.info(`<${this.uuid}> generated a test world:`,  test_world);
+    //console.info(`<${this.uuid}> generated a test world:`,  test_world);
     this.world = test_world;
 
     this.buildPlayer();
 
     
     let test_actor = this.world.spawn({ class_name: 'Actor' });
-    console.info(`<${this.world.uuid}> has spawned a test actor:`, test_actor);
+    //console.info(`<${this.world.uuid}> has spawned a test actor:`, test_actor);
 
 
     test_actor.write('test message');

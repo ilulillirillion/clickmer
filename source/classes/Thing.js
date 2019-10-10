@@ -36,7 +36,7 @@ class Thing extends ProxyMixin(Object) {
    * tick epoch update.
    */
   tick() {
-    console.debug(`Ticking <${this.uuid}>`, this);
+    //console.debug(`Ticking <${this.uuid}>`, this);
     this.ticks_epoch += 1;
   };
 
