@@ -13,6 +13,7 @@
   "author": "Justin Heil",
   "license": "ISC",
   "dependencies": {
+    "angular": "^1.7.8",
     "express": "^4.17.1",
     "socket.io": "^2.3.0"
   }

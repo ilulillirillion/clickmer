@@ -1,8 +1,8 @@
 // vim set ft=javascript
 
 
-//import Thing from '../classes/Thing.js';
 const Thing = require('../classes/Thing.js');
+const Game = require('../classes/Game.js');
 
 
 class Root extends Thing {
@@ -18,11 +18,12 @@ class Root extends Thing {
       socketIO: require('socket.io')
     };
 
+    let self = this;
     this.app = this.imports.express();
     this.app.set('port', 5000);
     this.app.use('/view', this.imports.express.static(__dirname + '/view'));
     this.app.get('/', function(request, response) {
-      response.sendFile(path.join(__dirname, 'view/index.hml'));
+      response.sendFile(self.imports.path.join(__dirname, '../../view/index.html'));
     });
 
     this.server = this.imports.http.Server(this.app);
@@ -46,10 +47,21 @@ class Root extends Thing {
 
     });
 
-    let self = this;
+    this.game = new Game();
+
     setInterval(function() {
       self.io.sockets.emit('state', self.test_players);
+      self.game.tick();
     }, 1000 / 60);
+
+
+    /*
+    this.angular = Angular.module('Clickmer', []);
+    angular.controller('Controller', function($scope) {
+      $scope.game = this.game;
+    });
+    */
+
 
   };
 

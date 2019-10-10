@@ -4,6 +4,15 @@
 const Root = require('./source/classes/Root.js');
 let root = new Root();
 
+//let game = new Game();
+
+/*
+var angular_app = angular.module('Clickmer', []);
+angular_app.controller('Controller', function($scope) {
+  $scope.game = root.game;
+});
+*/
+
 
 /*
 // Dependencies
