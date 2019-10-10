@@ -11,6 +11,7 @@ class Root extends Thing {
   constructor() {
     super();
 
+    /*
     this.imports = {
       express: require('express'),
       http: require('http'),
@@ -23,23 +24,29 @@ class Root extends Thing {
     this.app.set('port', 5000);
     this.app.use('/view', this.imports.express.static(__dirname + '/view'));
     this.app.get('/', function(request, response) {
-      response.sendFile(self.imports.path.join(__dirname, '../../view/index.html'));
+      response.sendFile(self.imports.path.join(__dirname, '../../client/view/index.html'));
     });
 
     this.server = this.imports.http.Server(this.app);
     this.server.listen(5000, function() {
       console.info('Starting server on port 5000');
     });
+    */
 
-    this.io = this.imports.socketIO(this.server);
+    const socketIO = require('socket.io');
+    
+
+    //TODO: a lot of this io code could go into the game class.
+    //this.io = this.imports.socketIO(this.server);
+    this.io = socketIO(server);
     this.io.on('connection', function(socket) {});
 
-    this.test_players = {};
+    this.players = {};
 
     this.io.on('connection', function(socket) {
       
       socket.on('new_player', function() {
-        test_players[socket.id] = {
+        players[socket.id] = {
           x: 300,
           y: 300
         };
@@ -49,10 +56,12 @@ class Root extends Thing {
 
     this.game = new Game();
 
+    let self = this;
     setInterval(function() {
       self.io.sockets.emit('state', self.test_players);
       self.game.tick();
-    }, 1000 / 60);
+    //}, 1000 / 60);
+    }, 1000);
 
 
     /*

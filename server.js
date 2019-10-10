@@ -1,43 +1,26 @@
 // vim: set ft=javascript
 
 
-const Root = require('./source/classes/Root.js');
-let root = new Root();
+const express = require('express');
+const http = require('http');
+const path = require('path');
+const socketIO = require('socket.io');
 
-//let game = new Game();
-
-/*
-var angular_app = angular.module('Clickmer', []);
-angular_app.controller('Controller', function($scope) {
-  $scope.game = root.game;
-});
-*/
-
-
-/*
-// Dependencies
-var express = require('express');
-var http = require('http');
-var path = require('path');
-var socketIO = require('socket.io');
-var app = express();
-  
-var server = http.Server(app);
-var io = socketIO(server);
+// Instantiate an app from express and assign a port.
+app = express();
 app.set('port', 5000);
 
-// Configure routing.
-app.use('/source', express.static(__dirname + '/source'));
+// Serve client files in the client directory
+app.use(express.static(path.join(__dirname, 'client')));
 app.get('/', function(request, response) {
-  response.sendFile(path.join(__dirname, 'source/index.html'));
+  response.sendFile(path.join(__dirname, 'client/view/index.html'));
+  response.sendFile(path.join(__dirname, 'client/view/main.js'));
 });
 
-// Start the server.
+server = http.Server(app);
 server.listen(5000, function() {
   console.info('Starting server on port 5000');
 });
 
-// Define WebSocket handlers.
-io.on('connection', function(socket) {});
-*/
-
+const Root = require('./source/classes/Root.js');
+var root = new Root();
