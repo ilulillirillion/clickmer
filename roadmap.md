@@ -1,3 +1,9 @@
+- grab username at login and use it to load a player.
+
+
+---
+
+
 - Add classgroups, to avoid redundant imports. For example, instead of import ActorStatistic, ActorSkill, and ActorCharacteristics, roll them up somehow into one object because they inter-import each other already.
 
 - Add a decorator to time functions for performance metrics.

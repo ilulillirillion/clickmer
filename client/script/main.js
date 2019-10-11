@@ -37,6 +37,7 @@ app.controller('Controller', function($scope) {
   //let cookie = getCookie('cookie1');
   //console.info('cookie', cookie);
 
+  /*
   let saved_player = getCookie('cookie1');
   let player_view;
   if (saved_player) {
@@ -48,19 +49,20 @@ app.controller('Controller', function($scope) {
       $scope.$apply();
     }); 
   } else {
+  */
 
-    socket.emit('new_player', null, function(response) {
-      console.debug('response', response);
-      player_view = new PlayerView(response);
-      document.cookie = 
-        `cookie1=${player_view.socket_id}; expires=Fri, 19 Jun 2020 20:47:11 UTC; path=/`
-        //`cookie1=test123; expires=Fri, 19 Jun 2020 20:47:11 UTC; path=/`
-      //player_view.update(response);
-      //console.log(player_view);
-      $scope.player_view = player_view;
-      $scope.$apply();
-    });
-  };
+  socket.emit('new_player', null, function(response) {
+    console.debug('response', response);
+    let player_view = new PlayerView(response);
+    //document.cookie = 
+    //  `cookie1=${player_view.socket_id}; expires=Fri, 19 Jun 2020 20:47:11 UTC; path=/`
+      //`cookie1=test123; expires=Fri, 19 Jun 2020 20:47:11 UTC; path=/`
+    //player_view.update(response);
+    //console.log(player_view);
+    $scope.player_view = player_view;
+    $scope.$apply();
+  });
+  //};
   //$scope.player_view = player_view;
   //i$scope.$apply();
 });

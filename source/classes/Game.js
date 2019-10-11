@@ -36,7 +36,8 @@ class Game extends Thing {
     }, 1000);
 
     this.io.on('connection', function(socket) {
-      logger.debug('Got new connection.');
+      logger.info('Got new connection.');
+      //logger.info(`Connection SID: ${sessionID}`);
       socket.on('new_player', function(data, callback) {
         logger.debug('Got new_player event');
         let player = new Player({ socket_id: socket.id });
