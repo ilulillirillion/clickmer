@@ -40,7 +40,9 @@ class Game extends Thing {
       //logger.info(`Connection SID: ${sessionID}`);
       socket.on('new_player', function(data, callback) {
         logger.debug('Got new_player event');
-        let player = new Player({ socket_id: socket.id });
+        let username = socket.handshake.session.username
+        let connection.query('SELECT id FROM accounts WHERE username = ?', [username]
+        let player = new Player({ player_id: socket.socket_id: socket.id });
         self.players[socket.id] = player;
         //logger.warn(player.socket_id);
         callback(player);
@@ -59,6 +61,14 @@ class Game extends Thing {
 
 
   };
+
+  getFromDatabase(query, callback) {
+    connection = mysql.createConnection({
+      host: 'localhost',
+      user: 'root',
+      password: process.env.CLICKMER_MYSQL_PASSWORD,
+      database: 'nodelogin'
+  });
 
   buildPlayer() {
     let player = new Player();
