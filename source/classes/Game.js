@@ -41,12 +41,18 @@ class Game extends Thing {
         logger.debug('Got new_player event');
         let player = new Player({ socket_id: socket.id });
         self.players[socket.id] = player;
+        //logger.warn(player.socket_id);
         callback(player);
         //callback(player);
         //callback('success');
         //socket.emit('player_state', player, function(response) {
         //  logger.debug(`test response ${response}.`);
         //});
+      });
+      socket.on('load_player', function(player_socket_id, callback) {
+        logger.debug('Got load_player event');
+        let player = self.players[player_socket_id];
+        callback(player);
       });
     });
 

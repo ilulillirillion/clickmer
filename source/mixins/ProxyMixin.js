@@ -2,8 +2,8 @@
  * ProxyMixin is used to override get and set.
  */
 const ProxyMixin = Base => class extends Base {
-  constructor() {
-    super();
+  constructor(...args) {
+    super(...args);
     return new Proxy(this, {
     
       /** 

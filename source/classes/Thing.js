@@ -1,5 +1,6 @@
 const logger = require('../misc/winston_logger.js');
 const ProxyMixin = require('../mixins/ProxyMixin.js');
+const SocketMixin = require('../mixins/SocketMixin.js');
 const uuidv6 = require('../functions/uuidv6.js');
 const dedent = require('../template_tags/dedent.js');
 
@@ -8,11 +9,12 @@ const dedent = require('../template_tags/dedent.js');
  * Thing class is used to set UUID, name, and ticks epoch.
  * Also enables convenient logging, and facilitates ProxyMixin wrapper.
  */
-class Thing extends ProxyMixin(Object) {
+class Thing extends ProxyMixin(SocketMixin(Object)) {
+//class Thing extends SocketMixin(ProxyMixin(Object)) {
   constructor(
-      { uuid = null, name = 'thing', message_log = null } = 
-      { uuid:  null, name:  'thing', message_log:  null }) {
-    super();
+      { socket_id = null, uuid = null, name = 'thing', message_log = null } = 
+      { socket_id: null, uuid:  null, name:  'thing', message_log:  null }) {
+    super({ socket_id });
 
 
     this.class_name = this.constructor.name.toLowerCase();

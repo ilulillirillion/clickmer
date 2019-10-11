@@ -11,7 +11,11 @@ export default class View extends SocketMixin(Object) {
     this.uuid = uuid;
   };
 
-  update({ uuid = null } = { uuid: null }) {
+  update({ socket_id = null, uuid = null } = 
+         { socket_id: null, uuid: null }) {
+
+    this.socket_id = socket_id;
+
     console.info(`Updating with uuid <${uuid}>.`, arguments);
     this.uuid = uuid;
     console.info(this.uuid);
