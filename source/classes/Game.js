@@ -51,11 +51,30 @@ class Game extends Thing {
         getFromDatabase(
             'SELECT id FROM accounts WHERE username = ?', [username],
             function(results) {
+          //results = results[0];
+          logger.info('results', results);
+          getFromDatabase(
+              'SELECT * FROM players WHERE id = ?', [results[0].id],
+              function(results) {
+            logger.info('nested results', results);
+            logger.info(`nested results id: ${results[0].id}, uuid: ${results[0].uuid}`);
+            let player = new Player({
+              player_id: results[0].id,
+              socket_id: socket.id,
+              uuid: results[0].uuid
+            });
+            self.players[socket.id] = player;
+            callback(player);
+          });
+        });
+
+        /*
           let player_id = results[0].id;
-          let player = new Player({ player_id: player_id, socket_id: socket.id });
+          //let player = new Player({ player_id: player_id, socket_id: socket.id });
           self.players[socket.id] = player;
           callback(player);
         });
+        */
         
 
         /*
