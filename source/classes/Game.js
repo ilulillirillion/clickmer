@@ -3,6 +3,9 @@ const Thing = require('../classes/Thing.js');
 const MessageLog = require('../classes/MessageLog.js');
 const World = require('../classes/World.js');
 const Player = require('../classes/Player.js');
+const getFromDatabase = require('../functions/getFromDatabase.js');
+
+//const mysql = require('mysql');
 
 /**
  * Game class aims to contain the entire game itself.
@@ -40,9 +43,23 @@ class Game extends Thing {
       //logger.info(`Connection SID: ${sessionID}`);
       socket.on('new_player', function(data, callback) {
         logger.debug('Got new_player event');
+
+
         let username = socket.handshake.session.username
-        let connection.query('SELECT id FROM accounts WHERE username = ?', [username]
-        let player = new Player({ player_id: socket.socket_id: socket.id });
+        //this.getFromDatabase(
+        //self.getFromDatabase(
+        getFromDatabase(
+            'SELECT id FROM accounts WHERE username = ?', [username],
+            function(results) {
+          let player_id = results[0].id;
+          let player = new Player({ player_id: player_id, socket_id: socket.id });
+          self.players[socket.id] = player;
+          callback(player);
+        });
+        
+
+        /*
+        let player = new Player({ socket_id: socket.id });
         self.players[socket.id] = player;
         //logger.warn(player.socket_id);
         callback(player);
@@ -51,6 +68,8 @@ class Game extends Thing {
         //socket.emit('player_state', player, function(response) {
         //  logger.debug(`test response ${response}.`);
         //});
+        */
+
       });
       socket.on('load_player', function(player_socket_id, callback) {
         logger.debug('Got load_player event');
@@ -62,13 +81,21 @@ class Game extends Thing {
 
   };
 
-  getFromDatabase(query, callback) {
-    connection = mysql.createConnection({
+  /*
+  getFromDatabase(query, query_args, callback) {
+    logger.info(`Getting from database with query: <${query}>.`);
+    let connection = mysql.createConnection({
       host: 'localhost',
       user: 'root',
       password: process.env.CLICKMER_MYSQL_PASSWORD,
       database: 'nodelogin'
-  });
+    });
+    connection.query(query, query_args, function(error, results, fields) {
+      logger.info(`Error: <${error}>, results: <${results}>, <${fields}>.`);
+      return callback(results);
+    });
+  };
+  */
 
   buildPlayer() {
     let player = new Player();

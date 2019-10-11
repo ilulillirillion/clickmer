@@ -8,22 +8,24 @@ var express = require('express');
 var http = require('http');
 var path = require('path');
 var socketIO = require('socket.io');
-var mysql = require('mysql');
+//var mysql = require('mysql');
 var bodyParser = require('body-parser');
 var session = require('express-session')({
   secret: process.env.CLICKMER_SESSION_SECRET,
   resave: true,
-  saveUnintialized: true
+  saveUninitialized: true
 });
 var shared_session = require('express-socket.io-session');
+var getFromDatabase = require('./source/functions/getFromDatabase.js');
 
-
+/*
 var connection = mysql.createConnection({
 	host     : 'localhost',
 	user     : 'root',
 	password : process.env.CLICKMER_MYSQL_PASSWORD,
 	database : 'nodelogin'
 });
+*/
 
 //winston.log('info', 'Clickmer started');
 logger.info('Clickmer started');
@@ -65,6 +67,23 @@ app.post('/auth', function(request, response) {
 	var username = request.body.username;
 	var password = request.body.password;
 	if (username && password) {
+    getFromDatabase(
+        'SELECT * FROM accounts WHERE username = ? AND password = ?',
+        [ username, password ],
+        function(results) {
+      if (results.length > 0) {
+        request.session.loggedin = true;
+        request.session.username = username;
+        return response.redirect('/game');
+      } else {
+        response.send('Incorrect username and/or password!');
+      };
+      response.end();
+    });
+  };
+});
+
+    /*
 		connection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
       logger.info(arguments);
       logger.info(`${error}, ${results}, ${fields}`);
@@ -82,6 +101,7 @@ app.post('/auth', function(request, response) {
 		response.end();
 	}
 });
+    */
 
 
 app.get('/game', function(request, response) {
