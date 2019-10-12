@@ -5,7 +5,8 @@ const logger = require('../misc/winston_logger.js');
 const mysql = require('mysql');
 
 
-function getFromDatabase(query, query_args, callback) {
+//function getFromDatabase(query, query_args, callback) {
+function getFromDatabase(query, callback) {
   logger.debug(`Getting from database with query: <${query}>.`);
   let connection = mysql.createConnection({
     host: 'localhost',
@@ -14,7 +15,8 @@ function getFromDatabase(query, query_args, callback) {
     //database: 'nodelogin'
     database: 'clickmer'
   });
-  connection.query(query, query_args, function(error, results, fields) {
+  //connection.query(query, query_args, function(error, results, fields) {
+  connection.query(query, function(error, results, fields) {
     logger.info(`error: <${error}>, results: <${results}>, fields: <${fields}>.`);
     return callback(results);
   });

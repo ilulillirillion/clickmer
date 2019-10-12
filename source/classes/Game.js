@@ -48,21 +48,40 @@ class Game extends Thing {
         let username = socket.handshake.session.username
         //this.getFromDatabase(
         //self.getFromDatabase(
+        let player;
         getFromDatabase(
-            'SELECT id FROM accounts WHERE username = ?', [username],
+            //'SELECT id FROM accounts WHERE username = ?', [username],
+            `SELECT id FROM accounts WHERE username = '${username}'`,
             function(results) {
           //results = results[0];
           logger.info('results', results);
+          let player_id = results[0].id;
+          logger.info(`Got player_id <${player_id}>.`);
           getFromDatabase(
-              'SELECT * FROM players WHERE id = ?', [results[0].id],
+              //'SELECT * FROM players WHERE id = ?', [results[0].id],
+              `SELECT * FROM players WHERE id = '${results[0].id}'`,
               function(results) {
+            logger.info(`TEST <${player_id}>`);
             logger.info('nested results', results);
-            logger.info(`nested results id: ${results[0].id}, uuid: ${results[0].uuid}`);
-            let player = new Player({
-              player_id: results[0].id,
-              socket_id: socket.id,
-              uuid: results[0].uuid
-            });
+            //logger.info(`nested results id: ${results[0].id}, uuid: ${results[0].uuid}`);
+            if (results.length <= 0) {
+              logger.info(`TEST2 <${player_id}>`);
+              player = new Player({ player_id: player_id });
+              logger.info(`player id: <${player.player_id}>, uuid: <${player.uuid}>.`);
+              getFromDatabase(
+                  `INSERT INTO players (id, uuid) VALUES ('${player.player_id}', '${player.uuid}')`,
+                  function(results) {
+                    logger.info(results);
+              });
+
+            } else {
+
+              player = new Player({
+                player_id: results[0].id,
+                socket_id: socket.id,
+                uuid: results[0].uuid
+              });
+            };
             self.players[socket.id] = player;
             callback(player);
           });

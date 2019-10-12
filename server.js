@@ -62,14 +62,18 @@ app.get('/login', function(request, response) {
 });
 logger.info('App created.');
 
+app.get('/registration', function(request, response) {
+  return response.sendFile(path.join(__dirname, 'client/view/registration.html'));
+});
 
 app.post('/auth', function(request, response) {
 	var username = request.body.username;
 	var password = request.body.password;
 	if (username && password) {
     getFromDatabase(
-        'SELECT * FROM accounts WHERE username = ? AND password = ?',
-        [ username, password ],
+        //'SELECT * FROM accounts WHERE username = ? AND password = ?',
+        //[ username, password ],
+        `SELECT * FROM accounts WHERE username = '${username}' AND password = '${password}'`,
         function(results) {
       if (results.length > 0) {
         request.session.loggedin = true;
@@ -83,6 +87,26 @@ app.post('/auth', function(request, response) {
   };
 });
 
+app.post('/register', function(request, response) {
+  let username = request.body.username;
+  let password = request.body.password;
+  if (username && password) {
+    getFromDatabase(
+        `INSERT INTO accounts (username, password, email) VALUES ('${username}', '${password}', 'test@test.com')`, 
+        function(results) {
+      logger.info(results)
+    });
+    /*
+    getFromDatabase(
+        `SELECT id FROM accounts WHERE username = '${username}'`,
+        function(results) {
+      getFromDatabase(
+          `INSERT INTO players (id`
+    */
+    return response.redirect('/game');
+  };
+  response.end();
+});
     /*
 		connection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
       logger.info(arguments);
