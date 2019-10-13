@@ -38,3 +38,6 @@ const runSql = async (query) => {
   return sql_results;
 
 };
+
+
+module.exports = runSql;

@@ -1,0 +1,4 @@
+Version 0.0.1-2
+Fix runSql not exporting breaking authentication
+
+Fixes runSql not exporting anything causing authentication to fail.
