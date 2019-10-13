@@ -1,5 +1,4 @@
-Currently undergoing yet another rewrite. This time the goal is to move away from OOP imperative style and towards functional declarative style.
-
+0v0.0.0.0 - Reverting push towards functional programming because of performance concerns. The effort was not wasted as I learned a lot and even improved my asynchronous JS understanding.
 
 =====
 

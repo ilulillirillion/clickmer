@@ -1,0 +1,1 @@
+- Swap try/catch statements for a true either monad (https://blog.logrocket.com/elegant-error-handling-with-the-javascript-either-monad-76c7ae4924a1/)

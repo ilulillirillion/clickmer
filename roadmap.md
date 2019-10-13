@@ -1,4 +1,5 @@
 - grab username at login and use it to load a player.
+- io.on('connection) should be handled outside of the game object.
 
 
 ---
