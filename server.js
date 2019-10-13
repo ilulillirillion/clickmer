@@ -18,32 +18,13 @@ var session = require('express-session')({
 var shared_session = require('express-socket.io-session');
 var getFromDatabase = require('./source/functions/getFromDatabase.js');
 
-/*
-var connection = mysql.createConnection({
-	host     : 'localhost',
-	user     : 'root',
-	password : process.env.CLICKMER_MYSQL_PASSWORD,
-	database : 'nodelogin'
-});
-*/
-
 //winston.log('info', 'Clickmer started');
 logger.info('Clickmer started');
 
 // Instantiate an app from express and assign a port.
 var app = express();
 app.set('port', 5000);
-// Serve client files in the client directory
-//app.use(express.static(path.join(__dirname, './client/view')));
 
-/*
-app.use(session({
-  secret: process.env.CLICKER_SESSION_SECRET,
-  //secret: 'test',
-  resave: true,
-  save_uninitialized: true
-}));
-*/
 app.use(session);
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -54,9 +35,6 @@ app.use(express.static(path.join(__dirname, './client/')));
 app.get('/', function(request, response) {
   response.redirect('/login');
 });
-//  response.sendFile(path.join(__dirname, 'client/view/index.html'));
-  //response.sendFile(path.join(__dirname, 'client/view/main.js'));
-//});
 app.get('/login', function(request, response) {
   return response.sendFile(path.join(__dirname, 'client/view/login.html'));
 });
@@ -96,42 +74,14 @@ app.post('/register', function(request, response) {
         function(results) {
       logger.info(results)
     });
-    /*
-    getFromDatabase(
-        `SELECT id FROM accounts WHERE username = '${username}'`,
-        function(results) {
-      getFromDatabase(
-          `INSERT INTO players (id`
-    */
     return response.redirect('/game');
   };
   response.end();
 });
-    /*
-		connection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
-      logger.info(arguments);
-      logger.info(`${error}, ${results}, ${fields}`);
-			if (results.length > 0) {
-				request.session.loggedin = true;
-				request.session.username = username;
-				return response.redirect('/game');
-			} else {
-				response.send('Incorrect Username and/or Password!');
-			}			
-			response.end();
-		});
-	} else {
-		response.send('Please enter Username and Password!');
-		response.end();
-	}
-});
-    */
 
 
 app.get('/game', function(request, response) {
 	if (request.session.loggedin) {
-		//response.send('Welcome back, ' + request.session.username + '!');
-		//response.send('Welcome back, ' + request.session.username + '!');
     response.sendFile(path.join(__dirname, 'client/view/game.html'));
 	} else {
 		response.send('Please login to view this page!');
@@ -144,7 +94,6 @@ app.get('/game', function(request, response) {
 
 var server = http.Server(app);
 server.listen(5000, function() {
-  //console.info('Starting server on port 5000');
   logger.info('Server started on port 5000');
 });
 
@@ -155,30 +104,8 @@ io.use(shared_session(session, {
   autoSave: true
 }));
 
-/*
-//var parseCookie = require('connect').utils.parseCookie;
-var parseCookie = require('cookie-parser');
-io.set('authorization', function (data, accept) {
-  if (data.headers.cookie) {
-    data.cookie = parseCookie(data.headers.cookie);
-    data.sessionID = data.cookie['express.sid'];
-  } else {
-    return accept('No cookie transmitted.', false);
-  }
-  accept(null, true);
-});
-*/
 
-
-//const Root = require('./source/classes/Root.js');
-//var root = new Root();
 
 const Game = require('./source/classes/Game.js');
 var game = new Game({ io: io });
 
-/*
-setInterval(function() {
-  io.sockets.emit('state', game.players);
-  //self.game.tick();
-}, 1000 / 60);
-*/
