@@ -1,3 +1,9 @@
+Currently undergoing yet another rewrite. This time the goal is to move away from OOP imperative style and towards functional declarative style.
+
+
+=====
+
+
 Great things I've learned from:
   - https://codeshack.io/basic-login-system-nodejs-express-mysql/
     Currently using this to figure out a basic authentication system.

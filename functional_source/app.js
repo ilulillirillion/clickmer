@@ -44,10 +44,11 @@ app.post('/authenticate', async function(request, response) {
       request.session.username = username;
       return response.redirect('/');
     } else {
-      response.send('Incorrect username and/or password!');
+      return response.send('Incorrect username and/or password!');
     };
-    response.end();
+    //response.end();
   };
+  return response.end();
 });
 
 module.exports = app;
