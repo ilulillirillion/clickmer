@@ -46,5 +46,3 @@ getPlayerDataFromAccountId: A constant unary function that takes an account id a
 connectPlayer: An incomplete asynchronous constant unary function that takes a socket and checks for a matching player based on the socket's session's username. If the player exists, it should load the player, otherwise it should create a new player and add it to the database.
 
 Game: A game class that extends things and takes an IO object on instantiation and is constructed with an io, population, and players properties. Emits state across socket to all players every second. On receiving an IO connection, logs the connection and calls it's connectPlayer method, which is adopted from the connectPlayer function.
-
-This build was committed twice in order to get working git build tracking synced.
