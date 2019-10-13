@@ -4,6 +4,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const runSql = require('./runSql.js');
 
 
 var app = express();
@@ -21,5 +22,32 @@ app.get('/', function(request, response) {
   return response.sendFile(path.join(__dirname, '../functional_client/test.html'));
 });
 
+app.get('/login', function(request, response) {
+  return response.sendFile(path.join(__dirname, '../functional_client/login.html'));
+});
+
+app.post('/authenticate', async function(request, response) {
+  let username = request.body.username;
+  let password = request.body.password;
+  if (username && password) {
+    let matched_accounts =  await new Promise((resolve, reject) => {
+      try {
+        let results = runSql(
+            `SELECT * FROM accounts WHERE username = '${username}' AND password = '${password}'`);
+        resolve(results);
+      } catch(error) {
+        logger.warn(error);
+      };
+    });
+    if (matched_accounts.length > 0) {
+      request.session.loggedin = true;
+      request.session.username = username;
+      return response.redirect('/');
+    } else {
+      response.send('Incorrect username and/or password!');
+    };
+    response.end();
+  };
+});
 
 module.exports = app;
