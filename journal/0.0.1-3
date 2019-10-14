@@ -1,0 +1,4 @@
+Version 0.0.1-3
+Implement and use an either monad error handler
+
+Introduces my first monad, in this case a result or either monad. I am using the Bad and Good class for the error/non-error abstraction. As part of this, introduced a good class (right), bad class (left), an either function, an ap function, a lift function, and other standard functions like map, join, and chain. I also added an "unwrap" function which will unrwap goods and bads (logging an error for the bads).

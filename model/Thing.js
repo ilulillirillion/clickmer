@@ -1,5 +1,6 @@
 const SocketMixin = require('./SocketMixin.js');
 const ProxyMixin = require('./ProxyMixin.js');
+const { either } = require('./eitherMonad.js');
 //const { createUuid: _createUuid } = require('./createUuid.js');
 //const createUuid = require('./createUuid.js');
 
@@ -13,7 +14,8 @@ class Thing extends ProxyMixin(SocketMixin(Object)) {
 
     this.class_name = this.constructor.name.toLowerCase();
     
-    this.uuid = uuid ? uuid : this.createUuid();
+    //this.uuid = (uuid) ? uuid : this.createUuid();
+    this.uuid = this.createUuid();
 
     this.name = name;
 
@@ -33,10 +35,31 @@ class Thing extends ProxyMixin(SocketMixin(Object)) {
   };
   */
 
+  /*
+  setUuid(uuid) {
+    this.uuid = uuid;
+  };
+  */
+
+  /*
   createUuid() {
-    require('./createUuid.js')(this.class_name);
+    const uuid = require('./createUuid.js')(this.class_name);
+    //either(logger.error(uuid), this.setUuid(uuid), uuid);
+    let self = this;
+    either(uuid,
+        function() { logger.error(uuid) },
+        function() { self.uuid = uuid }
+    );
+    //either(logger.error(uuid), , uuid);
     //_createUuid(this.class_name);
   };
+  */
+
+  createUuid() {
+    const uuid = require('./createUuid.js')(this.class_name);
+    return uuid;
+  };
+    
 
   /*
   createUuid(

@@ -1,3 +1,10 @@
+Version 0.0.1-3
+Implement and use an either monad error handler
+
+Introduces my first monad, in this case a result or either monad. I am using the Bad and Good class for the error/non-error abstraction. As part of this, introduced a good class (right), bad class (left), an either function, an ap function, a lift function, and other standard functions like map, join, and chain. I also added an "unwrap" function which will unrwap goods and bads (logging an error for the bads).
+
+===
+
 Version 0.0.1-2
 
 Fix runSql not exporting anything causing authentication to fail.
@@ -65,6 +72,7 @@ Game: A game class that extends things and takes an IO object on instantiation a
 
 
 Great things I've learned from:
+  - https://blog.logrocket.com/elegant-error-handling-with-the-javascript-either-monad-76c7ae4924a1/
   - https://codeshack.io/basic-login-system-nodejs-express-mysql/
     Currently using this to figure out a basic authentication system.
   - https://hackernoon.com/how-to-build-a-multiplayer-browser-game-4a793818c29b
