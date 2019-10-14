@@ -1,6 +1,7 @@
 // vim: set ft=javascript:
 
 
+const logger = require('./logger.js');
 const Thing = require('./Thing.js');
 
 
@@ -27,13 +28,21 @@ class Game extends Thing {
     this.io.on('connection', function(socket) {
       logger.info(`Got a new connection on socket <${socket}>.`);
       socket.on('connect_player', function() {
-        return this.connectPlayer(socket);
+        //logger.info('test');
+        self.connectPlayer(socket);
       });
     });
 
   };
 
+  //connectPlayer() { logger.warn('test') };
+
   connectPlayer = require('./connectPlayer.js');
+  /*
+  connectPlayer() {
+    require('./connectPlayer.js')();
+  };
+  */
   
 };
 

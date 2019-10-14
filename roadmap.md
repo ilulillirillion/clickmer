@@ -2,6 +2,8 @@ for v 0.01: Want working player registration and loading
 
 - grab username at login and use it to load a player.
 - io.on('connection) should be handled outside of the game object.
+- mysql curry functions have try catch pattern, use monad
+- log filename and line number in winston
 
 
 ---

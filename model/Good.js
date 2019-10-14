@@ -7,6 +7,10 @@ class Good {
     this._value = value;
   };
 
+  bind(transform) {
+    return transform(this._value);
+  };
+
   //map() { return this };
   //map() { return this._value };
   map(fn) {

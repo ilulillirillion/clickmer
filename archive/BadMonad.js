@@ -7,8 +7,6 @@ class Bad {
     this._value = value;
   };
 
-  bind() { return this };
-
   map() { return this };
 
   join() { return this };
