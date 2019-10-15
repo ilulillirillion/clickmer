@@ -22,7 +22,7 @@ const runSql = async (query) => {
       });
 
       connection.query(query, function(error, results, fields) {
-        logger.debug(`error: <${error}>, results: <${results}>, fields: <${fields}>.`);
+        logger.debug(`error: <${error}>, results: <${JSON.stringify(results)}>, fields: <${JSON.stringify(fields)}>.`);
         resolve(results);
       });
 

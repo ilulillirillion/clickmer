@@ -19,9 +19,38 @@ app.use(bodyParser.json());
 //app.use(express.static(path.join(__dirname, '../functional_client/')));
 app.use(express.static(path.join(__dirname, '../client/')));
 
-app.get('/', function(request, response) {
+app.get('/test', function(request, response) {
   //return response.sendFile(path.join(__dirname, '../functional_client/test.html'));
   return response.sendFile(path.join(__dirname, '../client/test.html'));
+});
+
+
+app.get('/register', function(request, response) {
+  return response.sendFile(path.join(__dirname, '../client/registration.html'));
+});
+
+app.post('/register', async function(request, response) {
+  logger.info('Registering new player.');
+  const username = request.body.username;
+  const password = request.body.password;
+  if (username && password) {
+    let add_account_results = await new Promise((resolve, reject) => {
+
+      try {
+        resolve(runSql(
+            `INSERT INTO accounts (username, password, email) VALUE ('${username}', '${password}', 'test@test.com')`));
+      } catch {
+        logger.error(error);
+        reject(null);
+      };
+
+    });
+    logger.debug(`Added new account to database: <${add_account_results}>.`);
+    request.session.loggedin = true;
+    request.session.username = username;
+    return response.redirect('/test');
+  };
+  response.end();
 });
 
 app.get('/login', function(request, response) {
@@ -45,7 +74,7 @@ app.post('/authenticate', async function(request, response) {
     if (matched_accounts.length > 0) {
       request.session.loggedin = true;
       request.session.username = username;
-      return response.redirect('/');
+      return response.redirect('/test.html');
     } else {
       return response.send('Incorrect username and/or password!');
     };

@@ -1,0 +1,4 @@
+Version 0.0.1-5
+Re-implement account/player creation/registration
+
+Re-implement registering new accounts. Creates a new player on account creation and saves it for future logins.

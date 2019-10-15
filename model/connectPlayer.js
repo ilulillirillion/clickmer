@@ -4,6 +4,7 @@
 const logger = require('./logger.js');
 const getAccountIdFromUsername = require('./getAccountIdFromUsername');
 const getPlayerDataFromAccountId = require('./getPlayerDataFromAccountId');
+const setAccountPlayerData = require('./setAccountPlayerData');
 const Player = require('./Player.js');
 
 
@@ -32,7 +33,7 @@ const connectPlayer = async (socket) => {
 
     if (player_data) {
       logger.info(`Loading saved player from data: <${JSON.stringify(player_data)}>.`);
-      let player = new Player(
+      var player = new Player(
           { 
             account_id: player_data.id, 
             socket_id: socket.id,
@@ -42,8 +43,17 @@ const connectPlayer = async (socket) => {
       logger.debug(`Loaded player with account_id: <${player.account_id}>, socket_id: <${player.socket_id}>, uuid: <${player.uuid}>.`); 
     } else {
       logger.info('(Simulated action) Creating new player.');
-      return null;
+      var player = new Player(
+          {
+            account_id: account_id,
+            socket_id: socket.id
+          }
+      );
+      setAccountPlayerData(account_id, player);
+
+      //return null;
     };
+    return player;
 
     //return 'dummy_player';
 

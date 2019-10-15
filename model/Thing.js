@@ -14,8 +14,8 @@ class Thing extends ProxyMixin(SocketMixin(Object)) {
 
     this.class_name = this.constructor.name.toLowerCase();
     
-    this.uuid = uuid;
-    //this.uuid = (uuid) ? uuid : this.createUuid();
+    //this.uuid = uuid;
+    this.uuid = (uuid) ? uuid : this.createUuid();
     //this.uuid = this.createUuid();
 
     this.name = name;

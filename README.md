@@ -1,3 +1,11 @@
+Version 0.0.1-5
+Re-implement account/player creation/registration
+
+===
+
+Version 0.0.1-4
+Re-implement loading player by account id
+
 Version 0.0.1-3
 Implement and use an either monad error handler
 
