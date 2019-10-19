@@ -27,9 +27,19 @@ class Game extends Thing {
 
     this.io.on('connection', function(socket) {
       logger.info(`Got a new connection on socket <${socket}>.`);
-      socket.on('connect_player', function() {
+      socket.on('connect_player', async function(data, callback) {
         //logger.info('test');
-        self.connectPlayer(socket);
+        let player = await new Promise((resolve, reject) => {
+          try {
+            resolve(self.connectPlayer(socket));
+          } catch(error) {
+            logger.error(error);
+            reject(null);
+          };
+        });
+        logger.warn(`testplayer ${player}`, player);
+        //self.players.push(player);
+        callback(player);
       });
     });
 

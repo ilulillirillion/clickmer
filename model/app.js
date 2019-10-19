@@ -21,7 +21,11 @@ app.use(express.static(path.join(__dirname, '../client/')));
 
 app.get('/test', function(request, response) {
   //return response.sendFile(path.join(__dirname, '../functional_client/test.html'));
-  return response.sendFile(path.join(__dirname, '../client/test.html'));
+  if (request.session.loggedin) {
+    return response.sendFile(path.join(__dirname, '../client/test.html'));
+  } else {
+    response.send('Please login to view this page!');
+  };
 });
 
 
@@ -74,7 +78,7 @@ app.post('/authenticate', async function(request, response) {
     if (matched_accounts.length > 0) {
       request.session.loggedin = true;
       request.session.username = username;
-      return response.redirect('/test.html');
+      return response.redirect('/test');
     } else {
       return response.send('Incorrect username and/or password!');
     };
