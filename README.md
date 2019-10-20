@@ -7,6 +7,12 @@ A simple Javascript game with Node and Angular.
 ## Commit journal
 ---
 
+### Commit 280
+#### Test duplicating react renders
+
+A test showing how to duplicate renders on React components (seems very simple).
+Also cleaned up some old test logs and updated roadmap.
+
 ### Commit 279
 #### Update player view on server game tick
 

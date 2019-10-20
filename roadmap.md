@@ -1,3 +1,20 @@
+- Follow functional paradigm where possible within the OOP structure
+  https://medium.com/front-end-weekly/8-steps-to-turn-imperative-javascript-class-to-a-functional-declarative-code-862964faf46c
+
+---
+
+- debug view  []
+
+- component mirroring (render elements twice) [X]
+
+- c++ module support  []
+  https://medium.com/@atulanand94/beginners-guide-to-writing-nodejs-addons-using-c-and-n-api-node-addon-api-9b3b718a9a7f
+
+- python module support []
+  https://stackoverflow.com/questions/15055630/using-python-modules-in-node-js
+
+---
+
 for v 0.01: Want working player registration and loading
 
 - grab username at login and use it to load a player.

@@ -17,7 +17,6 @@ class PlayerInfo extends React.Component {
   }
     
   render() {
-    console.error('I HAVE NO FUCKING IDEA', this);
     return (
       React.createElement('div', {},
         React.createElement('p', {}, `player: ${this.player}`),
@@ -92,10 +91,15 @@ async function buildPlayerInfo() {
     player = players[socket.id];
     console.debug('Got player', player);
     player_info.player = player;
+
     console.debug('Updating DOM with React.', player_info);
     ReactDOM.render(
       player_info.render(),
       document.getElementById('react_test')
+    );
+    ReactDOM.render(
+      player_info.render(),
+      document.getElementById('react_test_mirror')
     );
   });
 
