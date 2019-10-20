@@ -7,6 +7,12 @@ A simple Javascript game with Node and Angular.
 ## Commit journal
 ---
 
+### Commit 282
+#### Rough map demo
+
+Construct an array of tiles on the server and send them to the client.
+The client renders the tile data into a viewable map.
+
 ### Commit 281
 #### Send new players with state, improve client react
 

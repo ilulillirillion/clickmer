@@ -109,6 +109,88 @@ class PlayerInfo extends React.Component {
 }
 
 
+class Tile {
+  constructor({ walkable = true } = 
+              { walkable: true }) {
+    this.walkable = walkable;
+  }
+
+  draw() {};
+
+}
+
+class WorldMap extends React.Component {
+  constructor() {
+    super();
+    this.state = { tiles: [] };
+    this.tile_size = 256;
+    //this.canvas = document.createElement('canvas');
+
+  }
+
+  componentDidMount() {
+    console.debug('WorldMap mounted.');
+    this.canvas = this.refs.canvas;
+    //this.canvas = "canvas";
+    this.ctx = this.canvas.getContext("2d");
+
+    fetchTiles(tiles => {
+      console.debug('Setting tiles', tiles);
+      this.setState({ tiles: tiles });
+    });
+    let self = this;
+    setInterval(function() {
+      self.tick();
+    }, 1000);
+  }
+
+  tick() {
+    console.debug('Ticking WorldMap');
+    let tiles = fetchTiles();
+    this.setState({ tiles: tiles });
+    //this.draw();
+  }
+
+  componentDidUpdate() {
+    console.debug('Updating world map', this);
+    //let tiles = fetchTiles();
+    //this.setState({ tiles: tiles });
+    this.draw();
+  }
+
+  draw() {
+    console.debug('Drawing map', this);
+    this.ctx.rect(0, 0, this.width, this.height);
+    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.ctx.fillStyle = 'rgba(255, 0, 0, 0.6)';
+    //for (let width=0; width < this.map.width; width++) {
+    //  for (let height=0; height < this.map.height; height++) {
+    for (let tile of this.state.tiles) {
+      //let tile = this.tiles[width][height];
+      //tile.draw();
+      if (!tile.walkable) {
+        this.drawTile(tile)
+      }
+    }
+  }
+
+  drawTile(tile) {
+    this.ctx.fillRect(
+      tile.x * this.tile_size, tile.y * this.tile_size,
+      this.tile_size, this.tile_size);
+  }
+
+  render() {
+    return (
+      React.createElement('canvas',
+          { ref: "canvas", width: this.width, height: this.height }));
+  }
+
+}
+    
+      
+
+
 
 /*
 ReactDOM.render(
@@ -173,8 +255,14 @@ function fetchPlayer() {
   console.debug('Fetch player called.');
   return player;
 }
-socket.on('state', function(players) {
-  console.debug('Got state from server.', players);
+let tiles = null;
+function fetchTiles() {
+  console.debug('Fetch tiles called.');
+  return tiles;
+}
+socket.on('state', function(state) {
+  console.debug('Got state from server.', state);
+  tiles = state.tiles
   /*
   for (let player of players) {
     if (player.socket_id = socket.id) {
@@ -182,8 +270,8 @@ socket.on('state', function(players) {
     };
   };
   */
-  console.debug(`Getting player with socket id <${socket.id}>.`, players);
-  player = players[socket.id];
+  console.debug(`Getting player with socket id <${socket.id}>.`, state);
+  player = state.players[socket.id];
   console.debug('Got player', player);
 
   //player_info.player = player;
@@ -205,6 +293,10 @@ socket.on('state', function(players) {
   ReactDOM.render(
     React.createElement(PlayerInfo, null),
     document.getElementById('react_test'));
+
+  ReactDOM.render(
+    React.createElement(WorldMap, null),
+    document.getElementById('react_map'));
 
 });
 

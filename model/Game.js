@@ -3,6 +3,7 @@
 
 const logger = require('./logger.js');
 const Thing = require('./Thing.js');
+const Map = require('./Map.js');
 
 
 class Game extends Thing {
@@ -14,6 +15,8 @@ class Game extends Thing {
     this.io = io;
 
     this.population = [];
+
+    this.map = new Map();
 
     // TODO: re-implement this
     //this.world = new World();
@@ -54,6 +57,14 @@ class Game extends Thing {
 
   //connectPlayer() { logger.warn('test') };
 
+  get state() {
+    let state = {
+      players: this.players,
+      tiles: this.map.tiles
+    }
+    return state;
+  }
+
   tick() {
 
     logger.debug('Ticking game.');
@@ -81,10 +92,12 @@ class Game extends Thing {
     // Tick all of the players.
     for (let player of Object.values(this.players)) {
       player.tick();
+    }
 
     // Send state to all players.
-    this.io.sockets.emit('state', this.players);
-    }
+    //this.io.sockets.emit('state', this.players);
+    logger.debug('Sending state to players', this.state);
+    this.io.sockets.emit('state', this.state);
 
   }
 
