@@ -7,6 +7,13 @@ A simple Javascript game with Node and Angular.
 ## Commit journal
 ---
 
+### Commit 281
+#### Send new players with state, improve client react
+
+
+Client-side react model is now closer to standard and flows much more smoothly.
+Login process has been updated, client no longer requests a player, simply notifies server of it's successful connection. The server will then send state as usual and client will see it's player data in the state itself without having to explicitly request it.
+
 ### Commit 280
 #### Test duplicating react renders
 

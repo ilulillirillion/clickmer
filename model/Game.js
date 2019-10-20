@@ -20,16 +20,51 @@ class Game extends Thing {
 
     this.players = {};
 
-    let self = this;
+    //let self = this;
+    /*
     setInterval(function() {
       io.sockets.emit('state', self.players);
     }, 1000);
+    */
 
-    this.io.on('connection', function(socket) {
+    let self = this;
+    this.io.on('connection', async function(socket) {
       logger.info(`Got a new connection on socket <${socket}>.`);
-      socket.on('connect_player', async function(data, callback) {
-        logger.info(`Handling a connect_player event on socket <${socket}>.`);
-        //logger.info('test');
+      if (!socket.handshake.session.username) {
+        logger.warn('Ignoring strange connection.');
+        return;
+      };
+      //socket.on('connect_player', async function(data, callback) {
+      logger.info(`Handling a connect_player event on socket <${socket}>.`);
+      //logger.info('test');
+      let player = await new Promise((resolve, reject) => {
+        try {
+          resolve(self.connectPlayer(socket));
+        } catch(error) {
+          logger.error(error);
+          reject(null);
+        };
+      });
+      //self.players.push(player);
+      self.players[socket.id] = player;
+      //callback(player);
+    });
+
+  };
+
+  //connectPlayer() { logger.warn('test') };
+
+  tick() {
+
+    logger.debug('Ticking game.');
+
+    // Check all sockets for any new players
+    /*
+    let self = this;
+    for (let socket of Object.values(this.io.sockets)) {
+      //if (socket.connected && (!socket.id in this.players)) {
+      if (socket.connected) {
+        logger.debug('Handling a new player connection.');
         let player = await new Promise((resolve, reject) => {
           try {
             resolve(self.connectPlayer(socket));
@@ -38,22 +73,20 @@ class Game extends Thing {
             reject(null);
           };
         });
-        //self.players.push(player);
         self.players[socket.id] = player;
-        callback(player);
-      });
-    });
+      }
+    }
+    */
 
-  };
-
-  //connectPlayer() { logger.warn('test') };
-
-  tick() {
-    //logger.debug('test6');
+    // Tick all of the players.
     for (let player of Object.values(this.players)) {
       player.tick();
-    };
-  };
+
+    // Send state to all players.
+    this.io.sockets.emit('state', this.players);
+    }
+
+  }
 
   connectPlayer = require('./connectPlayer.js');
   /*
