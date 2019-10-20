@@ -3,7 +3,7 @@
 
 const tickThing = mutable => {
 
-  require('incrementTickEpoch.js')(mutable);
+  require('./incrementTickEpoch.js')(mutable);
   
 };
 

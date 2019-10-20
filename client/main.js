@@ -17,10 +17,12 @@ class PlayerInfo extends React.Component {
   }
     
   render() {
+    console.error('I HAVE NO FUCKING IDEA', this);
     return (
       React.createElement('div', {},
         React.createElement('p', {}, `player: ${this.player}`),
-        React.createElement('p', {}, `player name: ${this.player.name}`)
+        React.createElement('p', {}, `player name: ${this.player.name}`),
+        React.createElement('p', {}, `player ticks: ${this.player.ticks_epoch}`)
       )
     );
   };
@@ -62,10 +64,40 @@ async function buildPlayerInfo() {
   //let test = new Test();
   let player_info = new PlayerInfo({ player: player });
   console.debug('player info', player_info); 
-  ReactDOM.render(
-    player_info.render(),
-    document.getElementById('react_test')
-  );
+
+  //return player_info;
+
+  /*
+  setInterval(function() {
+    console.debug('Updating DOM with React.', player_info);
+    ReactDOM.render(
+      player_info.render(),
+      document.getElementById('react_test')
+    );
+  }, 1000);
+  */
+
+//let player_info = buildPlayerInfo();
+
+  socket.on('state', function(players) {
+    console.debug('Got state from server.', players);
+    /*
+    for (let player of players) {
+      if (player.socket_id = socket.id) {
+        player_info.update(player);
+      };
+    };
+    */
+    console.debug(`Getting player with socket id <${socket.id}>.`, players);
+    player = players[socket.id];
+    console.debug('Got player', player);
+    player_info.player = player;
+    console.debug('Updating DOM with React.', player_info);
+    ReactDOM.render(
+      player_info.render(),
+      document.getElementById('react_test')
+    );
+  });
 
 };
 

@@ -7,6 +7,11 @@ A simple Javascript game with Node and Angular.
 ## Commit journal
 ---
 
+### Commit 279
+#### Update player view on server game tick
+
+Whenever the backend server game ticks, it emits state information to the player clients. On receiving this state information, the client will update any relevant views and then refresh virtual DOM elements with React.
+
 ### Commit 278
 #### Switch from Angular to React
 

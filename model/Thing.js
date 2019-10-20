@@ -26,7 +26,7 @@ class Thing extends ProxyMixin(SocketMixin(Object)) {
 
   //tick = require('tickThing.js');
   tick() {
-    require('tickThing.js')();
+    require('./tickThing.js')(this);
   };
 
   // FIXME: implement this!

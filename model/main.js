@@ -22,3 +22,8 @@ logger.info('Clickmer started');
 //const Game = require('./functional_source/Game.js');
 const Game = require('./Game.js');
 var game = new Game({ io: io });
+
+
+setInterval(function() {
+  game.tick();
+}, 1000);

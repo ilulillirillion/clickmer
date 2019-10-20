@@ -23,6 +23,7 @@ class Player extends Thing {
 
   };
 
+
 };
 
 
