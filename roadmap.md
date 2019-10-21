@@ -3,6 +3,8 @@
 
 ---
 
+- adopt class composition over inheritance []
+
 - debug view  []
 
 - component mirroring (render elements twice) [X]

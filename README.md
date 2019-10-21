@@ -7,6 +7,11 @@ A simple Javascript game with Node and Angular.
 ## Commit journal
 ---
 
+### Commit 284
+#### Draw tile color based on tile type
+
+Tiles can be broken down into types which can be walkable or not walkalble, and can give a saved rgb value to be drawn by the client.
+
 ### Commit 283
 #### Conditionally draw tiles in map
 

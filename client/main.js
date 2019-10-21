@@ -1,3 +1,7 @@
+// vim: set ft=javascript:
+
+//TODO: rename "ctx"
+
 console.info('Running main.js');
 
 
@@ -125,6 +129,7 @@ class WorldMap extends React.Component {
     this.state = { tiles: [] };
     this.tile_size = 4;
     //this.canvas = document.createElement('canvas');
+    this.fill_style = 'rgba(255, 0, 0, 0.6)';
 
   }
 
@@ -168,15 +173,24 @@ class WorldMap extends React.Component {
     for (let tile of this.state.tiles) {
       //let tile = this.tiles[width][height];
       //tile.draw();
-      if (tile.walkable === false) {
+      //if (tile.walkable === false) {
       //if (tile.walkable) {
         //console.debug('drawing tile', tile);
-        this.drawTile(tile);
-      }
+      this.drawTile(tile);
+      //}
     }
   }
 
   drawTile(tile) {
+    //this.ctx.fillStyle = 'rgba(255, 0, 0, 0.6)';
+    this.ctx.fillStyle = tile.fill_style;
+    this.ctx.fillRect(
+      tile.x * this.tile_size, tile.y * this.tile_size,
+      this.tile_size, this.tile_size);
+    this.ctx.fillStyle = this.fill_style;
+  }
+
+  drawTileV1(tile) {
     this.ctx.fillStyle = 'rgba(255, 0, 0, 0.6)';
     this.ctx.fillRect(
       tile.x * this.tile_size, tile.y * this.tile_size,
