@@ -96,7 +96,7 @@ class Game extends Thing {
 
     // Send state to all players.
     //this.io.sockets.emit('state', this.players);
-    logger.debug('Sending state to players', this.state);
+    logger.debug('Sending state to players');
     this.io.sockets.emit('state', this.state);
 
   }

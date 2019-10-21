@@ -123,7 +123,7 @@ class WorldMap extends React.Component {
   constructor() {
     super();
     this.state = { tiles: [] };
-    this.tile_size = 256;
+    this.tile_size = 4;
     //this.canvas = document.createElement('canvas');
 
   }
@@ -168,13 +168,16 @@ class WorldMap extends React.Component {
     for (let tile of this.state.tiles) {
       //let tile = this.tiles[width][height];
       //tile.draw();
-      if (!tile.walkable) {
-        this.drawTile(tile)
+      if (tile.walkable === false) {
+      //if (tile.walkable) {
+        //console.debug('drawing tile', tile);
+        this.drawTile(tile);
       }
     }
   }
 
   drawTile(tile) {
+    this.ctx.fillStyle = 'rgba(255, 0, 0, 0.6)';
     this.ctx.fillRect(
       tile.x * this.tile_size, tile.y * this.tile_size,
       this.tile_size, this.tile_size);
@@ -257,7 +260,7 @@ function fetchPlayer() {
 }
 let tiles = null;
 function fetchTiles() {
-  console.debug('Fetch tiles called.');
+  console.debug('Fetch tiles called.', tiles);
   return tiles;
 }
 socket.on('state', function(state) {

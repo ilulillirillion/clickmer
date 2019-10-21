@@ -7,6 +7,12 @@ A simple Javascript game with Node and Angular.
 ## Commit journal
 ---
 
+### Commit 283
+#### Conditionally draw tiles in map
+
+Give tiles a walkable property. If a tile is not walkable, it is drawn on the map as a wall.
+Also changed tiles to a list, and gave each tile a coordinate to remember it's own position in the map.
+
 ### Commit 282
 #### Rough map demo
 

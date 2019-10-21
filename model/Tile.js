@@ -10,8 +10,8 @@ class Tile extends Thing {
     this.x = x;
     this.y = y;
 
-    //this.walkable = walkable;
-    this.walkable = false;
+    this.walkable = walkable;
+    //this.walkable = false;
 
   }
 
