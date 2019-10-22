@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 
-nodemon ./model/main.js;
+nodemon --max-old-space-size=12288 ./model/main.js;

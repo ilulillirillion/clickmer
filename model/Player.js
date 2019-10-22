@@ -20,6 +20,8 @@ class Player extends Thing {
     super({ socket_id, uuid, name });
 
     this.account_id = account_id;
+    this.x = 1;
+    this.y = 1;
 
   };
 

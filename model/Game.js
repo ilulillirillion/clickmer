@@ -4,6 +4,7 @@
 const logger = require('./logger.js');
 const Thing = require('./Thing.js');
 const Map = require('./Map.js');
+const PlayerState = require('./PlayerState.js');
 
 
 class Game extends Thing {
@@ -57,15 +58,40 @@ class Game extends Thing {
 
   //connectPlayer() { logger.warn('test') };
 
+  get player_states() {
+    //let player_states = [];
+    let player_states = {};
+    for (let player of Object.values(this.players)) {
+
+      let surroundings = this.map.getSurroundingsOf(player);
+      logger.debug('Inserting surroundings into player state');
+
+      let player_state = new PlayerState(
+          //{ player: player, surroundings: player.getSurroundings() });
+          { player: player, surroundings: surroundings });
+      //player_states.push(player_state);
+      player_states[player.socket_id] = player_state;
+    }
+    return player_states;
+  }
+
   get state() {
+    let state = {
+      player_states: this.player_states
+    }
+    /*
     let state = {
       players: this.players,
       tiles: this.map.tiles
     }
+    */
     return state;
   }
 
   tick() {
+    let tick_start_time = Date.now();
+
+    super.tick();
 
     logger.debug('Ticking game.');
 
@@ -98,6 +124,11 @@ class Game extends Thing {
     //this.io.sockets.emit('state', this.players);
     logger.debug('Sending state to players');
     this.io.sockets.emit('state', this.state);
+
+    let tick_end_time = Date.now();
+    let time_delta = tick_end_time - tick_start_time;
+
+    logger.info(`Took <${time_delta}> milliseconds to tick <${this.uuid}>.`);
 
   }
 

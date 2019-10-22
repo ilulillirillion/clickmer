@@ -5,7 +5,7 @@ const { createLogger, format, transports } = require('winston');
 
 
 const logger = createLogger({
-  level: 'error',
+  level: 'info',
   format: format.simple(),
   transports: [new transports.Console()]
 });

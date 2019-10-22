@@ -170,14 +170,18 @@ class WorldMap extends React.Component {
     this.ctx.fillStyle = 'rgba(255, 0, 0, 0.6)';
     //for (let width=0; width < this.map.width; width++) {
     //  for (let height=0; height < this.map.height; height++) {
-    for (let tile of this.state.tiles) {
-      //let tile = this.tiles[width][height];
-      //tile.draw();
-      //if (tile.walkable === false) {
-      //if (tile.walkable) {
-        //console.debug('drawing tile', tile);
-      this.drawTile(tile);
-      //}
+    let tiles = this.state.tiles;
+    if (tiles) {
+      //for (let tile of Object.values(this.state.tiles)) {
+      for (let tile of Object.values(tiles)) {
+        //let tile = this.tiles[width][height];
+        //tile.draw();
+        //if (tile.walkable === false) {
+        //if (tile.walkable) {
+          //console.debug('drawing tile', tile);
+        this.drawTile(tile);
+        //}
+      }
     }
   }
 
@@ -269,7 +273,7 @@ let socket = io();
 
 var player = null;
 function fetchPlayer() {
-  console.debug('Fetch player called.');
+  console.debug('Fetch player called.', player);
   return player;
 }
 let tiles = null;
@@ -279,7 +283,7 @@ function fetchTiles() {
 }
 socket.on('state', function(state) {
   console.debug('Got state from server.', state);
-  tiles = state.tiles
+  //tiles = state.tiles
   /*
   for (let player of players) {
     if (player.socket_id = socket.id) {
@@ -288,8 +292,15 @@ socket.on('state', function(state) {
   };
   */
   console.debug(`Getting player with socket id <${socket.id}>.`, state);
-  player = state.players[socket.id];
-  console.debug('Got player', player);
+  //player = state.players[socket.id];
+  let player_state = state.player_states[socket.id];
+  console.debug(`Got player id with socket id <${socket.id}>.`, player_state);
+  console.debug('Got player_state', player_state);
+
+  player = player_state.player;
+  console.debug('Got player from player state', player);
+  tiles = player_state.player_surroundings;
+  console.debug('Got tiles from player state', tiles);
 
   //player_info.player = player;
 
