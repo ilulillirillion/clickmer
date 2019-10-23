@@ -20,7 +20,9 @@ class Map extends Thing {
     this.height = height;
 
     //this.tiles = this.createTiles();
-    this.createTiles();
+    //this.createTiles();
+
+    this.ensureTiles();
 
   }
 
@@ -28,6 +30,11 @@ class Map extends Thing {
     let tile = new Tile();
     return tile;
   }
+
+  // TODO
+  ensureTiles() {
+    logger.warn("Unimplemented function 'ensureTiles' called!");
+  };
 
   async getSurroundingsOf(thing) {
     logger.debug('Getting surroundings')

@@ -18,11 +18,15 @@ const server = require('./server.js');
 var io = require('./io.js');
 
 
+//const console = require('./console.js');
+
+
 logger.info('Clickmer started');
 //const Game = require('./functional_source/Game.js');
 const Game = require('./Game.js');
 var game = new Game({ io: io });
 
+// TODO: test moving this back into game?
 io.on('connection', async function(socket) {
   logger.info(`Got a new connection on socket <${socket}>.`);
   if (!socket.handshake.session.username) {
@@ -42,6 +46,30 @@ io.on('connection', async function(socket) {
   });
   //game.players[socket.id] = player;
   game.players[player.account_id] = player;
+});
+
+
+const console = require('./console.js');
+process.stdin.on('data', function(raw_text) {
+  let text = raw_text.trim();
+  if (text === 'regenerate_tiles') {
+    logger.warn('Regenerating tiles');
+    game.map.createTiles();
+  } else if (text === 'log_level_debug') {
+    logger.level = 'debug';
+  } else if (text === 'log_level_info') {
+    logger.level = 'info';
+  } else if (text === 'log_level_warn') {
+    logger.level = 'warn';
+  } else if (text === 'log_level_error') {
+    logger.level = 'error';
+  } else if (text === 'log_level_critical') {
+    logger.level = 'critical';
+  } else if (text === 'nolog') {
+    logger.level = 'critical'; 
+  } else {
+    logger.warn(`Unrecognized text: <${text}>`);
+  }
 });
 
 

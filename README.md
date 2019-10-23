@@ -7,6 +7,24 @@ A simple Javascript game with Node and Angular.
 ## Commit journal
 ---
 
+### Commit 287
+#### Trigger actions on console custom keyword input
+
+Adds a "console" object to the main declarations and uses a giant if/else to catch the con
+sole input and execute a mapped command. Right now the following are available:
+
+- `regenerate_tiles`: Recreates all of the map tiles.
+- `logger_level_debug`: Sets log level to debug.
+- `logger_level_info`: Sets log level to info.
+- `logger_level_warn`: Sets log level to warn.
+- `logger_level_error`: Sets log level to error.
+- `logger_level_critical`: Sets log level to critical.
+- `nolog`: Also sets log level to critical.
+
+Also, the map no longer generates tiles on game startup. The game assumes that tiles are a
+lready created and waits for the admin to manually regenerate tiles with console if needed
+. Will consider adding in better logic so that the map will proactively recreate itself if certain conditions are met.
+
 ### Commit 286
 #### Save map to database; build tiles on client
 
