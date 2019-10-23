@@ -66,18 +66,22 @@ app.post('/authenticate', async function(request, response) {
   let username = request.body.username;
   let password = request.body.password;
   if (username && password) {
-    let matched_accounts =  await new Promise((resolve, reject) => {
+    //let matched_accounts =  await new Promise((resolve, reject) => {
+    let matched_id =  await new Promise((resolve, reject) => {
       try {
         let results = runSql(
-            `SELECT * FROM accounts WHERE username = '${username}' AND password = '${password}'`);
+            //`SELECT * FROM accounts WHERE username = '${username}' AND password = '${password}'`);
+            `SELECT id FROM accounts WHERE username = '${username}' AND password = '${password}'`);
         resolve(results);
       } catch(error) {
         logger.warn(error);
       };
     });
-    if (matched_accounts.length > 0) {
+    //if (matched_accounts.length > 0) {
+    if (matched_id) {
       request.session.loggedin = true;
       request.session.username = username;
+      request.session.account_id = matched_id
       return response.redirect('/test');
     } else {
       return response.send('Incorrect username and/or password!');

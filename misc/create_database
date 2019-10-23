@@ -64,3 +64,32 @@ INSERT INTO `accounts` (`id`, `username`, `password`, `email`) VALUES (1, 'test'
 
 ALTER TABLE `accounts` ADD PRIMARY KEY (`id`);
 ALTER TABLE `accounts` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+
+=============
+
+Database changed
+mysql> CREATE TABLE IF NOT EXISTS `tiles` (
+    ->   `uuid` varchar(50) NOT NULL,
+    ->   `x` int(11) NOT NULL,
+    ->   `y` int(11) NOT NULL,
+    ->   `type` varchar(50) NOT NULL
+    -> ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+Query OK, 0 rows affected, 3 warnings (0.09 sec)
+
+mysql> ALTER TABLE tiles ADD PRIMARY KEY (`uuid`);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql>
+
+
+CREATE TABLE IF NOT EXISTS `tiles` (
+  `id` int(11) NOT NULL,
+  `uuid` varchar(50) NOT NULL,
+  `x` int(11) NOT NULL,
+  `y` int(11) NOT NULL,
+  `type` varchar(50) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+ALTER TABLE `tiles` ADD PRIMARY KEY (`id`);
+ALTER TABLE `tiles` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;

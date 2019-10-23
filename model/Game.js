@@ -32,6 +32,7 @@ class Game extends Thing {
     */
 
     let self = this;
+    /*
     this.io.on('connection', async function(socket) {
       logger.info(`Got a new connection on socket <${socket}>.`);
       if (!socket.handshake.session.username) {
@@ -53,26 +54,39 @@ class Game extends Thing {
       self.players[socket.id] = player;
       //callback(player);
     });
+    */
 
   };
 
   //connectPlayer() { logger.warn('test') };
 
   get player_states() {
-    //let player_states = [];
-    let player_states = {};
-    for (let player of Object.values(this.players)) {
+  //getPlayerStates() {
 
-      let surroundings = this.map.getSurroundingsOf(player);
-      logger.debug('Inserting surroundings into player state');
+    return (async () => {
+      //let player_states = [];
+      let player_states = {};
+      for (let player of Object.values(this.players)) {
 
-      let player_state = new PlayerState(
-          //{ player: player, surroundings: player.getSurroundings() });
-          { player: player, surroundings: surroundings });
-      //player_states.push(player_state);
-      player_states[player.socket_id] = player_state;
-    }
-    return player_states;
+        let surroundings = await new Promise((resolve, reject) => {
+          try { 
+            resolve(this.map.getSurroundingsOf(player));
+          } catch(error) {
+            logger.error(error);
+            reject(null);
+          }
+        });
+        logger.warn('Inserting surroundings into player state', surroundings);
+
+        let player_state = new PlayerState(
+            //{ player: player, surroundings: player.getSurroundings() });
+            { player: player, surroundings: surroundings });
+        //player_states.push(player_state);
+        //player_states[player.socket_id] = player_state;
+        player_states[player.account_id] = player_state;
+      }
+      return player_states;
+    });
   }
 
   get state() {
@@ -88,7 +102,7 @@ class Game extends Thing {
     return state;
   }
 
-  tick() {
+  async tick() {
     let tick_start_time = Date.now();
 
     super.tick();
@@ -123,7 +137,35 @@ class Game extends Thing {
     // Send state to all players.
     //this.io.sockets.emit('state', this.players);
     logger.debug('Sending state to players');
-    this.io.sockets.emit('state', this.state);
+    //this.io.sockets.emit('state', this.state);
+    //let state = await this.getPlayerStates();
+    //this.io.sockets.emit('state', this.state);
+
+    let player_states = {};
+    for (let player of Object.values(this.players)) {
+
+      let surroundings = await new Promise((resolve, reject) => {
+        try { 
+          resolve(this.map.getSurroundingsOf(player));
+        } catch(error) {
+          logger.error(error);
+          reject(null);
+        }
+      });
+      logger.warn('Inserting surroundings into player state', surroundings);
+
+      let player_state = new PlayerState(
+          //{ player: player, surroundings: player.getSurroundings() });
+          { player: player, surroundings: surroundings });
+      //player_states.push(player_state);
+      //player_states[player.socket_id] = player_state;
+      player_states[player.account_id] = player_state;
+    }
+    //return player_states;
+
+    let state = { 'player_states': player_states };
+
+    this.io.sockets.emit('state', state);
 
     let tick_end_time = Date.now();
     let time_delta = tick_end_time - tick_start_time;

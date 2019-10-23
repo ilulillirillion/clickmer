@@ -5,6 +5,9 @@
 console.info('Running main.js');
 
 
+import TileType from './TileType.js';
+
+
 const name = 'test';
 //var player = { 'name': 'dummyplayer' };
 //const element = <p>hello {name}</p>;
@@ -113,6 +116,7 @@ class PlayerInfo extends React.Component {
 }
 
 
+/*
 class Tile {
   constructor({ walkable = true } = 
               { walkable: true }) {
@@ -122,6 +126,7 @@ class Tile {
   draw() {};
 
 }
+*/
 
 class WorldMap extends React.Component {
   constructor() {
@@ -281,6 +286,11 @@ function fetchTiles() {
   console.debug('Fetch tiles called.', tiles);
   return tiles;
 }
+let account_id = null;
+function fetchAccountId() {
+  console.debug('Fetch account_id called', account_id);
+  return account_id
+};
 socket.on('state', function(state) {
   console.debug('Got state from server.', state);
   //tiles = state.tiles
@@ -291,15 +301,27 @@ socket.on('state', function(state) {
     };
   };
   */
-  console.debug(`Getting player with socket id <${socket.id}>.`, state);
-  //player = state.players[socket.id];
-  let player_state = state.player_states[socket.id];
-  console.debug(`Got player id with socket id <${socket.id}>.`, player_state);
-  console.debug('Got player_state', player_state);
+  //let account_id = socket.handshake.session.account_id;
+  //let account_id = socket.session.account_id;
+  if (account_id) {
+    console.debug(`Getting player with account id <${account_id}>.`, state);
+    //player = state.players[socket.id];
+    //let player_state = state.player_states[socket.id];
+    //let account_id = getAccountIdFromUsername(socket.handshake.session.username);
+    var player_state = state.player_states[account_id];
+    console.debug(`Got player_state with account id <${account_id}>.`, player_state);
+    //console.debug('Got player_state', player_state);
+  } else {
+    console.debug(`Getting player with socket id <${socket.id}>.`, state);
+    var player_state = Object.values(state.player_states).find(function(player_state) {
+      return player_state.socket_id = socket.id;
+    });
+  }
 
   player = player_state.player;
   console.debug('Got player from player state', player);
-  tiles = player_state.player_surroundings;
+  account_id = player.account_id;
+  tiles = createTiles(player_state.player_surroundings);
   console.debug('Got tiles from player state', tiles);
 
   //player_info.player = player;
@@ -327,5 +349,17 @@ socket.on('state', function(state) {
     document.getElementById('react_map'));
 
 });
+
+
+function createTiles(tiles_data) {
+  let tiles = [];
+  for (let tile_data of tiles_data) {
+    //let tile = new TileType(tiles_data);
+    let tile = new TileType(tile_data);
+    tiles.push(tile);
+  }
+  return tiles;
+}
+
 
 console.info('Finished running main.js');

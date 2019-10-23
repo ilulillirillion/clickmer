@@ -11,7 +11,7 @@ const connectPlayer = require('./connectPlayer.js');
 
 
 var io = socketIO(server);
-io.use(shared_session(session, { autoSave: true }));
+io.use(shared_session(session, { autoSave: true, pingTimeout: 1000000 }));
 
 
 /*
