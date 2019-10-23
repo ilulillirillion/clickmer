@@ -132,7 +132,7 @@ class WorldMap extends React.Component {
   constructor() {
     super();
     this.state = { tiles: [] };
-    this.tile_size = 4;
+    this.tile_size = 8;
     //this.canvas = document.createElement('canvas');
     this.fill_style = 'rgba(255, 0, 0, 0.6)';
 
@@ -144,10 +144,17 @@ class WorldMap extends React.Component {
     //this.canvas = "canvas";
     this.ctx = this.canvas.getContext("2d");
 
+    let _tiles = fetchTiles();
+    let _players = fetchPlayers();
+    this.setState({ tiles: _tiles, players: _players });
+
+    /*
     fetchTiles(tiles => {
       console.debug('Setting tiles', tiles);
       this.setState({ tiles: tiles });
     });
+    */
+
     let self = this;
     setInterval(function() {
       self.tick();
@@ -186,6 +193,12 @@ class WorldMap extends React.Component {
           //console.debug('drawing tile', tile);
         this.drawTile(tile);
         //}
+      }
+    }
+    let players = this.state.players;
+    if (players) {
+      for (let player of players) {
+        this.drawTile(player);
       }
     }
   }
@@ -276,6 +289,11 @@ let socket = io();
 
 //let player_info = buildPlayerInfo();
 
+var players = null;
+function fetchPlayers() {
+  console.debug('Fetch players called.', players);
+  return players;
+}
 var player = null;
 function fetchPlayer() {
   console.debug('Fetch player called.', player);
@@ -318,6 +336,10 @@ socket.on('state', function(state) {
     });
   }
 
+  players = [];
+  for (let player_state of Object.values(state.player_states)) {
+    players.push(player_state.player);
+  }
   player = player_state.player;
   console.debug('Got player from player state', player);
   account_id = player.account_id;

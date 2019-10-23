@@ -22,6 +22,8 @@ class Thing extends ProxyMixin(SocketMixin(Object)) {
 
     this.ticks_epoch = 0;
 
+    this.fill_style = 'rgba(0, 0, 255, 0.6)';
+
   };
 
   //tick = require('tickThing.js');
