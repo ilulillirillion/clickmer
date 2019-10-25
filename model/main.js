@@ -10,6 +10,8 @@ const logger = require('./logger.js');
 //const server = require('./functional_source/server.js');
 const server = require('./server.js');
 
+const runSql = require('./runSql.js');
+
 
 // Import the io object
 //const io = require('./functional_source/io.js');
@@ -46,6 +48,23 @@ io.on('connection', async function(socket) {
   });
   //game.players[socket.id] = player;
   game.players[player.account_id] = player;
+
+
+  socket.on('state', async function(client_player) {
+    logger.warn('Responding to client state', client_player);
+    player.x = client_player.x;
+    player.y = client_player.y;
+    let results = await new Promise((resolve, reject) => {
+      try { 
+        resolve(runSql(`UPDATE players SET x = ${player.x}, y = ${player.y} WHERE id = ${player.account_id};`));
+      } catch(error) {
+        logger.error('Got update player error.', error);
+        reject(null);
+      }
+    });
+    logger.warn('Got update player results.', results);
+  }); 
+
 });
 
 

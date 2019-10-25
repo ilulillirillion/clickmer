@@ -84,7 +84,7 @@ class Map extends Thing {
 
 
 
-    logger.warn('Returning surroundings', surroundings);
+    logger.debug('Returning surroundings', surroundings);
     return surroundings;
   }
          

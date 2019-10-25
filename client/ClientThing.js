@@ -1,11 +1,9 @@
-const SocketMixin = require('./SocketMixin.js');
-const ProxyMixin = require('./ProxyMixin.js');
-const { either } = require('./eitherMonad.js');
-//const { createUuid: _createUuid } = require('./createUuid.js');
-//const createUuid = require('./createUuid.js');
+// vim: set ft=javascript:
 
+import ClientSocketMixin from './ClientSocketMixin.js';
+import ClientProxyMixin from './ClientProxyMixin.js';
 
-class Thing extends ProxyMixin(SocketMixin(Object)) {
+export default class ClientThing extends ClientProxyMixin(ClientSocketMixin(Object)) {
   constructor(
       { socket_id = null, uuid = null, name = 'thing' } =
       { socket_id: null, uuid: null, name: 'thing' }) {
@@ -14,20 +12,23 @@ class Thing extends ProxyMixin(SocketMixin(Object)) {
 
     this.class_name = this.constructor.name.toLowerCase();
     
+    this.uuid = uuid;
     //this.uuid = uuid;
-    this.uuid = (uuid) ? uuid : this.createUuid();
+    //this.uuid = (uuid) ? uuid : this.createUuid();
     //this.uuid = this.createUuid();
 
     this.name = name;
 
     this.ticks_epoch = 0;
 
+    this.fill_style = 'rgba(0, 0, 255, 0.6)';
+
   };
 
   //tick = require('tickThing.js');
-  tick() {
-    require('./tickThing.js')(this);
-  };
+  //tick() {
+  //  require('./tickThing.js')(this);
+  //};
 
   // FIXME: implement this!
   /*
@@ -56,10 +57,12 @@ class Thing extends ProxyMixin(SocketMixin(Object)) {
   };
   */
 
+  /*
   createUuid() {
     const uuid = require('./createUuid.js')(this.class_name);
     return uuid;
   };
+  */
     
 
   /*
@@ -71,6 +74,3 @@ class Thing extends ProxyMixin(SocketMixin(Object)) {
   };
   */
 };
-
-
-module.exports = Thing;

@@ -6,12 +6,17 @@ console.info('Running main.js');
 
 
 import TileType from './TileType.js';
+//import KeyboardController from './KeyboardController.js';
+//import Controller from './Controller.js';
+import KeyboardControllableMixin from './KeyboardControllableMixin.js';
 
 
 const name = 'test';
 //var player = { 'name': 'dummyplayer' };
 //const element = <p>hello {name}</p>;
 
+//const keyboard_controller = new KeyboardController();
+//const controller = new Controller();
 
 /*
 class PlayerInfo extends React.Component {
@@ -80,7 +85,33 @@ const PlayerInfo = props => {
 }
 */
 
+class PlayerClient extends KeyboardControllableMixin(Object) {
+  constructor(
+      { account_id = null, uuid = null, name = 'player_client', ticks_epoch = 0, x = 1, y = 1 } =
+      { account_id: null, uuid: null, name: 'player_client', ticks_epoch: 0, x: 1, y: 1 }) {
+    super({ uuid, name, x, y });
+    //super();
 
+    this.account_id = account_id;
+
+  };
+};
+
+
+//import ControllableMixin from './ControllableMixin.js';
+//import TangibleMixin from './TangibleMixin.js';
+//class PlayerClient {
+/*
+class PlayerClient extends KeyboardControllableMixin(Object) {
+//class PlayerClient extends ControllableMixin(Object) {
+//class PlayerClient extends TangibleMixin(Object) {
+  constructor() {
+    super();
+  }
+}
+*/
+
+//class PlayerInfo extends KeyboardControllableMixin(React.Component) {
 class PlayerInfo extends React.Component {
   constructor() {
     super();
@@ -164,7 +195,8 @@ class WorldMap extends React.Component {
   tick() {
     console.debug('Ticking WorldMap');
     let tiles = fetchTiles();
-    this.setState({ tiles: tiles });
+    let players = fetchPlayers();
+    this.setState({ tiles: tiles, players: players});
     //this.draw();
   }
 
@@ -198,6 +230,7 @@ class WorldMap extends React.Component {
     let players = this.state.players;
     if (players) {
       for (let player of players) {
+        console.debug('Drawing player', player);
         this.drawTile(player);
       }
     }
@@ -309,6 +342,10 @@ function fetchAccountId() {
   console.debug('Fetch account_id called', account_id);
   return account_id
 };
+//let controller = new Controller({ player: player });
+
+
+
 socket.on('state', function(state) {
   console.debug('Got state from server.', state);
   //tiles = state.tiles
@@ -337,10 +374,33 @@ socket.on('state', function(state) {
   }
 
   players = [];
-  for (let player_state of Object.values(state.player_states)) {
-    players.push(player_state.player);
+  for (let _player_state of Object.values(state.player_states)) {
+    players.push(_player_state.player);
   }
-  player = player_state.player;
+
+  // TODO:  This is a temporary dev solution, and incorrectly authorizes the
+  //        client to unilaterally set position.
+  let _player = player_state.player;
+  if (!player) {
+    player = new PlayerClient({ account_id: _player.account_id, uuid: _player.uuid, name: _player.name, ticks_epoch: _player.ticks_epoch, x: _player.x, y: _player.y });
+  } else {
+    player.uuid = player_state.player.uuid;
+    player.ticks_epoch = player_state.player.ticks_epoch;
+  }
+
+
+  //player = player_state.player;
+  //player.x = player_info.x;
+  //player.y = player_info.y;
+
+  /*
+  if (!player) {
+    player = new (player_state.player);
+  } else {
+    player.setState
+  */
+
+
   console.debug('Got player from player state', player);
   account_id = player.account_id;
   tiles = createTiles(player_state.player_surroundings);
@@ -369,6 +429,10 @@ socket.on('state', function(state) {
   ReactDOM.render(
     React.createElement(WorldMap, null),
     document.getElementById('react_map'));
+
+
+  // Issue a response
+  socket.emit('state', player);
 
 });
 

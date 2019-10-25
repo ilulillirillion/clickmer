@@ -7,6 +7,13 @@ A simple Javascript game with Node and Angular.
 ## Commit journal
 ---
 
+### Commit 289
+#### Add crude player movement system
+
+Adds a crude player movement system which will track the player as it moves about the map
+.
+Adds several mixins into the client, most notably a keyboard-controllable mixin that allows objects to respond to player keyboard input. The client tells the server where it has moved to each time the server ticks out to the client. This causes very slow rendering and still leaves unilateral position authority to the client. I hope to fix both of these problems by making a pass to clean-up and reorganize many of the recent updates in the next couple of commits.
+
 ### Commit 288
 #### Render players on the map
 

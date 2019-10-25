@@ -76,7 +76,7 @@ class Game extends Thing {
             reject(null);
           }
         });
-        logger.warn('Inserting surroundings into player state', surroundings);
+        logger.debug('Inserting surroundings into player state', surroundings);
 
         let player_state = new PlayerState(
             //{ player: player, surroundings: player.getSurroundings() });
@@ -152,7 +152,7 @@ class Game extends Thing {
           reject(null);
         }
       });
-      logger.warn('Inserting surroundings into player state', surroundings);
+      logger.debug('Inserting surroundings into player state', surroundings);
 
       let player_state = new PlayerState(
           //{ player: player, surroundings: player.getSurroundings() });
