@@ -7,6 +7,15 @@ A simple Javascript game with Node and Angular.
 ## Commit journal
 ---
 
+### Commit 290
+#### Notably refactor client main, organize classes
+
+Lifts a lot of code out of the player main file into dedicated class files.
+Player now has a concept of an x_delta and y_delta, which represent the position difference in position the client has from it's last update from the server. On tick, the client sends this data to the server to be recorded before resetting the values.
+
+As of right now player position is still authoritative and the server blindly takes and ap
+plies the delta.
+
 ### Commit 289
 #### Add crude player movement system
 

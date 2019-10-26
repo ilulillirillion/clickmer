@@ -51,17 +51,30 @@ io.on('connection', async function(socket) {
 
 
   socket.on('state', async function(client_player) {
-    logger.warn('Responding to client state', client_player);
-    player.x = client_player.x;
-    player.y = client_player.y;
+    logger.warn(`Responding to client state (<${client_player.client_x}>, <${client_player.client_y}>.`, client_player);
+
+    // get client x and y
+    //let client_x = client_player.x + client_player.x_delta;
+    //let client_y = client_player.y + client_player.y_delta;
+    player.x = client_player.x + client_player.x_delta;
+    player.y = client_player.y + client_player.y_delta;
+    
+
+    //player.x = client_player.x;
+    //player.y = client_player.y;
     let results = await new Promise((resolve, reject) => {
       try { 
-        resolve(runSql(`UPDATE players SET x = ${player.x}, y = ${player.y} WHERE id = ${player.account_id};`));
+        //resolve(runSql(`UPDATE players SET x = ${player.x}, y = ${player.y} WHERE id = ${player.account_id};`));
+        //resolve(runSql(`UPDATE players SET x = ${player.client_x}, y = ${player.client_y} WHERE id = ${player.account_id};`));
+        //resolve(runSql(`UPDATE players SET x = ${client_player.client_x}, y = ${client_player.client_y} WHERE id = ${client_player.account_id};`));
+        //resolve(runSql(`UPDATE players SET x = ${client_x}, y = ${client_y} WHERE id = ${client_player.account_id};`));
+        resolve(runSql(`UPDATE players SET x = ${player.x}, y = ${player.y} WHERE id = ${client_player.account_id};`));
       } catch(error) {
         logger.error('Got update player error.', error);
         reject(null);
       }
     });
+
     logger.warn('Got update player results.', results);
   }); 
 

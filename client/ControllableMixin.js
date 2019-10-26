@@ -29,7 +29,8 @@ const ControllableMixin = Base => class extends TangibleMixin(Base) {
 
   move(axis, delta) {
     console.warn(`<${this}> moving <${delta}> units on <${axis}>`, this);
-    this[axis] += delta;
+    //this[axis] += delta;
+    this[`${axis}_delta`] += delta;
   }
 
   moveX(delta) {
