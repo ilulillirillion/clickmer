@@ -7,6 +7,17 @@ A simple Javascript game with Node and Angular.
 ## Commit journal
 ---
 
+### Commit 291
+#### WIP refactor of client/server state handling
+
+A mid-way checkpoint of refactoring the client/server state code.
+Map rendering and movement are currently broken.
+Uses a new client object that updates its state from the server.
+Plan to remove x_delta and y_delta and have client directly update its x and y.
+The server will eventually run a function on its end to determine if clients
+proposed x and y are valid and until then should just accept the proposed
+values.
+
 ### Commit 290
 #### Notably refactor client main, organize classes
 

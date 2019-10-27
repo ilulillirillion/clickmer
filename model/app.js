@@ -53,8 +53,9 @@ app.post('/register', async function(request, response) {
     request.session.loggedin = true;
     request.session.username = username;
     return response.redirect('/test');
+    //return response.sendFile(path.join(__dirname, '../client/test.html'));
   };
-  response.end();
+  //response.end();
 });
 
 app.get('/login', function(request, response) {
@@ -82,7 +83,7 @@ app.post('/authenticate', async function(request, response) {
       request.session.loggedin = true;
       request.session.username = username;
       request.session.account_id = matched_id
-      return response.redirect('/test');
+      return response.redirect('/test', 300, { _account_id: request.session.account_id });
     } else {
       return response.send('Incorrect username and/or password!');
     };

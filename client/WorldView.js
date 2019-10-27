@@ -86,6 +86,7 @@ class WorldView extends React.Component {
     if (this.props.players) {
       console.debug('Drawing players.');
       for (let player of this.props.players) {
+        console.debug('Drawing player.', player);
         // TODO:  this is demo code and is not MP friendly, only the current
         //        player should have the delta applied.  
         //let x = player.x + this.state.x_delta;

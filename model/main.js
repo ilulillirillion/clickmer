@@ -30,13 +30,13 @@ var game = new Game({ io: io });
 
 // TODO: test moving this back into game?
 io.on('connection', async function(socket) {
-  logger.info(`Got a new connection on socket <${socket}>.`);
+  logger.info(`Got a new connection on socket <${socket.id}>.`);
   if (!socket.handshake.session.username) {
     logger.warn('Ignoring strange connection.');
     return;
   };
   //socket.on('connect_player', async function(data, callback) {
-  logger.info(`Handling a connect_player event on socket <${socket}>.`);
+  logger.info(`Handling a connect_player event on socket <${socket.id}>.`);
   //logger.info('test');
   let player = await new Promise((resolve, reject) => {
     try {
@@ -47,7 +47,16 @@ io.on('connection', async function(socket) {
     };
   });
   //game.players[socket.id] = player;
-  game.players[player.account_id] = player;
+  //game.players[player.account_id] = player;
+  game.players[socket.id] = player;
+
+  socket.on('getid', function(callback) {
+    //return game.players[socket.id];
+    logger.warn(`TEST ${socket.id}`, game.players);
+    account_id = game.players[socket.id].account_id;
+    logger.warn(`Sending account_id <${account_id}>.`);
+    callback(account_id);
+  });
 
 
   socket.on('state', async function(client_player) {

@@ -90,17 +90,37 @@ class Game extends Thing {
   }
 
   get state() {
+    let state = { players: {} };
+    for (let player of Object.values(this.players)) {
+      state.players[player.account_id] = {
+        account_id: player.account_id,
+        socket_id: player.socket_id,
+        uuid: player.uuid,
+        name: player.name,
+        ticks_epoch: player.ticks_epoch,
+        x: player.x,
+        y: player.y
+      }
+    }
+    return state;
+  }
+     
+
+  /*
     let state = {
       player_states: this.player_states
     }
+  */
     /*
     let state = {
       players: this.players,
       tiles: this.map.tiles
     }
     */
+  /*
     return state;
   }
+  */
 
   async tick() {
     let tick_start_time = Date.now();
@@ -133,14 +153,17 @@ class Game extends Thing {
     for (let player of Object.values(this.players)) {
       player.tick();
     }
+    logger.debug('Sending state to players');
+    this.io.sockets.emit('state', this.state);
 
     // Send state to all players.
     //this.io.sockets.emit('state', this.players);
-    logger.debug('Sending state to players');
+    //logger.debug('Sending state to players');
     //this.io.sockets.emit('state', this.state);
     //let state = await this.getPlayerStates();
     //this.io.sockets.emit('state', this.state);
 
+    /*
     let player_states = {};
     for (let player of Object.values(this.players)) {
 
@@ -166,6 +189,7 @@ class Game extends Thing {
     let state = { 'player_states': player_states };
 
     this.io.sockets.emit('state', state);
+    */
 
     let tick_end_time = Date.now();
     let time_delta = tick_end_time - tick_start_time;
@@ -173,6 +197,7 @@ class Game extends Thing {
     logger.info(`Took <${time_delta}> milliseconds to tick <${this.uuid}>.`);
 
   }
+
 
   connectPlayer = require('./connectPlayer.js');
   /*
