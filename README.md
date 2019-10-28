@@ -7,6 +7,15 @@ A simple Javascript game with Node and Angular.
 ## Commit journal
 ---
 
+### Commit 292
+#### Complete first stage of refactor
+
+Restore parity with functionality prior to refactor.
+Restores map rendering and player movement.
+Restores the "axis_delta" movement system.
+Applies the keyboard controllable mixin directly to the client.
+The client modifies the movement of it's matching player on keystroke.
+
 ### Commit 291
 #### WIP refactor of client/server state handling
 

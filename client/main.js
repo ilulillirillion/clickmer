@@ -139,8 +139,9 @@ socket.on('state', function(authoritative_state) {
     React.createElement(WorldView,
         //{ tiles: tiles, players: players,
         {
-          tiles: client.player.surroundings,
-          players: players, //FIXME
+          //tiles: client.player.surroundings,
+          //players: players, //FIXME
+          client: client,
           width: 100, height: 100,
           tile_size: 8, fill_style: 'rgba(255, 0, 0, 0.6)' 
         }
@@ -148,12 +149,15 @@ socket.on('state', function(authoritative_state) {
     document.getElementById('react_map')
   );
 
-  console.debug('Sending player as state', player);
+  console.debug('Sending player as state', client.player);
 
 
   
-  socket.emit('state', player);
-  console.debug('Sent player as state', player);
+  socket.emit('state', client.player);
+  console.debug('Sent player as state', client.player);
+
+  client.player.x_delta = 0;
+  client.player.y_delta = 0;
 
   //player.x_delta = 0;
   //player.y_delta = 0;

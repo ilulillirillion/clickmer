@@ -1,9 +1,13 @@
 // vim: set ft=javascript:
 
+// TODO: Change to "KeyboardControllable"
+// TODO: Handle move methods not existing.
+
 //const ControllableMixin = require('./ControllableMixin');
 import ControllableMixin from './ControllableMixin.js';
 
-const KeyboardControllableMixin = Base => class extends ControllableMixin(Base) {
+//const KeyboardControllableMixin = Base => class extends ControllableMixin(Base) {
+const KeyboardControllableMixin = Base => class extends Base {
   constructor(...args) {
     console.debug('Constructing a new KeyboardController', arguments);
     //super({ uuid, name });

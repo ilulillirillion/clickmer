@@ -1,6 +1,7 @@
 // vim: set ft=javascript:
 
 import ServerArtifact from './ServerArtifact.js';
+import KeyboardControllableMixin from './KeyboardControllableMixin.js';
 let socket = io();
 
 /*
@@ -20,7 +21,7 @@ export default class Client {
 };
 */
 
-class Client {
+class Client extends KeyboardControllableMixin(Object) {
   constructor(
       {
         account_id = null,
@@ -35,6 +36,8 @@ class Client {
         players: {}
       }
       ) {
+
+    super();
 
     //this.account_id = account_id;
     this.players = players;
@@ -68,6 +71,33 @@ class Client {
 
   }
 
+  // TODO: move these to a mixin
+  move(axis, delta) {
+    console.warn(`<${this}> moving <${delta}> units on <${axis}>`, this);
+    //this[axis] += delta;
+    //this[`${axis}_delta`] += delta;
+
+    //let player = this.player;
+    let self = this;
+    let player = Object.values(this.players).find(function(player) {
+      return player.account_id === self.account_id;
+    });
+    //player[axis] += delta;
+    player[`${axis}_delta`] += delta;
+    console.warn(`Moved player <${player.uuid}> <${delta}> units on <${axis}>:`, player);
+  }
+
+  moveX(delta) {
+    console.warn(`<${this}> moving <${delta}> units on x.`);
+    this.move('x', delta);
+  }
+
+  moveY(delta) {
+    console.warn(`<${this}> moving <${delta}> units y.`);
+    this.move('y', delta);
+  }
+    
+
   get player() {
     console.debug(`Getting client player by account id <${this.account_id}>.`, this.players);
     let account_id = this.account_id;
@@ -96,6 +126,15 @@ class Client {
         } 
     */
   }
+
+  get other_players() {
+    console.debug('Getting other players from client:', this);
+    other_players = Object.values(this.players).filter(player => {
+      player.account_id !== this.account_id;
+    });
+    return other_players;
+  }
+
 
   //requestAccountId() {
   //  socket.emit('

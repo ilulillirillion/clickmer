@@ -72,7 +72,7 @@ class Game extends Thing {
           try { 
             resolve(this.map.getSurroundingsOf(player));
           } catch(error) {
-            logger.error(error);
+            logger.error(`<${this.uuid}> encountered exception getting surroundings of player <${player.uuid}>:`, error);
             reject(null);
           }
         });
@@ -90,21 +90,79 @@ class Game extends Thing {
   }
 
   get state() {
-    let state = { players: {} };
-    for (let player of Object.values(this.players)) {
-      state.players[player.account_id] = {
-        account_id: player.account_id,
-        socket_id: player.socket_id,
-        uuid: player.uuid,
-        name: player.name,
-        ticks_epoch: player.ticks_epoch,
-        x: player.x,
-        y: player.y
+    return (async () => {
+      try {
+        let state = { players: {} };
+        for (let player of Object.values(this.players)) {
+      
+          // FIXME: This will not scale due to opening too many connections.
+          //        Write a function for getting surroundings of a list of players?
+          let surroundings = await new Promise((resolve, reject) => {
+            try {
+              resolve(this.map.getSurroundingsOf(player));
+            } catch(error) {
+              logger.error('Got error getting surroundings.', error);
+              reject(null);
+            }
+          });
+          logger.warn(`<${this.uuid}> got surroundings for player <${player.uuid}>:`, surroundings);
+
+          state.players[player.account_id] = {
+            account_id: player.account_id,
+            socket_id: player.socket_id,
+            uuid: player.uuid,
+            name: player.name,
+            ticks_epoch: player.ticks_epoch,
+            x: player.x,
+            y: player.y,
+            surroundings: surroundings
+          }
+        }
+        return state;
+        
+      } catch(error) {
+        logger.error(`Got error getting state from <${this.uuid}>.`, error);
+        return null;
       }
-    }
-    return state;
+    })();
   }
      
+  /*
+  async getState() {
+    try {
+      let state = { players: {} };
+      for (let player of Object.values(this.players)) {
+    
+        // FIXME: This will not scale due to opening too many connections.
+        //        Write a function for getting surroundings of a list of players?
+        let surroundings = await new Promise((resolve, reject) => {
+          try {
+            resolve(this.map.getSurroundingsOf(player));
+          } catch(error) {
+            logger.error('Got error getting surroundings.', error);
+            reject(null);
+          }
+        });
+
+        state.players[player.account_id] = {
+          account_id: player.account_id,
+          socket_id: player.socket_id,
+          uuid: player.uuid,
+          name: player.name,
+          ticks_epoch: player.ticks_epoch,
+          x: player.x,
+          y: player.y,
+          surroundings: surroundings
+        }
+      }
+      return state;
+      
+    } catch(error) {
+      logger.error(`Got error getting state from <${this.uuid}>.`, error);
+      return null;
+    }
+  }
+  */
 
   /*
     let state = {
@@ -153,8 +211,13 @@ class Game extends Thing {
     for (let player of Object.values(this.players)) {
       player.tick();
     }
-    logger.debug('Sending state to players');
-    this.io.sockets.emit('state', this.state);
+
+    let authoritative_state = await this.state;
+    //let authoritative_state = await this.getState();
+    //logger.warn(authoritative_state);
+
+    logger.warn(`<${this.uuid}> is sending authoritative state to players.`, authoritative_state);
+    this.io.sockets.emit('state', authoritative_state);
 
     // Send state to all players.
     //this.io.sockets.emit('state', this.players);

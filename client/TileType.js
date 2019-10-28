@@ -16,7 +16,7 @@ const valid_types = {
 export default class TileType {
   constructor({ type = 'Grass', ...args } =
               { type: 'Grass', ...args }) {
-    //console.debug(`Making tiletype with type: <${type}>.`, arguments);
+    //TODO: too verbose, fix? -- console.debug('Constructing a new TileType with arguments:', arguments);
     let tile = new valid_types[type](args);
     return tile;
   }

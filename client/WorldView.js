@@ -10,8 +10,15 @@ class WorldView extends React.Component {
                 tile_size = 8,
                 fill_style = 'rgba(255, 0, 0, 0.6)' }) {
   */
+  /*
   constructor(
       props = { tiles: [], players: [],
+                width: null, height: null,
+                tile_size: 8, 
+                fill_style: 'rgba(255, 0, 0, 0.6)' }) {
+  */
+  constructor(
+      props = { client: null,
                 width: null, height: null,
                 tile_size: 8, 
                 fill_style: 'rgba(255, 0, 0, 0.6)' }) {
@@ -76,12 +83,37 @@ class WorldView extends React.Component {
     // TODO: Is this if check still necessary?
     //if (this.state.tiles) {
     //  for (let tile of this.state.tiles) {
-    if (this.props.tiles) {
-      console.debug('Drawing tiles.');
-      for (let tile of this.props.tiles) {
-        this.drawTile(tile);
+    //if (this.props.tiles) {
+    if (this.props.client.player.surroundings) {
+      console.debug('Drawing tiles:', this.props.client.player.surroundings);
+      //for (let tile of this.props.tiles) {
+      for (let tile of this.props.client.player.surroundings) {
+        //this.drawTile(tile);
+        //FIXME: Can't just pass the tile here?
+        this.drawTile(
+          {
+            fill_style: tile.fill_style,
+            //fill_style: 'rgba(255, 0, 0, 0.6)',
+            x: tile.x, y: tile.y
+          }
+        );
       }
     }
+    if (this.props.client.players) {
+      console.debug('Drawing players:', this.props.client.players);
+      const players = Object.values(this.props.client.players);
+      for (const player of players) {
+        console.debug('Drawing player:', player);
+        this.drawTile({
+            fill_style: player.fill_style,
+            x: player.x, y: player.y
+        });
+      }
+    }
+
+
+    /*
+    // FIXME
     // TODO: Is this if check still necessary?
     if (this.props.players) {
       console.debug('Drawing players.');
@@ -100,12 +132,17 @@ class WorldView extends React.Component {
             });
       }
     }
+    */
   }
 
   drawTile({ fill_style = null, x = 1, y = 1 }) {
+
+    // TODO: Too verbose -- console.debug('Drawing tile with arguments:', arguments);
+
     //if (tile.fill_style) { this.ctx.fillStyle = tile.fill_style }
     //this.ctx.fillStyle = tile.fill_style || this.fill_style;
-    this.ctx.fillStyle = fill_style || this.fill_style;
+    this.ctx.fillStyle = fill_style || this.props.fill_style;
+    //console.warn(`testfill <${fill_style}>`, this);
     //this.ctx.fillStyle = 'rgba(255, 0, 0, 0.6)'
     this.ctx.fillRect(
       //tile.x * this.props.tile_size,

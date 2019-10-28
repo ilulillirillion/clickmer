@@ -30,62 +30,79 @@ var game = new Game({ io: io });
 
 // TODO: test moving this back into game?
 io.on('connection', async function(socket) {
-  logger.info(`Got a new connection on socket <${socket.id}>.`);
-  if (!socket.handshake.session.username) {
-    logger.warn('Ignoring strange connection.');
-    return;
-  };
-  //socket.on('connect_player', async function(data, callback) {
-  logger.info(`Handling a connect_player event on socket <${socket.id}>.`);
-  //logger.info('test');
-  let player = await new Promise((resolve, reject) => {
-    try {
-      resolve(game.connectPlayer(socket));
-    } catch(error) {
-      logger.error(error);
-      reject(null);
+  try {
+    logger.info(`Got a new connection on socket <${socket.id}>.`);
+    if (!socket.handshake.session.username) {
+      logger.warn('Ignoring strange connection.');
+      return;
     };
-  });
-  //game.players[socket.id] = player;
-  //game.players[player.account_id] = player;
-  game.players[socket.id] = player;
-
-  socket.on('getid', function(callback) {
-    //return game.players[socket.id];
-    logger.warn(`TEST ${socket.id}`, game.players);
-    account_id = game.players[socket.id].account_id;
-    logger.warn(`Sending account_id <${account_id}>.`);
-    callback(account_id);
-  });
-
-
-  socket.on('state', async function(client_player) {
-    logger.warn(`Responding to client state (<${client_player.client_x}>, <${client_player.client_y}>.`, client_player);
-
-    // get client x and y
-    //let client_x = client_player.x + client_player.x_delta;
-    //let client_y = client_player.y + client_player.y_delta;
-    player.x = client_player.x + client_player.x_delta;
-    player.y = client_player.y + client_player.y_delta;
-    
-
-    //player.x = client_player.x;
-    //player.y = client_player.y;
-    let results = await new Promise((resolve, reject) => {
-      try { 
-        //resolve(runSql(`UPDATE players SET x = ${player.x}, y = ${player.y} WHERE id = ${player.account_id};`));
-        //resolve(runSql(`UPDATE players SET x = ${player.client_x}, y = ${player.client_y} WHERE id = ${player.account_id};`));
-        //resolve(runSql(`UPDATE players SET x = ${client_player.client_x}, y = ${client_player.client_y} WHERE id = ${client_player.account_id};`));
-        //resolve(runSql(`UPDATE players SET x = ${client_x}, y = ${client_y} WHERE id = ${client_player.account_id};`));
-        resolve(runSql(`UPDATE players SET x = ${player.x}, y = ${player.y} WHERE id = ${client_player.account_id};`));
+    //socket.on('connect_player', async function(data, callback) {
+    logger.info(`Handling a connect_player event on socket <${socket.id}>.`);
+    //logger.info('test');
+    let player = await new Promise((resolve, reject) => {
+      try {
+        resolve(game.connectPlayer(socket));
       } catch(error) {
-        logger.error('Got update player error.', error);
+        logger.error(error);
         reject(null);
+      };
+    });
+    //game.players[socket.id] = player;
+    //game.players[player.account_id] = player;
+    game.players[socket.id] = player;
+
+    socket.on('getid', function(callback) {
+      //return game.players[socket.id];
+      logger.warn(`TEST ${socket.id}`, game.players);
+      account_id = game.players[socket.id].account_id;
+      logger.warn(`Sending account_id <${account_id}>.`);
+      callback(account_id);
+    });
+
+
+    socket.on('state', async function(client_player) {
+      try {
+        logger.warn(`Responding to client state (<${client_player.client_x}>, <${client_player.client_y}>).`, client_player);
+
+        // get client x and y
+        //let client_x = client_player.x + client_player.x_delta;
+        //let client_y = client_player.y + client_player.y_delta;
+
+        player.x = client_player.x + client_player.x_delta;
+        player.y = client_player.y + client_player.y_delta;
+
+        //player.x = client_player.x;
+        //player.y = client_player.y;
+      
+
+        //player.x = client_player.x;
+        //player.y = client_player.y;
+        let results = await new Promise((resolve, reject) => {
+          try { 
+            //resolve(runSql(`UPDATE players SET x = ${player.x}, y = ${player.y} WHERE id = ${player.account_id};`));
+            //resolve(runSql(`UPDATE players SET x = ${player.client_x}, y = ${player.client_y} WHERE id = ${player.account_id};`));
+            //resolve(runSql(`UPDATE players SET x = ${client_player.client_x}, y = ${client_player.client_y} WHERE id = ${client_player.account_id};`));
+            //resolve(runSql(`UPDATE players SET x = ${client_x}, y = ${client_y} WHERE id = ${client_player.account_id};`));
+
+            //resolve(runSql(`UPDATE players SET x = ${player.x}, y = ${player.y} WHERE id = ${client_player.account_id};`));
+            let _results = runSql(`UPDATE players SET x = ${player.x}, y = ${player.y} WHERE id = ${client_player.account_id};`);
+            resolve(_results);
+            logger.warn('Successfully updated player position:', _results);
+          } catch(error) {
+            logger.error('Got update player error.', error);
+            reject(null);
+          }
+        });
+
+        logger.warn('Got update player results.', results);
+      } catch(error) {
+        logger.error('Got error handling state update.', error);
       }
     });
 
-    logger.warn('Got update player results.', results);
-  }); 
+  } catch(error) {
+    logger.error('Got error handling socket connection.', error);
+  }
 
 });
 

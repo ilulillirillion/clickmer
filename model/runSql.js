@@ -28,7 +28,7 @@ const runSql = async (query) => {
 
     } catch(error) {
 
-      logger.error(error);
+      logger.error('Got an error running SQL:', error);
       reject(null);
 
     };
