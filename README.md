@@ -7,6 +7,29 @@ A simple Javascript game with Node and Angular.
 ## Commit journal
 ---
 
+### Commit 293
+#### Cleaning up and refactoring code.
+
+Progress has been a little slower but has not halted the last couple of days,
+another refactor has been going on behind the scenes that might be ready for
+committing later today.
+
+So far the improvements have continued to focus on client code and now include
+better documentation and logging, some reorganization and is continuing to
+benefit from the removal of deprecated code. Some lines are also being cleaned
+up if they were violating some standard that I usually try to keep.
+
+Added a new library directory, which contains generic modules that should be
+portable beyond the project itself. These files may utlimately be converted
+into an actual custom library but for now it is purely organizational. Lot's
+of existing code could probably be moved partially to this new library, but
+I'm not sure if that will ultimately be a part of this current refactor or not.
+
+A new item as of the time of this journal that has been added into the library
+is a generic mixin that provides the ability to log to a browser-provided
+console using wrappers around the native functions, which has allowed togglable
+logging and could provide further improvements in the future.
+
 ### Commit 292
 #### Complete first stage of refactor
 
