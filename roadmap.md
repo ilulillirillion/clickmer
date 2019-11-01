@@ -3,6 +3,10 @@
 
 ---
 
+- customize console log []
+    - enable/disable log statements with switch []
+    - extensible wrapper  []
+
 - adopt class composition over inheritance []
 
 - debug view  []

@@ -1,7 +1,11 @@
 // vim: set ft=javascript:
 
 
+//const Thing = require('./Thing.js');
 const Thing = require('./Thing.js');
+
+// FIXME: Shouldn't this be using it's built-in logger?
+const logger = require('./logger.js');
 
 
 // FIXME: lazy property declarations

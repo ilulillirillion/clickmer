@@ -1,7 +1,7 @@
 // vim: set ft=javascript:
 
-import ControllableViewMixin from './ControllableViewMixin.js';
-import KeyboardControllableMixin from './KeyboardControllableMixin.js';
+//import ControllableViewMixin from './ControllableViewMixin.js';
+//import KeyboardControllableMixin from './KeyboardControllableMixin.js';
 
 // Assume React will be imported in HTML
 //class PlayerView extends ControllableViewMixin(KeyboardControllableMixin(React.Component)) {

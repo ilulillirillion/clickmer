@@ -84,10 +84,17 @@ class WorldView extends React.Component {
     //if (this.state.tiles) {
     //  for (let tile of this.state.tiles) {
     //if (this.props.tiles) {
-    if (this.props.client.player.surroundings) {
-      console.debug('Drawing tiles:', this.props.client.player.surroundings);
+
+    //let player = this.props.client.getPlayer();
+    let player = this.props.client.player;
+
+    //if (this.props.client.player.surroundings) {
+    if (player.surroundings) {
+      //console.debug('Drawing tiles:', this.props.client.player.surroundings);
+      console.debug('Drawing tiles:', player.surroundings);
       //for (let tile of this.props.tiles) {
-      for (let tile of this.props.client.player.surroundings) {
+      //for (let tile of this.props.client.player.surroundings) {
+      for (let tile of player.surroundings) {
         //this.drawTile(tile);
         //FIXME: Can't just pass the tile here?
         this.drawTile(

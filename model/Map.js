@@ -50,7 +50,7 @@ class Map extends Thing {
     let start_y = thing.y - scope;
     //let end_y = start_y + 10;
     let end_y = thing.y + scope;
-    logger.warn(`Collecting tiles between (<${start_x}>, <${start_y}>) and (<${end_x}>, <${end_y}>) as surroundings.`);
+    logger.warn(`Collecting tiles between (<${start_x}>, <${start_y}>) and (<${end_x}>, <${end_y}>) as surroundings for thing:`, thing);
 
 
     /*

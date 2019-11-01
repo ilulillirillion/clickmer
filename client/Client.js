@@ -1,49 +1,83 @@
 // vim: set ft=javascript:
 
+/** 
+ * file: clickmer/client/Client.js
+ * author: zolvaring
+ * email: zolvaring@gmail.com
+ * reference: https://github.com/zolvaring/clickmer
+ **
+ * Provides the Client class.
+ * TODO: expand on this docstring.
+ */
+
+// TODO: Enforce singleton
+
+//console.info('Client.js started.');
+
+import Thing from './Thing.js';
+
+// Import ServerArtifact to track the state of players.
 import ServerArtifact from './ServerArtifact.js';
-import KeyboardControllableMixin from './KeyboardControllableMixin.js';
+//console.debug('Imported ServerArtifact:', ServerArtifact);
+
+// Import CanConsoleLog mixin to extend the client with access to wrapped
+// console operations and a configuration abstraction for the console.
+import CanConsoleLog from './javascript/CanConsoleLog.js';
+//console.debug('Imported CanConsoleLog:', CanConsoleLog);
+
+// Import KeyboardControllable to make the client respond to keyboard input.
+import KeyboardControllable from './KeyboardControllable.js';
+//console.debug('Imported KeyboardControllable:', KeyboardControllable);
+
+// Import PlayerView for rendering player.
+import PlayerView from './PlayerView.js';
+//console.debug('Imported PlayerView:', PlayerView);
+
+// Import WorldView for rendering the world.
+import WorldView from './WorldView.js';
+//console.debug('Imported WorldView:', WorldView);
+
+// NOTE:  It's important to only call this once anywhere in the client in
+//        order to avoid issues with duplicating sockets.
 let socket = io();
+//console.debug('Got socket from io call:', socket);
 
-/*
-export default class Client {
-  // TODO: handle uuid and name.
-  constructor(
-      { uuid = null, name = null, player = null, controller = null } =
-      { uuid: null, name: null, player: null, controller: null }) {
-    console.debug('Constructing a new Client.', arguments);
-
-    this.player = player;
-
-    this.controller = controller;
-    if (!this.controller) { this.controller = new Controller() }
-
-  }
-};
-*/
-
-class Client extends KeyboardControllableMixin(Object) {
+/**
+ * The Client class is used to represent the player client.
+ * Contains all client state data, methods, and socket behaviors.
+ */
+//class Client extends KeyboardControllable(Object) {
+//class Client extends KeyboardControllable(CanConsoleLog(Object)) {
+class Client extends KeyboardControllable(CanConsoleLog(Thing)) {
   constructor(
       {
         account_id = null,
-        //socket_id = null,
-        //player = null,
         players = {}
       } = 
       {
         account_id: null,
-        //socket_id: null,
-        //player: null
         players: {}
       }
       ) {
 
-    super();
+    super({ logging_enabled: false });
 
-    //this.account_id = account_id;
-    this.players = players;
+    // Create an alias for the console logger
+    this.logger = this.console_logger;
+
+    /*
+    let name = 'blopo'
+    this.logger.debug(`Debug test <${name}>`, this);
+    this.logger.info(`Info test <${name}>`, this);
+    this.logger.warn(`Warn test <${name}>`, this);
+    this.logger.error(`Error test <${name}>`, this);
+    */
+
 
     // TODO: this is insecure
     this.account_id = account_id;
+
+    this.players = players;
 
     if (!this.account_id) {
       let self = this;
@@ -52,125 +86,89 @@ class Client extends KeyboardControllableMixin(Object) {
         self.account_id = response;
       });
     }
-      /*
-      console.warn('test');
-      socket.emit('getid', async function(response) {
-        this.account_id = await new Promise((resolve, reject) => {
-          try {
-            resolve(response);
-          } catch(error) {
-            console.warn(error);
-            reject(null);
-          }
-        });
-        console.warn('Got account id', account_id);
-      });
-      */
-       
 
-
-  }
-
-  // TODO: move these to a mixin
-  move(axis, delta) {
-    console.warn(`<${this}> moving <${delta}> units on <${axis}>`, this);
-    //this[axis] += delta;
-    //this[`${axis}_delta`] += delta;
-
-    //let player = this.player;
     let self = this;
-    let player = Object.values(this.players).find(function(player) {
-      return player.account_id === self.account_id;
+    socket.on('state', function(authoritative_state) {
+      //console.debug('Got state from server.', authoritative_state);
+      self.logger.debug('Got authoritative state from server:', authoritative_state);
+
+      // Update the client to reflect the authoritative state.
+      self.update(authoritative_state);
+
+      // Render the player view.
+      // TODO: create this child div.
+      ReactDOM.render(
+        React.createElement(PlayerView,
+            {
+              player: self.player
+            }),
+        document.getElementById('react_test'));
+
+      // Render the world view.
+      // TODO: create this child div.
+      ReactDOM.render(
+        React.createElement(WorldView,
+            {
+              client: self,
+              width: 100, height: 100,
+              tile_size: 8, fill_style: 'rgba(255, 0, 0, 0.6)'
+            }
+        ),
+        document.getElementById('react_map')
+      );
+
+      // Send the client's player to the server to be validated.
+      let player = self.player;
+      socket.emit('state', player);
+      //console.debug('Sent client player to server:', player);
+      self.logger.debug('Sent client player to server:', player);
+
+      player.x_delta = 0;
+      player.y_delta = 0;
+
     });
-    //player[axis] += delta;
-    player[`${axis}_delta`] += delta;
-    console.warn(`Moved player <${player.uuid}> <${delta}> units on <${axis}>:`, player);
+       
   }
 
-  moveX(delta) {
-    console.warn(`<${this}> moving <${delta}> units on x.`);
-    this.move('x', delta);
-  }
 
-  moveY(delta) {
-    console.warn(`<${this}> moving <${delta}> units y.`);
-    this.move('y', delta);
-  }
-    
-
+  /**
+   * Gets the "current" player for the client by checking for a matching
+   * account id.
+   */
   get player() {
-    console.debug(`Getting client player by account id <${this.account_id}>.`, this.players);
+    //console.debug(`Getting client player by account id <${this.account_id}>.`, this.players);
+    this.logger.debug(`Getting client player by account id <${this.account_id}>.`, this.players);
     let account_id = this.account_id;
-    /*
-    let player;
-    for (let _player of Object.values(this.players)) {
-      console.debug(`Checking <${this.account_id}> against <${_player.account_id}>`);
-      if (_player.account_id === this.account_id) {
-        console.debug('match');
-        player = _player;
-      }
-    }
-    */
     
     let player = Object.values(this.players).find(function(player) {
       return player.account_id === account_id;
     });
 
-    console.debug('Returning client player.', player);
+    //console.debug('Returning client player.', player);
+    this.logger.debug('Returning client player.', player);
     return player;
-    /*
-    return (player)
-      : player
-      ? Object.values(this.players).find(function(player) {
-          player.socket_id === this.socket.id;
-        } 
-    */
   }
 
+  /**
+   * Returns every player except the client's current player by account id.
+   */
   get other_players() {
-    console.debug('Getting other players from client:', this);
+    //console.debug('Getting other players from client:', this);
+    this.logger.debug('Getting other players from client:', this);
     other_players = Object.values(this.players).filter(player => {
       player.account_id !== this.account_id;
     });
     return other_players;
   }
 
-
-  //requestAccountId() {
-  //  socket.emit('
-
-  //getAccountId() {
-    
-
+  /**
+   * Take an authoritative state from the server and use it to update all
+   * players.
+   */
   update(authoritative_state) {
-    console.debug('Updating Client.', socket.id);
-
-    /*
-    if (!this.account_id) {
-      console.debug('Getting client account id', socket);
-      let self = this;
-      socket.emit('getid', async function(response) {
-        let account_id = await response;
-        console.debug('getid response:', account_id);
-        self.account_id = account_id;
-      });
-    }
-    */
-
-    //const accounts = authoritative_state.accounts;
+    //console.debug('Updating Client.', socket.id);
+    this.logger.debug('Updating Client.', socket.id);
     const players = authoritative_state.players;
-
-    // TODO: remove this, it's insecure.
-    /*
-    if (!this.account_id) {
-      console.debug('Updating client account id');
-      //this.account_id = accounts[this.socket.id];
-      this.account_id = Object.values(players).find(function(player) {
-        player.socket_id === socket.id;
-      }).account_id;
-    }
-    */
-
     for (let [player_uuid, player_state] of Object.entries(players)) {
       if (!(player_uuid in this.players)) {
         this.players[player_uuid] = new ServerArtifact(player_state);
@@ -178,32 +176,23 @@ class Client extends KeyboardControllableMixin(Object) {
       this.players[player_uuid].update(player_state);
     }
   }
-    
-      
 
-  /*
-  updateClient(
-      { player_data = null } =
-      { player_data: null }) {
-    this._updatePlayer(player_data
-  */
-  //updateClient(server_update) {
-    //this._updatePlayer(server_update.player);
-
-  /*
-  _updatePlayer(player_update) {
-    this.player.updateClient(player_update);
+  /**
+   * Overwrites the move method provided by KeyboardControllable.
+   * The client captures the keyboard input as normal, but moves the player
+   * instead of itself.
+   */
+  move(axis, delta) {
+    //console.debug(`<${this}> moving <${delta}> units on <${axis}>`, this);
+    this.logger.debug(`<${this}> moving <${delta}> units on <${axis}>`, this);
+    let self = this;
+    let player = Object.values(this.players).find(function(player) {
+      return player.account_id === self.account_id;
+    });
+    player[`${axis}_delta`] += delta;
+    //console.debug(`Moved player <${player.uuid}> <${delta}> units on <${axis}>:`, player);
+    this.logger.debug(`Moved player <${player.uuid}> <${delta}> units on <${axis}>:`, player);
   }
-  */
-
-  //_updatePlayers(players_update) {
-    /*
-    for (let player of this.players) {
-      player.updateClient(p
-    */
-    //for (let player_update of players_update) {
-      
-
 }
 
 export default Client;

@@ -1,78 +1,45 @@
-const SocketMixin = require('./SocketMixin.js');
-const ProxyMixin = require('./ProxyMixin.js');
-const { either } = require('./eitherMonad.js');
-//const { createUuid: _createUuid } = require('./createUuid.js');
-//const createUuid = require('./createUuid.js');
+// vim: set ft=javascript:
 
+const CanWinstonLog = require('../library/nodejs/CanWinstonLog.js');
 
-class Thing extends ProxyMixin(SocketMixin(Object)) {
+class Thing extends CanWinstonLog(Object) {
   constructor(
-      { socket_id = null, uuid = null, name = 'thing' } =
-      { socket_id: null, uuid: null, name: 'thing' }) {
-    
-    super({ socket_id });
+      { uuid = null, name = null, ticks_epoch = 0, socket_id = null } = 
+      { uuid: null, name: null, ticks_epoch: 0, socket_id: null }, 
+      ...args) {
+    super(...args);
 
+    // Provide all things with a class_name property, built from the name
+    // of the class itself. This should not be relied upon, but normally will
+    // point the parent when inheritance is used.
     this.class_name = this.constructor.name.toLowerCase();
-    
-    //this.uuid = uuid;
-    this.uuid = (uuid) ? uuid : this.createUuid();
-    //this.uuid = this.createUuid();
 
-    this.name = name;
-
-    this.ticks_epoch = 0;
+    // All things should have a UUID. If this is no UUID, create one using the
+    // createUUID method.
+    this.uuid = uuid;
+    if (!this.uuid) {
+      this.uuid = this.createUuid();
+    }
 
     this.fill_style = 'rgba(0, 0, 255, 0.6)';
 
-  };
+    this.ticks_epoch = ticks_epoch;
 
-  //tick = require('tickThing.js');
+    this.socket_id = socket_id;
+      
+  }
+
   tick() {
-    require('./tickThing.js')(this);
-  };
-
-  // FIXME: implement this!
-  /*
-  write(message) {
-    message_log.write(message)
-  };
-  */
-
-  /*
-  setUuid(uuid) {
-    this.uuid = uuid;
-  };
-  */
-
-  /*
-  createUuid() {
-    const uuid = require('./createUuid.js')(this.class_name);
-    //either(logger.error(uuid), this.setUuid(uuid), uuid);
-    let self = this;
-    either(uuid,
-        function() { logger.error(uuid) },
-        function() { self.uuid = uuid }
-    );
-    //either(logger.error(uuid), , uuid);
-    //_createUuid(this.class_name);
-  };
-  */
+    this.ticks_epoch += 1;
+  }
 
   createUuid() {
     const uuid = require('./createUuid.js')(this.class_name);
     return uuid;
-  };
-    
+  }
 
-  /*
-  createUuid(
-      { class_name = this.class_name } =
-      { class_name: this.class_name }) {
-    // TODO: an either monad should go here...?
-    return (class_name) ? `${class_name}_${uuidv6()}` : `error_${uuidv6{}}`;
-  };
-  */
-};
+}
+
 
 
 module.exports = Thing;

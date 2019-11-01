@@ -7,6 +7,16 @@ A simple Javascript game with Node and Angular.
 ## Commit journal
 ---
 
+### Commit 294
+#### Continue refactoring and compositionalizing
+
+Significant progress on the ongoing refactor. Certain functions have been moved
+into class mixins to provide more compositionality, and more elements have been
+moved to a rudimentary custom library.
+Most client and server objects should have their own interfaces for
+communicating to their respective loggers, which should allow for logger
+customization at the object level.
+
 ### Commit 293
 #### Cleaning up and refactoring code.
 

@@ -70,6 +70,7 @@ io.on('connection', async function(socket) {
 
         player.x = client_player.x + client_player.x_delta;
         player.y = client_player.y + client_player.y_delta;
+        logger.warn('TEST', player);
 
         //player.x = client_player.x;
         //player.y = client_player.y;

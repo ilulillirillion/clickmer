@@ -1,6 +1,7 @@
 // vim: set ft=javascript:
 
 
+//const logger = require('../library/logger.js');
 const logger = require('./logger.js');
 const getAccountIdFromUsername = require('./getAccountIdFromUsername');
 const getPlayerDataFromAccountId = require('./getPlayerDataFromAccountId');

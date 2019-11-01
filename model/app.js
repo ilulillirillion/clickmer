@@ -10,6 +10,18 @@ const runSql = require('./runSql.js');
 var app = express();
 app.set('port', 5000);
 
+/*
+var allowCrossDomain = function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*"); // allow requests from any other server
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE'); // allow these verbs
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Cache-Control");
+}
+app.use(allowCrossDomain); // plumbing it in as middleware
+*/
+
+var cors = require('cors')
+app.use(cors())
+
 const session = require('./session.js');
 app.use(session);
 
@@ -18,6 +30,10 @@ app.use(bodyParser.json());
 
 //app.use(express.static(path.join(__dirname, '../functional_client/')));
 app.use(express.static(path.join(__dirname, '../client/')));
+
+//app.use(express.static(path.join(__dirname, '../common/')));
+
+app.use(express.static(path.join(__dirname, '../library/')));
 
 app.get('/test', function(request, response) {
   //return response.sendFile(path.join(__dirname, '../functional_client/test.html'));
