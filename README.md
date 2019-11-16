@@ -7,7 +7,11 @@ A simple Javascript game with Node and Angular.
 ## Commit journal
 ---
 
----
+### Commit 296
+#### Better comments for the Object Compser
+
+Add/rewrite comments in the Object Composer class for documentation and
+readability.
 
 ### Commit 295
 #### Working on object composition
