@@ -12,6 +12,10 @@
  *  The ObjectComposer composes objects from mixins with some capacity for
  *  managing the mixin process through parameters.
  *
+ *  Custom built using the following references as strong guides:
+ *    https://raganwald.com/2016/07/20/prefer-composition-to-inheritance.html
+ *    http://raganwald.com/2015/12/28/mixins-subclass-factories-and-method-advice.html
+ *
  *  Example Usage:
  *    // First, build a mixin by currying half of the objecting composer.
  *    const examplePrivateMethod = Symbol('examplePrivateMethod');
