@@ -1,3 +1,166 @@
+# Concepts
+
+## Death and injury
+
+HP hitting zero should not be the most common way to die, death should be
+caused by more specific triggers related to damage sustained, and HP should be
+used as a complimentary system.
+
+# Game world
+
+## Map
+
+### x axis
+Status: Implemented
+Description: Cartesian abscissa axis for lateral tracking.
+
+### y axis
+Status: Implemented
+Description: Cartesian ordinate axis for longitudinal tracking.
+
+### z axis
+Status: Todo
+Description: Cartesian applicate axis for vertical tracing.
+
+### w axis
+Status: Idea
+Description: Custom Cartesian axis for tracking entities that move outside of normally accessible spatial axis. Used as an alternative to "ephemeral" state tagging, entities that phase in and out will still occupy x, y and z coordinate values but will be offset by a w coordinate, indicating their disassociation from conventional tangibility.
+
+## Generation
+
+Generate a chunk of land for each player that is theirs. The player can buy more land where none has been generated, on the "frontier", or from other players. Can take from players by force?
+
+Allow players supernatural sorts of influence over their realms?
+
+## Systems
+
+### Energy
+
+Use energy to do actions, refill with food?
+
+## Objects
+
+### Trees
+
+---
+
+# attributes
+
+- vitality
+- intelligence
+
+# skills
+
+- fishing
+- agriculture
+- charisma
+- lockpicking
+- mercantilism
+- bartering
+
+# statistics
+
+## Maximum Health
+### Formula
+vitality * 10
+
+## Maximum Stamina
+### Formula
+vitality * 10
+
+## Maximum Mana
+### Formula
+intelligence * 10
+
+## Maximum Hunger
+### Formula
+vitality
+
+## Charm
+### Description
+Represents how persuasive a character is.
+### Formula
+5 parts charisma, 1 part intelligence
+
+## Effective Bartering
+### Description
+Represents how effective someone actually is at bartering. Lower prices.
+### Formula
+5 parts bartering, 3 parts mercantalism, 1 part charm
+
+---
+
+# Object structure
+
+## Client Side
+
+### Classes
+
+#### Thing
+##### Description
+Base class that most objects should extend.
+##### Status
+Implemented
+
+### Mixins
+
+#### Tangible 
+##### Description
+Objects that can be interacted with.
+Maybe not needed, could represent ephemeral objects with a hidden axis?
+##### Status
+Archived
+
+#### Spatial 
+##### Description
+Extends objects to occupy locations in space.
+##### Status
+Implemented
+
+#### CanWinstonLog 
+##### Description
+Extends objects with an interface for logging to a Winston logger instance.
+
+#### CanConsoleLog 
+##### Description
+Extends objects with an interface to log to the console.
+##### Status
+Implemented
+
+#### ServerManaged 
+##### Description
+Extends objects with an update function for server overwritability.
+##### Status
+Implemented
+##### Notes
+Considering reducing this, since this really just provides an update method
+for properties to be overriden, it is just managed and has nothing to do with
+a server in theory.
+
+#### Vagile 
+##### Description
+Extends objects so that they can move on their own.
+##### Status
+Implemented
+
+#### Drawable 
+##### Description
+Extends objects so they can be drawn by map objects.
+##### Dependencies
+- Spatial Mixin
+##### Status
+Implemented
+
+#### KeyboardControllable
+##### Description
+##### Dependencies
+- Movable
+##### Status
+Implemented
+
+
+---
+
 - Follow functional paradigm where possible within the OOP structure
   https://medium.com/front-end-weekly/8-steps-to-turn-imperative-javascript-class-to-a-functional-declarative-code-862964faf46c
 

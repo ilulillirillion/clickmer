@@ -37,6 +37,14 @@ class WorldView extends React.Component {
     super(props);
 
     /*
+    let container = document.createElement('div');
+    container.setAttribute('id', 'world_view_container');
+    document.body.appendChild(container);
+    this.container = container;
+    */
+
+
+    /*
     this.state = {
       tiles: this.props.tiles,
       players: this.props.players,

@@ -1,135 +1,40 @@
 // vim: set ft=javascript:
 
-import TileType from './TileType.js';
-
 /**
- * file: clickmer/client/ServerArtifact.js
+ * file: clickmer/client/ServerManaged.js
  * author: zolvaring
  * email: zolvaring@gmail.com
  * reference: https://github.com/zolvaring/clickmer
  **
- * Provides the ServerArtifact class.
- * ServerArtifacts are objects that exist on the client but is managed by the
- * server through mutation.
- * The ServerArtifact represents the state that the client things a given
- * object is in, and is also what the client sends to the server to be
- * validated. The server will respond with validation data and the client will
- * make sure ServerArtifacts are mutated accordingly.
+ * Provides the ServerManaged mixin class.
+ * ServerManaged objects have a delta namespace.
  */
-class ServerManaged {
-  /**
-   * Constructs a new ServerArtifact.
-   * Initializes all valid parameters to the exact value given.
-   * Initializes an x and y delta value at 0. These values are used to track
-   * position changes that occur on the client's side.
-   */
-  constructor(
-      {
-        account_id = null,
-        socket_id = null,
-        uuid = null,
-        name = 'server_artifact',
-        ticks_epoch = 0,
-        x = 1,
-        y = 1,
-        surroundings = {}
-      } =
-      {
-        account_id: null,
-        socket_id: null,
-        uuid: null,
-        name: 'server_artifact',
-        ticks_epoch: 0,
-        x: 1,
-        y: 1,
-        surroundings: {}
-      }
-      ) {
-    console.debug('Constructing a new ServerArtifact.', arguments);
+const ServerManaged = Base => class extends Base {
 
-    // TODO: Surroundings should probably be handled differently.
-    this.client_state = {
-      account_id: account_id,
-      socket_id: socket_id,
-      uuid: uuid,
-      name: name,
-      ticks_epoch: ticks_epoch,
-      x: x,
-      y: y,
-      surroundings: surroundings
-    }
 
-    this.server_state = {
-      account_id: null,
-      socket_id: null,
-      uuid: null,
-      name: null,
-      ticks_epoch: null,
-      x: null,
-      y: null,
-      surroundings: null
-    }
-      
-  }
-
-  update(
-      {
-        account_id = this.account_id || null,
-        socket_id = this.socket_id || null,
-        uuid = this.uuid || null,
-        name = this.name || 'server_artifact',
-        ticks_epoch = this.ticks_epoch || 0,
-        x = this.x || 1,
-        y = this.y || 1,
-        surroundings = this.surroundings || {}
-      } = {
-        account_id: this.account_id || null,
-        socket_id: this.socket_id || null,
-        uuid: this.uuid || null,
-        name: this.name || 'server_artifact',
-        ticks_epoch: this.ticks_epoch || 0,
-        x: this.x || 1,
-        y: this.y || 1,
-        surroundings: this.surroundings || {}
-      }) {
-
-    console.debug('Updating server artifact:', this, arguments);
-
-    this.account_id = account_id;
-    this.socket_id = socket_id;
-    this.uuid = uuid;
-    this.name = name;
-    this.ticks_epoch = ticks_epoch;
-    this.x = x;
-    this.y = y;
-
-    // TODO: use map?
-    let _surroundings = [];
-    for (let tile_data of surroundings) {
-      //let tile = new TileType({ type: 'Grass', tile_data });
-      let tile = new TileType(tile_data);
-      _surroundings.push(tile);
-    }
-    this.surroundings = _surroundings;
-      
-  }
-
-  move(axis, delta) {
-    console.debug(`<${this.uuid}> moving <${delta}> units on <${axis}> axis.`);
-    this[axis] += delta;
-  }
-
-  moveX(delta) {
-    console.debug(`<${this.uuid}> moving <${delta}> units on x axis.`);
-    this.move('x', delta);
-  }
-
-  moveY(delta) {
-    console.debug(`<${this.uuid}> moving <${delta}> units on y axis.`);
-    this.move('y', delta);
-  }
+  constructor(...args) {
     
+    super(...args);
+
+    /*
+    return new Proxy(this, {
+
+      set(target, name, value) {
+        target.delta[name] = value;
+        return true;
+      }
+
+    });
+    */
+
+  }
+
+  update(delta) {
+    for (let [key, value] of Object.entries(delta)) {
+      this[key] = value;
+    }
+  }
 
 }
 
-export default ServerArtifact;
+export default ServerManaged;

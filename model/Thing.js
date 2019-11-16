@@ -1,6 +1,9 @@
 // vim: set ft=javascript:
 
-const CanWinstonLog = require('../library/nodejs/CanWinstonLog.js');
+//const CanWinstonLog = require('../library/nodejs/CanWinstonLog.js');
+//const CanWinstonLog = require('@lib/CanWinstonLog.js');
+//const CanWinstonLog = require('library/CanWinstonLog.js');
+const { CanWinstonLog } = require('nodejslib');
 
 class Thing extends CanWinstonLog(Object) {
   constructor(

@@ -11,9 +11,7 @@
  * bundles core properties and functionality into one object.
  */
 
-const Thing = ObjectComposer({
-
-const Thing = 
+class Thing {
 
   /**
    * Constructs and returns a new thing instance.

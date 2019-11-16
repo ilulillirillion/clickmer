@@ -1,15 +1,24 @@
 // vim: set ft=javascript:
 
-console.info('KeyboardControllable.js started.');
+/**
+ *  file: clickmer/client/KeyboardControllable.js
+ *  author: zolvaring
+ *  email: zolvaring@gmail.com
+ *  reference: https://github.com/zolvaring/clickmer.git
+ **
+ *  Dependencies:
+ *    - clickmer/client/Vagile.js
+ **
+ *  Provides the KeyboardControllable mixin class.
+ */
 
-const KeyboardControllable = Base => class extends Base {
+import Vagile from './Vagile.js'
+
+const KeyboardControllable = Base => class extends Vagile(Base) {
+
   constructor(...args) {
-    console.debug('Constructing a new KeyboardController', arguments);
+
     super(...args);
-    console.debug(`Extending base <${this.uuid}> into a keyboard controllable object:`, this);
-    console.warn('test move', this.hasOwnProperty('move'), this);
-    console.warn(`test account_id (<${this.account_id}>)`, this.hasOwnProperty('account_id'), this);
-    console.warn(`test name (<${this.name}>)`, this.hasOwnProperty('name'), this);
 
     let self = this;
     this.controls = {
@@ -30,27 +39,12 @@ const KeyboardControllable = Base => class extends Base {
 
   }
     
-  moveX(delta) {
-    console.debug(`<${this.uuid}> moving <${delta}> units on the x axis.`);
-    this.move('x', delta);
-  }
-
-  moveY(delta) {
-    console.debug(`<${this.uuid}> moving <${delta}> units on the y axis.`);
-    this.move('y', delta);
-  }
-
-  move(axis, delta) {
-    console.debug(`<${this.uuid}> moving <${delta}> on the <${axis}> axis.`);
-    this[axis] += delta;
-  }
-
   keydown(_event) {
     let key = _event.key;
-    console.warn(`Got key <${key}>.`);
-    console.warn(`Looking for <${key}> in <${this.uuid}>'s controls.`, this);
+    console.debug(`Got key <${key}>.`);
+    console.debug(`Looking for <${key}> in <${this.uuid}>'s controls.`, this);
     if (key in this.controls) {
-      console.warn(`Found <${key}> in <${this.uuid}>'s controls.`);
+      console.debug(`Found <${key}> in <${this.uuid}>'s controls.`);
       this.controls[key]();
     }
   }

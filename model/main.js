@@ -12,7 +12,6 @@ const server = require('./server.js');
 
 const runSql = require('./runSql.js');
 
-
 // Import the io object
 //const io = require('./functional_source/io.js');
 

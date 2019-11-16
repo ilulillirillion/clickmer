@@ -1,0 +1,28 @@
+// vim: set ft=javascript:
+
+/**
+ * file: clickmer/client/Tangible.js
+ * author: zolvaring
+ * email: zolvaring@gmail.com
+ * reference: https://github.com/zolvaring/clickmer
+ **
+ * Provides the Tangible mixin class.
+ * Tangible objects have spatial properties used to represent their location
+ * in the physical world.
+ */
+
+const Tangible = Base => class extends Base {
+
+  constructor(
+      { x = 0, y = 0 } = { x: 0. y: 0 },
+      ...args) {
+
+    super(...args);
+
+    this.x = x;
+    this.y = y;
+
+  }
+}
+
+export default Tangible;

@@ -31,9 +31,11 @@ app.use(bodyParser.json());
 //app.use(express.static(path.join(__dirname, '../functional_client/')));
 app.use(express.static(path.join(__dirname, '../client/')));
 
-//app.use(express.static(path.join(__dirname, '../common/')));
-
-app.use(express.static(path.join(__dirname, '../library/')));
+// FIXME: This unintentionally grants access to all libraries. Using
+//        '../libraries/jslib' works but I want to avoid importing library
+//        files into the root filepath namespace, in case of filename
+//        conflicts.
+app.use(express.static(path.join(__dirname, '../libraries')));
 
 app.get('/test', function(request, response) {
   //return response.sendFile(path.join(__dirname, '../functional_client/test.html'));

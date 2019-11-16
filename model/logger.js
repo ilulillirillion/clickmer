@@ -16,7 +16,10 @@ logger.debug('Created a Winston logger instance.');
 */
 
 //const { winston_logger: logger } = require('../library/nodejs/winston_logger.js');
-const logger = require('../library/nodejs/winston_logger.js');
+//const logger = require('../library/nodejs/winston_logger.js');
+//const logger = require('nodejslib.winston_logger');
+//const logger = require('nodejslib');
+const { winston_logger: logger } = require('nodejslib');
 //const { logger: winston_logger } = require('../library/nodejs/winston_logger.js');
 //const winston_logger = require('../library/nodejs/winston_logger.js');
 //const logger = winston_logger;

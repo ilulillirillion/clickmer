@@ -19,7 +19,7 @@
 // Import Thing to use as a base for the client class.
 import Thing from './Thing.js';
 // Import ServerArtifact to track the state of players.
-//import ServerArtifact from './ServerArtifact.js';
+import ServerArtifact from './ServerArtifact.js';
 // Import CanConsoleLog mixin to extend the client with access to wrapped
 import CanConsoleLog from './jslib/CanConsoleLog.js';
 // Import KeyboardControllable to make the client respond to keyboard input.
@@ -28,10 +28,6 @@ import KeyboardControllable from './KeyboardControllable.js';
 import PlayerView from './PlayerView.js';
 // Import WorldView for rendering the world.
 import WorldView from './WorldView.js';
-
-import Vagile from './Vagile.js';
-import CanLog from './CanLog.js';
-import Player from './Player.js';
 
 // NOTE:  It's important to only call this once anywhere in the client in
 //        order to avoid issues with duplicating sockets.
@@ -43,8 +39,7 @@ let socket = io();
  * Relies on existence of relevant shell divs in the HTML and expects them to
  * be provided by the main script or static HTML.
  */
-//class Client extends KeyboardControllable(CanConsoleLog(Thing)) {
-class Client extends KeyboardControllable(CanLog(Thing)) {
+class Client extends KeyboardControllable(CanConsoleLog(Thing)) {
   constructor(
       {
         account_id = null,
@@ -81,50 +76,38 @@ class Client extends KeyboardControllable(CanLog(Thing)) {
       // Update the client to reflect the authoritative state.
       self.update(authoritative_state);
 
-      let player = self.player;
-      let client_delta = player.reapDelta();
-      self.logger.debug('Sent client_delta to server:', client_delta);
+      // Render the player view.
+      ReactDOM.render(
+        React.createElement(PlayerView,
+            {
+              player: self.player
+            }
+        ),
+        document.getElementById('player_view_container')
+      );
 
-      /*
-      // Send the client's player to the server to be validated or entered.
+      // Render the world view.
+      ReactDOM.render(
+        React.createElement(WorldView,
+            {
+              client: self,
+              width: 100, height: 100,
+              tile_size: 8, fill_style: 'rgba(255, 0, 0, 0.6)'
+            }
+        ),
+        document.getElementById('world_view_container')
+      );
+
+      // Send the client's player to the server to be validated.
       let player = self.player;
       socket.emit('state', player);
       self.logger.debug('Sent client player to server:', player);
 
-      // Reset the player delta values.
       player.x_delta = 0;
       player.y_delta = 0;
-      */
 
     });
        
-  }
-
-  // FIXME: Not called!
-  tick() {
-
-    // Render the player view.
-    ReactDOM.render(
-      React.createElement(PlayerView,
-        {
-          player: self.player
-        }
-      ),
-      document.getElementById('player_view_container')
-    );
-
-    // Render the world view.
-    ReactDOM.render(
-      React.createElement(WorldView,
-        {
-          client: self,
-          width: 100, height: 100,
-          tile_size: 8, fill_style: 'rgba(255, 0, 0, 0.6)'
-        }
-      ),
-      document.getElementById('world_view_container')
-    );
-
   }
 
 
@@ -166,9 +149,7 @@ class Client extends KeyboardControllable(CanLog(Thing)) {
     const players = authoritative_state.players;
     for (let [player_uuid, player_state] of Object.entries(players)) {
       if (!(player_uuid in this.players)) {
-        //this.players[player_uuid] = new ServerArtifact(player_state);
-        //this.players[player_uuid] = new Vagile(CanLog(Thing));
-        this.players[player_uuid] = new Player();
+        this.players[player_uuid] = new ServerArtifact(player_state);
       }
       this.players[player_uuid].update(player_state);
     }

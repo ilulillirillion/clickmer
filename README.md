@@ -7,6 +7,16 @@ A simple Javascript game with Node and Angular.
 ## Commit journal
 ---
 
+---
+
+### Commit 295
+#### Working on object composition
+
+A lot of work since the last update has gone into the continued refactor.
+The primary workload since the last update has been building a new object
+composer, which largely is working as of this commit, but still requires
+some extending. The refactor is waiting on the object composer to be completed.
+
 ### Commit 294
 #### Continue refactoring and compositionalizing
 

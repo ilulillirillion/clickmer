@@ -10,15 +10,8 @@
  * Things are used as a base for nearly every other object in the game, and
  * bundles core properties and functionality into one object.
  */
+class Thing {
 
-const Thing = ObjectComposer({
-
-const Thing = 
-
-  /**
-   * Constructs and returns a new thing instance.
-   * All things should have an exposed UUID and name property.
-   */
   constructor(
       { uuid = null, name = 'thing' } =
       { uuid: null, name: 'thing' }) {
@@ -34,7 +27,21 @@ const Thing =
     // Set a name for the thing from arguments.
     this.name = name;
 
+    // TODO: Move this into some sort of "drawable" mixin?
+    // Set a default fill value in case the thing needs to be drawn.
+    this.fill_style = 'rgba(0, 0, 255, 0.6)';
+
+    // Initialize a ticks epoch value at 0.
+    this.ticks_epoch = 0;
+
   };
+
+  /**
+   * Tick the thing.
+   * Descendants that tick 
+  tick() {
+    this.ticks_epoch += 1;
+  }
 
 }
 
