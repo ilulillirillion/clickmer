@@ -7,6 +7,12 @@ A simple Javascript game with Node and Angular.
 ## Commit journal
 ---
 
+### Commit 298
+#### Nearly finish object composer
+
+A lot more work has gone into fleshing out and fixing the object composer.
+It is not yet complete but nearly there.
+
 ### Commit 297
 #### Add links for helpful composer references
 

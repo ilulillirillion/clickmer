@@ -85,146 +85,156 @@
  *    //  =>  'Override success.'
  */
 
-/**
- *  The first set of parameters indicate which properties to import from the 
- *  target base object into the composed object. Imported properties are those 
- *  properties that belong to the base object that the composed object's 
- *  methods require access to in order to function correctly.
- */
-const ObjectComposer = (...imported_properties) =>
-
+const ObjectComposer = (mixin_name) =>
   /**
-   *  The second set of parameters indicate all of the properties provided by
-   *  the mixin. This effectively represents the mixin object itself. All 
-   *  mixin properties should be provided here, any ommissions may result in
-   *  unavailable properties and unpredictable behavior.
+   *  The first set of parameters indicate which properties to import from the 
+   *  target base object into the composed object. Imported properties are those 
+   *  properties that belong to the base object that the composed object's 
+   *  methods require access to in order to function correctly.
    */
-  (mixin_properties) =>
+  //const ObjectComposer = (...imported_properties) =>
+  (...imported_properties) =>
 
-  /**
-   *  The third set of parameters indicate which properties to export from the 
-   *  mixin object to the target base object's composed object. These 
-   *  properties will be accessible by the target base object as if they were 
-   *  mapped directly to it.
-   */
-    (...exported_properties) =>
+    /**
+     *  The second set of parameters indicate all of the properties provided by
+     *  the mixin. This effectively represents the mixin object itself. All 
+     *  mixin properties should be provided here, any ommissions may result in
+     *  unavailable properties and unpredictable behavior.
+     */
+    (mixin_properties) =>
 
       /**
-       * TODO: Unimplemented
-       *
-       *  The fourth set of parameters indicate which properties to export from
-       *  the mixin object into the target base object's prototype, and also
-       *  indicates the way in which the properties are exported, allowing
-       *  arbitrary extension and layering of target base prototype's existing
-       *  logic.
+       *  The third set of parameters indicate which properties to export from the 
+       *  mixin object to the target base object's composed object. These 
+       *  properties will be accessible by the target base object as if they were 
+       *  mapped directly to it.
        */
-      (...exotic_exports) =>
-      
+      (...exported_properties) =>
+
         /**
-         * The final parameter set is the base object that is being modified.
+         * TODO: Unimplemented
+         *
+         *  The fourth set of parameters indicate which properties to export from
+         *  the mixin object into the target base object's prototype, and also
+         *  indicates the way in which the properties are exported, allowing
+         *  arbitrary extension and layering of target base prototype's existing
+         *  logic.
          */
-        target => {
-
-          console.debug('Composing object with imported properties, mixin properties, exported properties, exotic exports, and target:', imported_properties, mixin_properties, exported_properties, exotic_exports, target);
-
-          // HELP: Please explain why symbols are used for these?
-          const composed_object = Symbol('composed_object');
-          const instance = Symbol('instance');
-
+        (...exotic_exports) =>
+      
           /**
-           *  Check for an exported_properties argument. If it's empty, then
-           *  export all properties by default.
+           * The final parameter set is the base object that is being modified.
            */
-          if (exported_properties.length === 0) {
-            exported_properties = Object.keys(mixin_properties);
-            console.debug('No exported properties argument given, using default behavior:', exported_properties);
-          }
+          target => {
 
-          /**
-           *  Inject dependency methods, getters, and setters, into the target 
-           *  base object's prototype.
-           */
-          for (const property_name of exported_properties) {
-            Object.defineProperty(target.prototype, property_name, {
-              value:  function(...args) {
+            console.debug('Composing object with imported properties, mixin properties, exported properties, exotic exports, and target:', imported_properties, mixin_properties, exported_properties, exotic_exports, target);
 
-                /**
-                 * If the target base object has not already had to set a
-                 * property to represent the composed object, take the
-                 * opportunity to do so now.
-                 */
-                // FIXME: This probably needs to be moved elsewhere, or else
-                //        I will have to repeat it when handling "exotic
-                //        exports", in case only those exist and this has
-                //        never been called. I need a better understanding of
-                //        these next 3 lines.
-                if (this[composed_object] == null) {
-                  this[composed_object] = Object.assign({}, mixin_properties);
-                  this[composed_object][instance] = this;
+            // HELP: Please explain why symbols are used for these?
+            //const composed_object = Symbol('composed_object');
+            const composed_object = Symbol(mixin_name);
+            const instance = Symbol('instance');
+
+            /**
+             *  Check for an exported_properties argument. If it's empty, then
+             *  export all properties by default.
+             */
+            if (exported_properties[0] === 'ALL') {
+              exported_properties = Object.keys(mixin_properties);
+              console.debug('Found keyword ALL:', exported_properties);
+            }
+
+            /**
+             *  Inject dependency methods, getters, and setters, into the target 
+             *  base object's prototype.
+             */
+            for (const property_name of exported_properties) {
+              Object.defineProperty(target.prototype, property_name, {
+                value:  function(...args) {
+                  console.debug('Defining exported property:', property_name);
 
                   /**
-                   *  Iterate through each explicitly imported property and 
-                   *  define it for the composed object. Composed object 
-                   *  behavior is expected to be dependent upon access to any 
-                   *  imported properties, so the composed object must have 
-                   *  some type of direct access to them.
+                   * If the target base object has not already had to set a
+                   * property to represent the composed object, take the
+                   * opportunity to do so now.
                    */
-                  for (const property_name of imported_properties) {
-                    /**
-                     *  If the imported property is a method, map the like 
-                     *  property of the composed object to a reference of the 
-                     *  base/mixin's method, passing original arguments through 
-                     *  to it.
-                     */
-                    if (typeof this[composed_object][property_name] === 'function') {      
-                      this[composed_object][property_name] = function(...args) {
-                        return this[instance][property_name](...args);
-                      }
-                    /**
-                     *  If the imported property is not a method, set the like 
-                     *  property of the composed object to a getter which 
-                     *  returns the base object's like property value. Uses a 
-                     *  getter, instead of a direct mapping, to ensure calls to 
-                     *  the composed object's property will always return the 
-                     *  current value of the base object.
-                     */
-                    } else {
-                      Object.defineProperty(this[composed_object], property_name, {
-                        get: function() { return this[instance][property_name] }
-                      });
+                  // FIXME: This probably needs to be moved elsewhere, or else
+                  //        I will have to repeat it when handling "exotic
+                  //        exports", in case only those exist and this has
+                  //        never been called. I need a better understanding of
+                  //        these next 3 lines.
+                  if (this[composed_object] == null) {
+                    console.debug('composed object is null.');
+                    this[composed_object] = Object.assign({}, mixin_properties);
+                    this[composed_object][instance] = this;
 
+                    /**
+                     *  Iterate through each explicitly imported property and 
+                     *  define it for the composed object. Composed object 
+                     *  behavior is expected to be dependent upon access to any 
+                     *  imported properties, so the composed object must have 
+                     *  some type of direct access to them.
+                     */
+                    for (const property_name of imported_properties) {
+                      /**
+                       *  If the imported property is a method, map the like 
+                       *  property of the composed object to a reference of the 
+                       *  base/mixin's method, passing original arguments through 
+                       *  to it.
+                       */
+                      console.debug('Handling imported property:', property_name);
+                      if (typeof this[composed_object][property_name] === 'function') {      
+                        this[composed_object][property_name] = function(...args) {
+                          return this[instance][property_name](...args);
+                        }
+                        // FIXME: Will not prevent name collisions!
+                        //Object.defineProperty(target.prototype, property_name) {
+                      /**
+                       *  If the imported property is not a method, set the like 
+                       *  property of the composed object to a getter which 
+                       *  returns the base object's like property value. Uses a 
+                       *  getter, instead of a direct mapping, to ensure calls to 
+                       *  the composed object's property will always return the 
+                       *  current value of the base object.
+                       */
+                      } else {
+                        /**
+                         * This line will make properties available on the
+                         * target base object itself (as opposed to just inside
+                         * of the symbol being constructed).
+                         */
+                        //this[property_name] = mixin_properties[property_name];
+
+                        Object.defineProperty(this[composed_object], property_name, {
+                          get: function() { return this[instance][property_name] }
+                        });
+
+                      }
                     }
                   }
-                }
 
-                /**
-                 *  Finally, return the composed object's like-named method, 
-                 *  passing any arguments given to it, as the target base's 
-                 *  like-named method's value.
-                 */
-                return this[composed_object][property_name](...args);
-              },
-              // Allow the property to be overwritten.
-              writable: true
-            });
-          }
+                  /**
+                   *  Finally, return the composed object's like-named method, 
+                   *  passing any arguments given to it, as the target base's 
+                   *  like-named method's value.
+                   */
+                  return this[composed_object][property_name](...args);
+                },
+                // Allow the property to be overwritten.
+                writable: true
+              });
+            }
 
-          /**
-           *  TODO: Implement this.
-           *
-           *  Iterate through exotic exports and map them to the target base
-           *  object's prototype, according the specified type of the export.
-           *
-           *  Example exports:
-           *    1. { property_name: 'foo', export_type: 'before' }
-           *    2. { property_name: 'bar', export_type: 'difference' }
-           *
-           */
-          for (const exotic_export of exotic_exports) {
-            let property_name = exotic_export.property_name;
-            let export_type = exotic_export.export_type;
-            console.debug('Handling exotic export name, type:', property_name, export_type);
-
+            /**
+             *  TODO: Implement this.
+             *
+             *  Iterate through exotic exports and map them to the target base
+             *  object's prototype, according the specified type of the export.
+             *
+             *  Example exports:
+             *    1. { property_name: 'foo', export_type: 'before' }
+             *    2. { property_name: 'bar', export_type: 'difference' }
+             *
+             */
             /**
              *  TODO:
              *
@@ -273,9 +283,78 @@ const ObjectComposer = (...imported_properties) =>
              *      function, if applicable).
              *
              */
+            for (const exotic_export of exotic_exports) {
+              const property_name = exotic_export.property_name;
+              const export_type = exotic_export.export_type;
+              //let original_method = function() {};
+              //if (Object.hasOwnProperty(target.prototype, property_name)) {
+              const original_method = target.prototype[property_name].bind(target.prototype);
+              //}
+              Object.defineProperty(target.prototype, property_name, {
+                value:  function(...args) {
+                  console.debug('Defining exported property:', property_name);
 
+                  if (this[composed_object] == null) {
+                    console.debug('composed object is null.');
+                    this[composed_object] = Object.assign({}, mixin_properties);
+                    this[composed_object][instance] = this;
+
+                    for (const property_name of imported_properties) {
+                      console.debug('Handling imported property:', property_name);
+                      if (typeof this[composed_object][property_name] === 'function') {      
+                        this[composed_object][property_name] = function(...args) {
+                          return this[instance][property_name](...args);
+                        }
+                      } else {
+                        Object.defineProperty(this[composed_object], property_name, {
+                          get: function() { return this[instance][property_name] }
+                        });
+                      }
+                    }
+                  }
+
+                  //return this[composed_object][property_name](...args);
+                  //let self = this;
+                  //console.log('selftest:', self);
+                  //let original_function = this[property_name].bind(this);
+                  // TODO: Add return value handling.
+                  // TODO: Add sum and difference behavior.
+                  let self = this;
+                  if (export_type === 'before') {
+                    return function(...args) {
+                      self[composed_object][property_name](...args);
+                      original_method(...args);
+                    }(...args);
+                  } else {
+                    // Use 'after' as the default behavior.
+                    return function(...args) {
+                      original_method(...args);
+                      self[composed_object][property_name](...args);
+                    }(...args);
+                  }
+                  /*
+                  return function(...args) {
+                    console.log('property name test:', property_name);
+                    console.log('selfie test:', self);
+                    console.log('target test:', target);
+                    //self[property_name](...args);
+                    //original_function(...args);
+                    //mixin_properties[property_name].apply(self, ...args);
+                    //target.prototype[property_name](...args);
+                    self[composed_object][property_name](...args);
+                    original_method(...args);
+                  }(...args);
+                  //return this[composed_object][property_name](...args);
+                  //return this[composed_object][property_name](...args);
+                  */
+                },
+                // Allow the property to be overwritten.
+                writable: true
+              });
+            }
+                    
+
+            return target;
           }
-          return target;
-        }
 
 export default ObjectComposer;

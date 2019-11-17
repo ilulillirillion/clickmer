@@ -39,8 +39,12 @@ console.info('Running main.js');
 import ExampleClass from './ComposeTest.js';
 
 let example_class = new ExampleClass('foo');
-example_class.examplePublicMethod();  //  =>  'foo'
 console.log('Got example class:', example_class);
+
+//example_class_test_1 = example_class.examplePublicMethod();
+console.debug('Example class test #1 - "foo":', 
+example_class.examplePublicMethod());
+//  =>  'foo'
 
 example_class.example_imported_property = 'bar';
 console.log('Mutated example class:', example_class);
@@ -55,8 +59,11 @@ try {
 example_class.examplePublicMethodToOverride();
 
 // TODO:
-//example_class.examplePublicMethodForExoticOverride();
+example_class.examplePublicMethodForExoticOverride();
 //  =>  before message, nested message, after message.
+
+//example_class.fakeMethod();
+console.log('ending.');
 
 
 /*
