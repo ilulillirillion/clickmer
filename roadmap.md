@@ -1,3 +1,16 @@
+# Ideas
+
+## Pets
+
+Have some sort of a pet that you build relationships with somehow.
+
+## Gameplay
+
+### PC
+
+The playable character (PC) is represented by a disembodied force.
+The PC can create avatars from existing living beings or from scratch.
+
 # Concepts
 
 ## Death and injury

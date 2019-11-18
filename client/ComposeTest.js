@@ -5,37 +5,39 @@ console.log(ObjectComposer);
 // First, build a mixin by currying half of the objecting composer.
 const examplePrivateMethod = Symbol('examplePrivateMethod');
 const ExampleMixin = ObjectComposer('ExampleMixin')('example_imported_property')({
-//const ExampleMixin = ObjectComposer('ExampleMixin')('example_imported_property', 'examplePublicMethodForExoticOverride')({
   // Any normal class method, will be public.
   examplePublicMethod() {
-    //console.log(this.example_imported_property);
     return(this.example_imported_property);
   },
   examplePublicMethodToOverride() {
+    // FIXME: return
     console.log('This should have been overridden.');
   },
   examplePublicMethodForExoticOverride() {
+    // FIXME: return
     console.log('This should print between before and after messages.');
   },
-  // Any normal class method, will be private due to being bound to a
-  // symbol.
-  // Symbols are ignored on enumeration so bypass the object composer.
-  // This property can't be exported even if explictly asked for.
+  /**
+   *  Represents any normal private class method, made private by being bound 
+   *  to a symbol.
+   *  Symbols are ignored on enumeration and so bypass the object composer.
+   *  This property can't be exported even if explictly asked for.
+   */
   [examplePrivateMethod](example_parameter) {
+    // FIXME: return this instead
     console.log('I should not be accessible.');
   }
 });
 
 // Should override a method from the first mixin.
-//const ExampleMixinOverride = ObjectComposer('ExampleMixinOverride')()({
 const ExampleMixinOverride = ObjectComposer('ExampleMixinOverride')('example_mixin_override_property')({
   examplePublicMethodToOverride() {
     console.log('Override success.');
   },
+  // This is exported to demonstrate non-method exporting from a mixin.
   example_mixin_override_property: 'example_mixin_override_property'
 });
 
-//const ExampleMixinBeforeOverride = ObjectComposer('ExampleMixinBeforeOverride')('examplePublicMethodForExoticOverride')({
 const ExampleMixinBeforeOverride = ObjectComposer('ExampleMixinBeforeOverride')()({
   exampleMixinBeforeOverrideMethod() {
     return('example mixin before override method message');
@@ -55,42 +57,57 @@ const ExampleMixinAfterOverride = ObjectComposer('ExampleMixinAfterOverride')()(
 });
 
 
-// Secondly, call the mixin, passing simple and then exotic parameters.
-//const ExampleClass = ExampleMixin('examplePublicMethod', 'examplePrivateMethod')()(class {
-
-//const ExampleClass = ExampleMixinThree()({ property_name: 'examplePublicMethodForExoticOverride', export_type: 'before' })(ExampleMixinTwo('examplePublicMethodToOverride')()(ExampleMixin('examplePublicMethod', 'examplePublicMethodToOverride', 'examplePublicMethodForExoticOverride')()(class {
-
-//const ExampleClass = ExampleMixinTwo('examplePublicMethodToOverride')()(ExampleMixin('examplePublicMethod', 'examplePublicMethodToOverride', 'examplePublicMethodForExoticOverride')()(class {
-
+/**
+ *  Secondly, call the mixin, passing the name first, then simple parameters,
+ *  exotic parameters, and, finally, the target base to apply the mixin to.
+ */
 const ExampleClass = 
     // Wrap everything in an after override mixin
     ExampleMixinAfterOverride
       // Export properties.
-      ()
-      // Exotic export properties.
       (
         {
           property_name: 'examplePublicMethodForExoticOverride',
           export_type: 'after'
         }
       )
+      //()
+      // Exotic export properties.
+      //()
+      /*
+      (
+        {
+          property_name: 'examplePublicMethodForExoticOverride',
+          export_type: 'after'
+        }
+      )
+      */
       // Wrap everything in a before override mixin
       ( ExampleMixinBeforeOverride
         // Export properties.
-        ()
-        // Exotic export properties.
         (
           { 
             property_name: 'examplePublicMethodForExoticOverride',
             export_type: 'before'
           }
         )
+        //()
+        // Exotic export properties.
+        //()
+        /*
+        (
+          { 
+            property_name: 'examplePublicMethodForExoticOverride',
+            export_type: 'before'
+          }
+        )
+        */
         // Wrap everything around an example override mixin
         ( ExampleMixinOverride
           // Export properties.
           ( 'examplePublicMethodToOverride' )
           // Exotic export properties.
-          ()
+          //()
           // Wrap everything around the example mixin.
           ( ExampleMixin
             // Export properties.
@@ -99,7 +116,7 @@ const ExampleClass =
               'examplePublicMethodForExoticOverride'
             )
             // Exotic export properties.
-            ()
+            //()
             // Wrap everything around a base class.
             ( class {
 

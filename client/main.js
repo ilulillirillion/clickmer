@@ -43,12 +43,14 @@ console.log('Got example class:', example_class);
 
 //example_class_test_1 = example_class.examplePublicMethod();
 console.debug('Example class test #1 - "foo":', 
-example_class.examplePublicMethod());
-//  =>  'foo'
+  example_class.examplePublicMethod()
+);  //  =>  'foo'
 
 example_class.example_imported_property = 'bar';
 console.log('Mutated example class:', example_class);
-example_class.examplePublicMethod();  //  =>  'bar'
+console.debug('Example class test #2 - "bar":',
+  example_class.examplePublicMethod()
+);  //  =>  'bar'
 
 // Should fail.
 try {

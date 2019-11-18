@@ -7,6 +7,17 @@ A simple Javascript game with Node and Angular.
 ## Commit journal
 ---
 
+### Commit 299
+#### Hone object composer, add roadmap brainstorming
+
+Object composer is now essentially complete. It still needs to be thoroughly
+tested, which I imagine I will get plenty of when porting over the existing
+class code, and it also needs to be made able to handle and mutate return
+values.
+
+Adds some brainstorming documents which may or may not become a part of actual
+implementation.
+
 ### Commit 298
 #### Nearly finish object composer
 
