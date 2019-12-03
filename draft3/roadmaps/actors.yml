@@ -1,0 +1,10 @@
+---
+# file: clickmer/roadmaps/actors.yml
+
+actors:
+  - name: wisp
+    description: >
+      Extremely weak semi-ephemeral entity.
+      Useful for being cheap and being able to interact with phyiscal objects.
+      Usually the very first servant of a new player.
+    

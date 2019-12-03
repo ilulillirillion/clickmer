@@ -1,0 +1,45 @@
+---
+# file: clickmer/roadmaps/starting_state.yml
+
+- pc:
+    energy:
+      current: 0
+      max: 1
+      regeneration:
+        base: 0
+        # Bonuses impact passive and active effects.
+        bonus:
+          flat: 0
+          multiplier: 0%
+    power:
+      current: 1
+      generation:
+        base: 0
+        bonus:
+          flat: 0
+          multiplier: 0%
+
+- map:
+    # hex "even-r" coordinate system, shoves even columns right
+    tiles:
+      - location: 0,0
+        type: eldritch_necropolis
+        discovered: true
+      - location: 0,-1
+        type: ancient_ruins
+      - location: 1,-1
+        type: ancient_ruins
+      - location: -1,0
+        type: ancient_ruins
+      - location: 1,0
+        type: ancient_ruins
+      - location: 0,1
+        type: ancient_ruins
+      - location: 1,1
+        type: ancient_ruins
+- - - - - - - - - - - -
+      0,-2        1,-2
+0,-1        1,-1        0,-2
+      0,0         1,0         2,0
+0,1         1,1         2,1
+      0,2         1,2         2,2

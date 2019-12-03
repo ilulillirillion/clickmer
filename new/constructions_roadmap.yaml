@@ -1,0 +1,51 @@
+---
+
+item_groups:
+  cobble_workable:
+    - quartz
+    - basalt
+    - obsidian
+
+constructions:
+  - name: split_cobble_tools
+    references: https://en.wikipedia.org/wiki/Oldowan
+    costs:
+      time: 10 ticks
+      material:
+        - item: pc.civilization.inventory.cobble
+          quantity: 50
+    effects:
+      - pc.civilization.tasks.woodcutter.unlocked = true
+
+  - name: primitive_choppers
+    references: https://en.wikipedia.org/wiki/Oldowan
+    costs:
+      time: 30 ticks
+      material:
+        - item: pc.civilization.inventory.cobble
+          quantity: 50
+        - item: pc.civilization.inventory[@cobble_workable]
+          quantity: 50
+    effects:
+      - pc.civilization.tasks.woodcutter.effectiveness + 100%
+
+  - name: primitive_scrapers
+    references: https://en.wikipedia.org/wiki/Oldowan
+    costs:
+      time: 30 ticks
+      material:
+        - item: pc.civilization.inventory.cobble
+          quantity: 50
+        - item: pc.civilization.inventory[@cobble_workable]
+          quantity: 50
+
+  - name: primitive_awls
+    references: https://en.wikipedia.org/wiki/Oldowan
+    costs:
+      time: 60 ticks
+      material:
+        - item: pc.civilization.inventory.cobble
+          quantity: 60
+        - item: pc.civilization.inventory[@cobble_workable]
+          quantity: 60
+

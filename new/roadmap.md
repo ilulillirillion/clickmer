@@ -1,3 +1,190 @@
+# High Level Overview
+MMO Idle game / RPG hybrid.
+
+Home base is a pure idle game, when you venture out you can use the power of your base to help your character survive in the RPG.
+
+Develop idle game first while making considerations for RPG to come.
+
+# Technicial
+- Read most object definitions from YAML
+- Use a template system to handle meta blocks
+
+# Ideas
+- Each job itself should be able to be leveled up (as opposed to just the workers)
+- Hold a modifier key to see more details, should work almost anywhere.
+- Ability to ressurruct dead worshippers (or perform necromancy?)
+
+- first available action "pipeline" should be similar to a traditional clicker tree
+
+# PC
+## Properties
+### Power
+- Multiplies most other abilities.
+- Starts at 1.
+### Influence
+- Measures how influential the PC is on remote objects.
+- Starts at 1.
+
+## Abilities
+### Gain power
+Infinite-clicker which gains +1 to PC "power" on click.
+### Focus Influence
+Increases effects of influence while held down by a multiplier.
+
+# Controls
+## Structure Building
+- Emulate Kittens Game layout.
+- Add ability to queue constructions for when resource become available.
+
+# Seasons
+- Crops grow more slowly in Winter.
+- Symbol/emblem for each seasons
+Seasons:
+```
+- Spring
+- Summer
+- Fall
+- Winter
+```
+
+# Resources
+## Wood
+## Lumber
+## Karma
+Earned for doing morally "good" things.
+
+
+# Day/Night cycle
+
+# Weather
+
+# Premium Currency
+
+# Population
+## Properties
+### Culture
+### Faith
+### Production
+
+# World
+## Ticks Epoch
+
+# Skills
+## Polearms
+## Halberds
+### Requisites
+Polearms: 10
+
+# UI
+## Message Log
+
+# Research
+## Survivalism (I)
+### Unlocks
+#### Jobs
+##### Forage
+###### Description
+###### Effects
++1 Timber
++1 Leaves
++1 Berries
+
+# Prestige System
+- Implement a dynamic list that will remind the player of things they should probably do in the current run before prestiging.
+## Factors
+- Time since last prestige (positive)
+- PC Power rating
+
+# Backwards Progress
+- Should any form of backwards, or negative, progress be allowed?
+
+# Resources
+- Currency
+
+# Currencies
+## Seashells
+Unlocked early on and used as the first currency system.
+### Requirements
+#### Research
+- Hard currencies
+
+## Prize/Chance System
+Start with 2 prizes, with a greater chance of the "lower" prize. Add a new prize
+to the pool, increasing odds of getting better prizes, when certain conditions
+are met.
+
+## Challenges
+Lock some functionality and upgrades behind completing these?
+
+## Achievements
+
+## Audio
+
+## Visuals
+
+## Territory
+- Determines how many structures you can build?
+- Determines max population caps?
+- use territory idle as inspiration
+- ability to zoom in and out
+- each territory has it's own "locale"
+- territories can have local officers
+
+## Locales
+- Used to represent nearby things at a location
+- contains items and entitites in the location
+
+## Structures
+- Use a tile system similar to territory idle to represent built structures?
+  NO, moved this idea to territories system.
+- If you lose your last tile, you are "driven from the lands" and start with a new tile.
+## Cookie Shop
+Unlocks a cookie-clicker like sub-game
+
+## Vampirism
+Random spawns have a very small chance of having vampiric, which is how it is
+contracted.
+
+## Officers
+### Phase 1
+#### Territorial
+Leader
+Follower
+#### Kingdom-wide
+### Phase 2
+#### Territorial
+Chief
+Warlord
+Follower
+#### Kingdom-wide
+### Phase 
+#### Territorial
+#### Kingdom-wide
+King
+(Prince)x
+
+
+## Worshipper States
+### Vampiric
+Turned into a vampire.
+### Zombified
+Turned into a zombie.
+
+## Items
+- Sword
+- Slingshot
+- Bow
+- Tower Shield
+- Shield
+- Mace
+- Staff
+- Dagger
+- Dagger (off-hand)
+- Kris
+- Vanhati style blades
+
+
+
 ```
 player_traits:
   identified_<item>: >-

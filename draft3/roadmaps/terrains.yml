@@ -1,0 +1,28 @@
+---
+# file: clickmer/roadmaps/terrains.yml
+
+- name: eldritch_rubble
+  display_name: Eldritch Rubble
+  forage:
+    slots:
+      quantity: 2
+      qualifications:
+        species:
+          - name: wisp
+          - name: skeleton
+            modifiers:
+              - name: "A natural"
+                modifier: +50%
+    - name: ritual_fragments
+      items: 
+        - item: darkstone
+          quantity: 0.00001
+        - item: bone
+          quantity: 0.1
+      
+
+- name: ancient_rubble
+  foregables:
+    - name: marble_pieces
+      item: marble
+      quantity: 0.0001

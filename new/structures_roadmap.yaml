@@ -1,0 +1,9 @@
+---
+
+structures:
+  primitive_religious_markings:
+    costs:
+      time: 60 ticks
+    effects:
+      - tile.max_workers + 1
+      - tile.tasks.worship.available = true

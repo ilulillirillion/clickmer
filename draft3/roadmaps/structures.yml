@@ -1,0 +1,103 @@
+---
+# file: clickmer/roadmaps/structures.yml
+
+- structures:
+    - name: eternal_icon
+      display_name: Eternal Icon
+      resident_slots:
+        - resident: skeleton
+          quantity: 1
+      effects:
+        - name: overpowering presence
+          effects: >
+            Provides ownership of the tile.
+        - name: mysterious remains
+          effects:
+            - +1 tile.inventory.bones per tick
+      controls:
+        - name: gain_energy
+          display_name: Gain Energy
+          type: click and hold
+            effects:
+              - +1 pc.energy per tick
+        - name: power_up
+          display_name: Power Up
+          type: click
+            effects:
+              - pc.power += (pc.energy.current / 100)
+              - pc.energy.max += (pc.energy.current / 10)
+              - pc.energy.current = 0
+        - name: rituals
+          display_name: Rituals...
+          type: dot dot dot
+            options:
+              - name: summon_power
+                display_name: Summon Power (<rank>)
+                ranks:
+                  1:
+                    type: click
+                    costs:
+                      - key: pc.energy
+                        value: 1
+                    effects:
+                      - key: pc.power += 1
+                  2:
+                    type: click
+                    costs:
+                      - key: pc.energy
+                        value: 2
+                    effects:
+                      - key: pc.power += 1
+                  3:
+                    type: click
+                    costs:
+                      - key: pc.energy
+                        value: 4
+                    effects:
+                      - key: pc.power += 1
+
+              - name: passive_energy_gain
+                display_name: Passive Energy Gain
+                type: click
+                  costs:
+                    - key: pc.power
+                      value: 1
+                  effects:
+                    - pc.energy.regeneration.base += 0.1
+        - name: raise_skeleton
+          display_name: Raise Skeleton
+          type: click and wait
+            restrictions:
+              slots:
+                - slot: skeleton
+                  quantity: 1
+            cost:
+              time: 30
+              energy: 2
+              material:
+                - item: tile.bones
+                  quantity: 100
+              slots: skeleton
+            effects:
+              - Create a new skeleton
+
+    - name: bone_sepulcher
+      display_name: Bone Sepulcher
+      slots:
+        skeleton: 1
+      controls:
+        - name: raise_skeleton
+          display_name: Raise Skeleton
+          type: click and wait
+            restrictions:
+              slots:
+                - slot: skeleton
+                  quantity: 1
+            cost:
+              time: 30
+              material:
+                - item: tile.bones
+                  quantity: 100
+              slots: skeleton
+            effects:
+              - Create a new skeleton

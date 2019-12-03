@@ -7,6 +7,15 @@ A simple Javascript game with Node and Angular.
 ## Commit journal
 ---
 
+### Commit 300
+#### Finish object composer, extensive roadmapping
+
+Finally finished (at least on appearance) the object composer, and tested some
+implementation for composing basic classes.
+A large part of this commit is brand new roadmapping documentation. Technical
+development has halted until I can more extensively plan what I'm attempting to
+build, though I hope to resume that work soon.
+
 ### Commit 299
 #### Hone object composer, add roadmap brainstorming
 

@@ -1,0 +1,19 @@
+---
+# file: clickmer/roadmaps/tiles.yml
+
+- tiles:
+    - name: eldritch_necropolis
+      display_name: Eldritch Necropolis
+      innate_structures:
+        - eternal_icon
+    - name: eldritch_ruins
+      display_name: Eldritch Ruins
+      notes: >
+        Mainly used to surround the necropolis and give the player options to
+        conquer easy surrounding tiles early on. At first, foraging is not very
+        useful because the eldritch artifacts nor the darkstone provided by the
+        eldritch_rubble can do anything on their own without more advanced
+        technology.
+      innate_structures:
+        - structure: eldritch_rubble
+          quantity: 3

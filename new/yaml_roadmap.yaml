@@ -1,0 +1,276 @@
+---
+
+- references:
+    order of adjectives: https://www.gingersoftware.com/content/grammar-rules/adjectives/order-of-adjectives/
+
+- contructions:
+    - structures
+    - decorations
+
+
+- modifiers:
+  - decorations:
+      qualities:
+        - crude
+        - poor
+        - good
+        - fine
+        - beautiful
+        - perfect 
+  - structures:
+      qualities:
+        - makeshift
+        - crude
+        - poor
+
+
+- modifiers:
+    qualities:
+      - name: makeshift
+        modifiers:
+          - greatly 
+
+properties:
+  generic:
+    - name: effectiveness
+      description: >
+        Affects most any other property.
+        Increasing effectiveness generally makes everything better,
+        decreasing effectiveness generally makes everything worse.
+    - name: presence
+      description: >
+        Indicates how much of a "presence" something has in a given area.
+        Magnifies things like aesthetic bonuses and penalties.
+
+modifiers:
+  qualities:
+    - rank: 1
+      name: makeshift
+      modifiers:
+        - (-???% effectiveness)
+        - (-???% aesthetics)
+    - rank: 2
+      name: crude
+      modifiers:
+        - (-???% effectiveness)
+        - (-???% aesthetics)
+    - rank: 3
+      name: poor
+      modifiers:
+        - (-???% effectiveness)
+        - (-???% aesthetics)
+    - rank: 4
+      name: good
+      modifiers:
+        - (+???% effectiveness)
+        - (+???% aesthetics)
+    - rank: 5
+      name: great
+      modifiers:
+        - (+???% effectiveness)
+        - (+???% aesthetics)
+    - rank: 6
+      name: excellent
+      modifiers:
+
+modifiers:
+  aesthetic:
+    brainstorm:
+      - ugly
+      - plain
+      - unseemly
+      - unsightly
+      - deformed
+      - neat
+      - transfixing
+      - deformed
+    living:
+      - rank: 1
+        name: grotesque
+      - rank: 2
+        name: disfigured
+      - rank: 3
+        name: ugly
+      - rank: 4
+        name: unseemly
+      - rank: 5
+        name: plain
+      - rank: 6
+        name: fair
+      - rank: 7
+        name: comely
+      - rank: 8
+        name: pretty
+      - rank: 9
+        name: beautiful
+      - rank: 10
+        name: gorgeous
+    non-living:
+      - rank: 1
+        name: hideous
+      - rank: 2
+        name: appaling
+      - rank: 3
+        name: unsightly
+      - rank: 4
+        name: drab
+      - rank: 5
+        name: austere
+      - rank: 6
+        name: pretty
+      - rank: 7
+        name: splendid
+      - rank: 8
+        name: lovely
+      - rank: 9
+        name: dazzling
+      - rank: 10
+        name: exquisite
+        
+
+taxonomy:
+  - name: demons:
+    children:
+      - name: imps
+      - name: elves
+    
+  - name: homonids:
+      - name: neanderthals
+      - name: humans
+      - name: dwarves
+      - name: gnomes
+
+
+
+states:
+  civilization:
+    era:
+      paleolithic:
+  
+
+states:
+  - name: has_worker
+    description: >
+      Hidden state given to the PC whenever they have at least 1 worker
+      present.
+  - name: unlocked_structure_religious_markings
+    description: >
+      Allows the player to build religious markings.
+
+technologies:
+
+  - name: oldowan industry
+    locked: false
+    references: https://en.wikipedia.org/wiki/Oldowan
+    cost:
+      - time: 60 ticks
+      - 10 research
+    effects:
+      - pc.civilization.technology.hammerstones.unlocked = true
+      - pc.civilization.inventory.cobble.unlocked = true
+      - pc.civilization.inventory.quartz.unlocked = true
+      - pc.civilization.inventory.basalt.unlocked = true
+      - pc.civilization.inventory.obsidian.unlocked = true
+
+  - name: hammerstones
+    references: https://en.wikipedia.org/wiki/Hammerstone
+    rank_1:
+      costs:
+        - time: 20 ticks
+        - item: pc.civilization.inventory.research
+          cost: -10
+        - item: pc.civilization.inventory.cobble
+          cost: -10
+        - item_mix:
+            - pc.civiliation.inventory.quartz
+            - pc.civilization.inventory.basalt
+            - pc.civilization.inventory.obsidian
+          cost: -10
+      effects:
+        - pc.civilization.technology.hammerstones_2.unlocked
+        - pc.civilization.items.cobble.unlocked = true
+        - pc.civilization.constructions.split_cobble_tools.unlocked = true
+    rank_2:
+      costs:
+        time: 30 ticks
+        material:
+          - item: pc.civilization.inventory.research
+            cost: 20
+          - item: pc.civilization.inventory.cobble
+            cost: 15
+          - item: pc.civilization.inventory[@cobble_workable]
+            cost: 15
+      effects:
+        - pc.civilization.technology.hammerstones_3.unlocked
+        - pc.civilization.constructions.primitive_choppers.unlocked = true
+        - pc.civilization.constructions.primitive_scrapers.unlocked = true
+    rank_3:
+      costs:
+        time: 60 ticks
+        material:
+          - pc.civilization.constructions.primitive_awls.unlocked = true
+          - pc.civilization.constructions.primitive_burins.unlocked = true
+        
+               
+tiles:
+  forest:
+    forageables:
+      - item: plant_fiber
+        quantity: 1
+      - item: fruit
+        quantity: 0.001
+    worker_slots:
+      forager: 2
+    structures:
+      - name: tree_canopy
+        residence:
+          slots: 4
+          comfort: 0
+          security:
+            predators: 80%
+  caverns:
+    forageables:
+      - item: stone
+        quantity: 1
+    worker_slots:
+      forager: 1
+    structures:
+      - name: habitable_caves
+        residence:
+          slots: 2
+          comfort: 0
+          security:
+            predators: 50%
+
+structures:
+  - religious_markings:
+      requirements:
+        - pc.workers >- 1
+      visibility_requirements:
+        - unlocked_structure_religious_markings
+      when_requirements_met:
+        grant: unlocked_structure_religious_markings
+      cost:
+        - 60 ticks
+      provides:
+        - tile.worker_slots.worshipper + 1
+        - tile.worship_faith + 1
+
+tasks:
+  - name: forage
+    slot: tile.worker_slots.forager
+    cost:
+      - -3 energy per tick
+    effect:
+      - +tile.forageables per tick
+  - name: worship
+    slot: tile.worker_slots.worshipper
+    cost:
+      - -1 energy per tick
+    effect:
+      - +tile.worship_faith per tick
+  - name: wonder
+    cost:
+      - -0.1 energy per tick
+    effect:
+      - +0.1 research per tick

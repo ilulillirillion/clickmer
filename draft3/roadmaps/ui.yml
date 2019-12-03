@@ -1,0 +1,18 @@
+---
+# file: clickmer/roadmaps/ui.yml
+
+ui:
+  views:
+    world:
+      tiles:
+        controls:
+          - name:
+          - name: interact
+            display_name: Interact...
+            type: dot dot dot
+              effects: >
+                Dynamically populated by the 
+                tile.available_interactions property. Only
+                interactions with available actors to do them will be ungrayed
+                and available to be selected. (Add an option to hide instead
+                of graying these out, or a filter?)
