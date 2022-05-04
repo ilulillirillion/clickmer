@@ -4,7 +4,7 @@
   "description": "Javascript Idle game",
   "main": "script/main.js",
   "dependencies": {
-    "angular": "^1.7.8",
+    "angular": "^1.8.3",
     "connect": "^3.7.0",
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
